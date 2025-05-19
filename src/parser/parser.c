@@ -28,6 +28,7 @@ void	parser(t_cmdtbl *cmd, char **tokens)
 
 	cmdarray = alloc_cmd_array(tokens);
 	// expansions(tokens);
+	// token_merge(tokens); // Merge the tokens between " or ' into one
 	// assign_cmds(cmdarray, tokens);
 	cmd->cmds = cmdarray;
 	// free_tokens(tokens);
