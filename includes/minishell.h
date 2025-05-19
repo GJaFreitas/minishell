@@ -4,6 +4,8 @@
 # include "libft.h"
 # include "colors.h"
 # include "memory.h"
+# include "structs.h"
+# include "lexer.h"
 # include <stdio.h>
 # include <stdarg.h>
 # include <stddef.h>
@@ -19,12 +21,12 @@ typedef struct s_builtin
 	void	(*foo)(char **args);
 }	t_builtin;
 
-char			**tokenize(const char *line);
-void			free_tokens(char **tokens);
-void			exec_tokens(char **tok);
-
 int				ft_isbuiltin(const char *str);
 void			exec_builtins(const char *f, char **tok);
 void			ft_echo(char **args);
+
+
+// Display prompt and parse the line given by the user
+t_cmdtbl	*prompt(t_cmdtbl *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: gjacome- <gjacome-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 15:16:20 by gjacome-          #+#    #+#              #
-#    Updated: 2025/05/17 14:56:45 by gjacome-         ###   ########.fr        #
+#    Updated: 2025/05/19 20:19:20 by gjacome-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,16 +29,21 @@ NODIR = --no-print-directory
 LIBFT = libft/libft.a
 
 # --- SOURCES ------------ #
-VPATH = src:src/functions:src/memory
+VPATH = src:src/functions:src/memory:src/parser:src/lexer
 SRCS = \
-       minishell.c \
+       main.c \
        tokenize.c \
        exec.c \
        builtin.c \
        ft_echo.c \
        mem_alloc.c \
        mem_list.c \
-       mem_test.c
+       mem_test.c \
+       lexer.c \
+       lex_utils.c \
+       parser.c \
+       cmd_assignment.c \
+       parser_utils.c \
 
 # --- INCLUDES ---------------- #
 
