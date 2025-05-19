@@ -27,5 +27,8 @@ void	parser(t_cmdtbl *cmd, char **tokens)
 	t_simplecmd	**cmdarray;
 
 	cmdarray = alloc_cmd_array(tokens);
-	assign_cmds(cmdarray, tokens);
+	// expansions(tokens);
+	// assign_cmds(cmdarray, tokens);
+	cmd->cmds = cmdarray;
+	// free_tokens(tokens);
 }
