@@ -34,6 +34,7 @@ int	main(int argc, char **argv)
 	__shell_delimiter();
 	(void)argc;
 	(void)argv;
+	// signals();
 	shell_loop();
 	__shell_delimiter();
 	return (0);

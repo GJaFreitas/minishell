@@ -6,6 +6,7 @@
 # include "memory.h"
 # include "structs.h"
 # include "lexer.h"
+# include "parser.h"
 # include <stdio.h>
 # include <stdarg.h>
 # include <stddef.h>
@@ -28,5 +29,8 @@ void			ft_echo(char **args);
 
 // Display prompt and parse the line given by the user
 t_cmdtbl	*prompt(t_cmdtbl *cmd);
+
+// Returns the next number divisible by 8
+unsigned int	next_div_8(unsigned int n);
 
 #endif

@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "parser.h"
 #include "structs.h"
 
 // Transverses the tokens and finds out how many commands there are
@@ -22,14 +23,24 @@ t_simplecmd	**alloc_cmd_array(char **tokens)
 	return (cmd_array);
 }
 
+void	free_tokens(char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
+		free(tokens[i++]);
+}
+
 void	parser(t_cmdtbl *cmd, char **tokens)
 {
 	t_simplecmd	**cmdarray;
 
 	cmdarray = alloc_cmd_array(tokens);
 	// expansions(tokens);
-	// token_merge(tokens); // Merge the tokens between " or ' into one
-	// assign_cmds(cmdarray, tokens);
+	token_merge(&tokens); // Merge the tokens between " or ' into one
+	assign_cmds(cmdarray, tokens);
 	cmd->cmds = cmdarray;
-	// free_tokens(tokens);
+	free_tokens(tokens);
+	free(tokens);
 }

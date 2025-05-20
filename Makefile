@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: gjacome- <gjacome-@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/04/15 15:16:20 by gjacome-          #+#    #+#              #
-#    Updated: 2025/05/19 20:19:20 by gjacome-         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # --- Compiler -------------------- #
 
 CC = cc
@@ -29,21 +17,36 @@ NODIR = --no-print-directory
 LIBFT = libft/libft.a
 
 # --- SOURCES ------------ #
-VPATH = src:src/functions:src/memory:src/parser:src/lexer
+VPATH = src:src/functions:src/memory:src/signals
 SRCS = \
        main.c \
-       tokenize.c \
        exec.c \
        builtin.c \
        ft_echo.c \
        mem_alloc.c \
        mem_list.c \
        mem_test.c \
-       lexer.c \
-       lex_utils.c \
-       parser.c \
-       cmd_assignment.c \
-       parser_utils.c \
+       utils.c \
+
+
+# Lexer sources
+VPATH += src/lexer
+SRCS += \
+	lexer.c \
+	lex_utils.c \
+
+
+# Parser sources
+VPATH += src/parser
+SRCS += \
+	parser.c \
+	cmd_assignement.c \
+	parser_utils.c \
+	parser_redirections.c \
+	parser_options.c \
+	parser_args.c \
+	parser_token_merge.c \
+
 
 # --- INCLUDES ---------------- #
 

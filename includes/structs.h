@@ -1,6 +1,17 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+// If cmd only has an outfile
+# define OUTFILE 1
+
+// If cmd only has an infile
+# define INFILE 2
+
+// If cmd has both and in and out file
+# define IOFILES 3
+
+typedef unsigned int t_uint;
+
 typedef struct s_simplecmd
 {
 	char	*cmd;
