@@ -1,4 +1,5 @@
 #include "libft.h"
+#include "minishell.h"
 #include "parser.h"
 #include "structs.h"
 
@@ -28,7 +29,7 @@ void	assign_cmds(t_simplecmd **cmdarray, char **tokens, t_uint count)
 	unsigned int	tok;
 
 	tok = 0;
-	while (tok < count)
+	while (tok < count && *tokens)
 	{
 		tok += __assign_command(*cmdarray, tokens + tok);
 	}

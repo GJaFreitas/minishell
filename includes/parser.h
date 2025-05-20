@@ -7,7 +7,7 @@
 
 # include "structs.h"
 
-void	parser(t_cmdtbl *cmd, char **tokens);
+void	parser(t_cmdtbl *cmd, char ***tokens);
 
 int	is_pipe(char *token);
 
@@ -18,5 +18,6 @@ int	__args(t_simplecmd *cmd, char *tokens);
 void	assign_cmds(t_simplecmd **cmdarray, char **tokens, t_uint count);
 
 void	token_merge(char ***tokens);
+void	free_tokens(char **tokens);
 
 #endif

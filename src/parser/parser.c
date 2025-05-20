@@ -33,17 +33,17 @@ void	free_tokens(char **tokens)
 		free(tokens[i++]);
 }
 
-void	parser(t_cmdtbl *cmd, char **tokens)
+void	parser(t_cmdtbl *cmd, char ***tokens)
 {
 	t_simplecmd	**cmdarray;
 	int		cmd_count;
 
-	cmdarray = alloc_cmd_array(tokens, &cmd_count);
+	cmdarray = alloc_cmd_array(*tokens, &cmd_count);
 	cmd->num_cmds = cmd_count;
 	// expansions(tokens);
-	token_merge(&tokens); // Merge the tokens between " or ' into one
-	assign_cmds(cmdarray, tokens, cmd_count);
+	token_merge(tokens); // Merge the tokens between " or ' into one
+	assign_cmds(cmdarray, *tokens, cmd_count);
 	cmd->cmds = cmdarray;
-	free_tokens(tokens);
-	free(tokens);
+	free_tokens(*tokens);
+	free(*tokens);
 }

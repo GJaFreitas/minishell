@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "parser.h"
+#include "minishell.h"
 #include "structs.h"
 
 // Frees t1
@@ -20,8 +21,6 @@ static int	__get_token_count(char **tokens)
 		{
 			while (tokens[i] && !ft_strchr(QUOTES, tokens[i][0]))
 				i++;
-			if (tokens[i] == NULL)
-				return (-1);
 		}
 		count++;
 	}
@@ -35,7 +34,7 @@ static int	__quote_append(char **new, char **tokens)
 
 	i = 1;
 	token = ft_strdup(tokens[i]);
-	while (tokens[i] && ft_strchr(QUOTES, tokens[i][0]))
+	while (tokens[i+1] && ft_strchr(QUOTES, tokens[i][0]))
 	{
 		token = __append_token(token, tokens[i]);
 		i++;
@@ -69,10 +68,9 @@ void	token_merge(char ***tokens)
 	int	token_final_count;
 
 	token_final_count = __get_token_count(*tokens);
-	if (token_final_count == -1)
-		return ; // @TODO: Error here
 	new = malloc(sizeof(char *) * (token_final_count + 1));
 	__cpy_tokens(new, *tokens);
+	free_tokens(*tokens);
 	free(*tokens);
 	*tokens = new;
 }

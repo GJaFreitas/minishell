@@ -32,7 +32,7 @@ t_cmdtbl	*prompt(t_cmdtbl *cmd)
 	line = get_next_line(0);
 	tok = lexer(line);
 	if (tok)
-		parser(cmd, tok);
+		parser(cmd, &tok);
 	return (cmd);
 }
 
