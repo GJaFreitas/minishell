@@ -33,4 +33,14 @@ t_cmdtbl	*prompt(t_cmdtbl *cmd);
 // Returns the next number divisible by 8
 unsigned int	next_div_8(unsigned int n);
 
+void	refresh_cmd(t_cmdtbl *cmd);
+
+
+
+/***************************
+DEBUG ---------
+****************************/
+
+void	print_tokens(char **tokens);
+
 #endif

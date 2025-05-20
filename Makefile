@@ -20,6 +20,7 @@ LIBFT = libft/libft.a
 VPATH = src:src/functions:src/memory:src/signals
 SRCS = \
        main.c \
+       debug.c \
        exec.c \
        builtin.c \
        ft_echo.c \

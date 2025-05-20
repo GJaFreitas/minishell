@@ -1,6 +1,7 @@
 #include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
+#include <stdio.h>
 
 /*******************************
 
@@ -40,24 +41,36 @@ static char	*prepare_tokenize(char *s)
 	while (s[i] && s[i + 1])
 	{
 		if (special_char(s[i]))
-		{
 			j += meta_char_handler(s, i, str + j);
-		}
 		else
 			str[j++] = s[i];
 		i++;
 	}
-	str = ft_realloc(str, ft_strlen(s) * 2, j+1);
 	str[j] = 0;
 	return (str);
 }
 
+void	remove_newline(char *line)
+{
+	while (line && *line)
+	{
+		if (*line == '\n')
+			*line = 0;
+		line++;
+	}
+}
+
 char	**lexer(char *line)
 {
-	char	**toks = NULL;
+	char	**toks;
 	char	*tokenizable;
 
+	remove_newline(line);
+	if (!*line)
+		return (free(line), NULL);
 	tokenizable = prepare_tokenize(line);
 	toks = ft_split(tokenizable);
+	free(line);
+	free(tokenizable);
 	return (toks);
 }

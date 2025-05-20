@@ -9,8 +9,8 @@ static int	__assign_command(t_simplecmd *cmd, char **tokens)
 	int	i;
 
 	i = 1;
-	cmd->cmd = tokens[0];
-	while (!is_pipe(tokens[i]))
+	cmd->cmd = ft_strdup(tokens[0]);
+	while (tokens[i] && !is_pipe(tokens[i]))
 	{
 		if (ft_strchr(REDIRECT, tokens[i][0]))
 			i += __redirections(cmd, &tokens[i]);
@@ -23,12 +23,12 @@ static int	__assign_command(t_simplecmd *cmd, char **tokens)
 	return (i);
 }
 
-void	assign_cmds(t_simplecmd **cmdarray, char **tokens)
+void	assign_cmds(t_simplecmd **cmdarray, char **tokens, t_uint count)
 {
 	unsigned int	tok;
 
 	tok = 0;
-	while (*cmdarray)
+	while (tok < count)
 	{
 		tok += __assign_command(*cmdarray, tokens + tok);
 	}
