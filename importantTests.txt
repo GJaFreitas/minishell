@@ -1,0 +1,1 @@
+'ec""ho' for example shuld be the same as 'echo'
