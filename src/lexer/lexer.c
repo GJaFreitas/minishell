@@ -46,7 +46,6 @@ static char	*prepare_tokenize(char *s)
 			str[j++] = s[i];
 		i++;
 	}
-	str[j] = 0;
 	return (str);
 }
 
