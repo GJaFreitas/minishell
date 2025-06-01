@@ -1,11 +1,13 @@
 #include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
+#include <stddef.h>
 #include <stdio.h>
 
 char	**__tokenize(char *str);
 static char	*__prepare_tokenize(char *s);
 void	__remove_newline(char *line);
+void	__expansions(char **line, size_t mem);
 
 /*******************************
 
@@ -45,9 +47,6 @@ int	meta_char_handler(char *s, int i, char *str)
 	return (count);
 }
 
-// Inserts spaces where necessary so that split()
-// can tokenize the string;
-// Precondition: s != NULL;
 static char	*__prepare_tokenize(char *s)
 {
 	unsigned int	i;
@@ -56,7 +55,7 @@ static char	*__prepare_tokenize(char *s)
 
 	i = 0;
 	j = 0;
-	str = malloc(ft_strlen(s) * 2);
+	str = malloc((ft_strlen(s) * 2) + 1);
 	while (s[i] && s[i + 1])
 	{
 		if (special_char(s[i]))
@@ -65,7 +64,9 @@ static char	*__prepare_tokenize(char *s)
 			str[j++] = s[i];
 		i++;
 	}
-	str[j] = s[i];
+	str[j++] = s[i];
+	str[j] = 0;
+	__expansions(&str, (ft_strlen(s) * 2) + 1);
 	return (str);
 }
 

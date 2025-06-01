@@ -4,7 +4,7 @@ CC = cc
 
 # --- Compiler Flags -------------- #
 
-CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror
 
 # --- NAME ---------------------- #
 
@@ -34,6 +34,7 @@ SRCS = \
 VPATH += src/lexer
 SRCS += \
 	lexer.c \
+	lexer_expansions.c \
 	lexer_tokenize.c \
 	lex_utils.c \
 
