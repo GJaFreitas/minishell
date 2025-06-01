@@ -3,6 +3,10 @@
 #include "minishell.h"
 #include <stdio.h>
 
+char	**__tokenize(char *str);
+static char	*__prepare_tokenize(char *s);
+void	__remove_newline(char *line);
+
 /*******************************
 
 ls -la a* |grep me > outfile
@@ -12,6 +16,21 @@ cat -e <infile | grep a
 ls dir|grep a
 
 ********************************/
+
+char	**lexer(char *line)
+{
+	char	**toks;
+	char	*tokenizable;
+
+	__remove_newline(line);
+	if (!*line)
+		return (free(line), NULL);
+	tokenizable = __prepare_tokenize(line);
+	toks = __tokenize(tokenizable);
+	free(line);
+	free(tokenizable);
+	return (toks);
+}
 
 int	meta_char_handler(char *s, int i, char *str)
 {
@@ -29,7 +48,7 @@ int	meta_char_handler(char *s, int i, char *str)
 // Inserts spaces where necessary so that split()
 // can tokenize the string;
 // Precondition: s != NULL;
-static char	*prepare_tokenize(char *s)
+static char	*__prepare_tokenize(char *s)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -46,10 +65,11 @@ static char	*prepare_tokenize(char *s)
 			str[j++] = s[i];
 		i++;
 	}
+	str[j] = s[i];
 	return (str);
 }
 
-void	remove_newline(char *line)
+void	__remove_newline(char *line)
 {
 	while (line && *line)
 	{
@@ -57,19 +77,4 @@ void	remove_newline(char *line)
 			*line = 0;
 		line++;
 	}
-}
-
-char	**lexer(char *line)
-{
-	char	**toks;
-	char	*tokenizable;
-
-	remove_newline(line);
-	if (!*line)
-		return (free(line), NULL);
-	tokenizable = prepare_tokenize(line);
-	toks = ft_split(tokenizable);
-	free(line);
-	free(tokenizable);
-	return (toks);
 }

@@ -42,6 +42,7 @@ void	parser(t_cmdtbl *cmd, char ***tokens)
 	cmd->num_cmds = cmd_count;
 	// expansions(tokens);
 	token_merge(tokens); // Merge the tokens between " or ' into one
+	print_tokens(*tokens);
 	assign_cmds(cmdarray, *tokens, cmd_count);
 	cmd->cmds = cmdarray;
 	free_tokens(*tokens);

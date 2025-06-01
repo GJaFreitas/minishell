@@ -3,19 +3,19 @@
 
 static void	__shell_delimiter(void);
 
-// void	print_cmd(t_cmdtbl *cmd)
-// {
-// 	if (cmd->cmds[0]->cmd)
-// 		printf("%s\n", cmd->cmds[0]->cmd);
-// 	if (cmd->cmds[0]->opts)
-// 		printf("%s\n", cmd->cmds[0]->opts);
-// 	if (cmd->cmds[0]->args)
-// 		printf("%s\n", cmd->cmds[0]->args);
-// 	if (cmd->cmds[0]->infile)
-// 		printf("%s\n", cmd->cmds[0]->infile);
-// 	if (cmd->cmds[0]->outfile)
-// 		printf("%s\n", cmd->cmds[0]->outfile);
-// }
+void	print_cmd(t_cmdtbl *cmd)
+{
+	if (cmd->cmds[0]->cmd)
+		printf("%s\n", cmd->cmds[0]->cmd);
+	if (cmd->cmds[0]->opts)
+		printf("%s\n", cmd->cmds[0]->opts);
+	if (cmd->cmds[0]->args)
+		printf("%s\n", cmd->cmds[0]->args);
+	if (cmd->cmds[0]->infile)
+		printf("%s\n", cmd->cmds[0]->infile);
+	if (cmd->cmds[0]->outfile)
+		printf("%s\n", cmd->cmds[0]->outfile);
+}
 
 // Display prompt and read the next line given to it
 t_cmdtbl	*prompt(t_cmdtbl *cmd)
@@ -33,6 +33,7 @@ t_cmdtbl	*prompt(t_cmdtbl *cmd)
 	tok = lexer(line);
 	if (tok)
 		parser(cmd, &tok);
+	// print_cmd(cmd);
 	return (cmd);
 }
 

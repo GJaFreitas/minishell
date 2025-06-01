@@ -5,9 +5,23 @@
 
 // Frees t1
 char	*__append_token(char *t1, char *t2);
+int	__token_contains_quote(char *token);
+int	__quote_handler(char **new, char **tokens);
 
-// -1 is an unclosed quote
-// eg: echo "no quote closing\n
+static int	__get_token_count(char **tokens);
+static void	__cpy_tokens(char **new, char **tokens);
+
+void	token_merge(char ***tokens)
+{
+	char	**new;
+
+	new = malloc(sizeof(char *) * (__get_token_count(*tokens) + 1));
+	__cpy_tokens(new, *tokens);
+	free_tokens(*tokens);
+	free(*tokens);
+	*tokens = new;
+}
+
 static int	__get_token_count(char **tokens)
 {
 	int	i;
@@ -27,23 +41,6 @@ static int	__get_token_count(char **tokens)
 	return (count);
 }
 
-static int	__quote_append(char **new, char **tokens)
-{
-	char	*token;
-	int	i;
-
-	i = 1;
-	token = ft_strdup(tokens[i]);
-	while (tokens[i+1] && ft_strchr(QUOTES, tokens[i][0]))
-	{
-		token = __append_token(token, tokens[i]);
-		i++;
-	}
-	token = __append_token(token, tokens[i]);
-	*new = token;
-	return (i);
-}
-
 static void	__cpy_tokens(char **new, char **tokens)
 {
 	int	i;
@@ -53,24 +50,11 @@ static void	__cpy_tokens(char **new, char **tokens)
 	j = 0;
 	while (tokens[i])
 	{
-		if (ft_strchr(QUOTES, tokens[i][0]))
-			i += __quote_append(&new[j], &tokens[i]);
+		if (__token_contains_quote(tokens[i]))
+			i += __quote_handler(&new[j], &tokens[i]);
 		else
 			new[j] = ft_strdup(tokens[i]);
 		i++;
 		j++;
 	}
-}
-
-void	token_merge(char ***tokens)
-{
-	char	**new;
-	int	token_final_count;
-
-	token_final_count = __get_token_count(*tokens);
-	new = malloc(sizeof(char *) * (token_final_count + 1));
-	__cpy_tokens(new, *tokens);
-	free_tokens(*tokens);
-	free(*tokens);
-	*tokens = new;
 }

@@ -4,7 +4,7 @@ CC = cc
 
 # --- Compiler Flags -------------- #
 
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
 
 # --- NAME ---------------------- #
 
@@ -34,6 +34,7 @@ SRCS = \
 VPATH += src/lexer
 SRCS += \
 	lexer.c \
+	lexer_tokenize.c \
 	lex_utils.c \
 
 
@@ -41,6 +42,7 @@ SRCS += \
 VPATH += src/parser
 SRCS += \
 	parser.c \
+	parser_quote_handler.c \
 	cmd_assignement.c \
 	parser_utils.c \
 	parser_redirections.c \
@@ -61,7 +63,7 @@ RM = rm -f
 all: $(NAME)
 
 obj/%.o: %.c | obj
-	$(CC) -c $(INC) $(CFLAGS) $< -o $@
+	@$(CC) -c $(INC) $(CFLAGS) $< -o $@
 
 obj:
 	mkdir -p obj
