@@ -1,1 +1,0 @@
-minishell only dies if the comand is one letter

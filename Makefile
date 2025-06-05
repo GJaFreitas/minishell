@@ -34,7 +34,6 @@ SRCS = \
 VPATH += src/lexer
 SRCS += \
 	lexer.c \
-	lexer_expansions.c \
 	lexer_tokenize.c \
 	lex_utils.c \
 
@@ -49,7 +48,6 @@ SRCS += \
 	parser_redirections.c \
 	parser_options.c \
 	parser_args.c \
-	parser_token_merge.c \
 
 
 # --- INCLUDES ---------------- #
@@ -62,6 +60,9 @@ OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 RM = rm -f
 
 all: $(NAME)
+
+debug: CFLAGS += -D DEBUG
+debug: fclean $(NAME)
 
 obj/%.o: %.c | obj
 	@$(CC) -c $(INC) $(CFLAGS) $< -o $@
@@ -90,4 +91,4 @@ r:
 	make
 	@./$(NAME)
 
-.PHONY: all clean fclean re r
+.PHONY: all clean fclean re r debug

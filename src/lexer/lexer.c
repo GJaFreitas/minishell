@@ -19,6 +19,10 @@ ls dir|grep a
 
 ********************************/
 
+/*
+* 	Temos de 
+*/
+
 char	**lexer(char *line)
 {
 	char	**toks;
@@ -66,7 +70,6 @@ static char	*__prepare_tokenize(char *s)
 	}
 	str[j++] = s[i];
 	str[j] = 0;
-	__expansions(&str, (ft_strlen(s) * 2) + 1);
 	return (str);
 }
 

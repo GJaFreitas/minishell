@@ -20,4 +20,9 @@ void	assign_cmds(t_simplecmd **cmdarray, char **tokens, t_uint count);
 void	token_merge(char ***tokens);
 void	free_tokens(char **tokens);
 
+/*********************
+Parser debugging
+*********************/
+void	parser_debug(char **tokens);
+
 #endif

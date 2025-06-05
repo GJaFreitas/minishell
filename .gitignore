@@ -1,3 +1,4 @@
 obj/
 shell
 compile_flags.txt
+tester/

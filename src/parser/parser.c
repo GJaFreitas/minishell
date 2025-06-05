@@ -2,6 +2,29 @@
 #include "parser.h"
 #include "structs.h"
 
+t_simplecmd	**alloc_cmd_array(char **tokens, int *c);
+void		free_tokens(char **tokens);
+
+void	parser(t_cmdtbl *cmd, char ***tokens)
+{
+	t_simplecmd	**cmdarray;
+	int		cmd_count;
+
+	cmdarray = alloc_cmd_array(*tokens, &cmd_count);
+	cmd->num_cmds = cmd_count;
+	// expansions(tokens);
+
+	//@Remove
+	#ifdef DEBUG
+	parser_debug(*tokens);
+	#endif
+
+	assign_cmds(cmdarray, *tokens, cmd_count);
+	cmd->cmds = cmdarray;
+	free_tokens(*tokens);
+	free(*tokens);
+}
+
 // Transverses the tokens and finds out how many commands there are
 t_simplecmd	**alloc_cmd_array(char **tokens, int *c)
 {
@@ -31,20 +54,4 @@ void	free_tokens(char **tokens)
 	i = 0;
 	while (tokens[i])
 		free(tokens[i++]);
-}
-
-void	parser(t_cmdtbl *cmd, char ***tokens)
-{
-	t_simplecmd	**cmdarray;
-	int		cmd_count;
-
-	cmdarray = alloc_cmd_array(*tokens, &cmd_count);
-	cmd->num_cmds = cmd_count;
-	// expansions(tokens);
-	token_merge(tokens); // Merge the tokens between " or ' into one
-	print_tokens(*tokens);
-	assign_cmds(cmdarray, *tokens, cmd_count);
-	cmd->cmds = cmdarray;
-	free_tokens(*tokens);
-	free(*tokens);
 }

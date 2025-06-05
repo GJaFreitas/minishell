@@ -42,5 +42,6 @@ DEBUG ---------
 ****************************/
 
 void	print_tokens(char **tokens);
+void	print_cmd(t_cmdtbl *cmd);
 
 #endif
