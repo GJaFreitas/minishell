@@ -8,7 +8,7 @@ CFLAGS = -g -Wall -Wextra -Werror
 
 # --- NAME ---------------------- #
 
-NAME = shell
+NAME = msh
 
 NODIR = --no-print-directory
 
@@ -16,8 +16,20 @@ NODIR = --no-print-directory
 
 LIBFT = libft/libft.a
 
+# --- VPATH ------------ #
+VPATH = src:src/functions:src/memory:src/signals:test-cases/
+
+# --- TESTS ------------ #
+
+TEST_DRIVERS = \
+	       lexer-main.c \
+
+TEST_NAMES   := $(TEST_DRIVERS:-main.c=)
+TEST_BINS    := $(addprefix bin/test-,$(TEST_NAMES))
+
 # --- SOURCES ------------ #
-VPATH = src:src/functions:src/memory:src/signals
+
+# Misc or Unorganized as of yet sources
 SRCS = \
        main.c \
        debug.c \
@@ -56,26 +68,47 @@ INC = -L./includes -I./includes
 INC += -L./libft -I./libft
 
 OBJS = $(addprefix obj/,$(SRCS:.c=.o))
+CORE_OBJS  := $(filter-out obj/main.o,$(OBJS))
 
 RM = rm -f
 
 all: $(NAME)
 
-debug: CFLAGS += -D DEBUG
-debug: fclean $(NAME)
+obj:
+	@mkdir -p obj
 
 obj/%.o: %.c | obj
 	@$(CC) -c $(INC) $(CFLAGS) $< -o $@
 
-obj:
-	mkdir -p obj
 
-$(NAME) : $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) $(INC) $(OBJS) $(LIBFT) -o $(NAME) 
+$(NAME) : $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(INC) $^ -o $@ 
+	@echo "✓ built $(@F)"
 
 
 $(LIBFT):
 	@make -C libft $(NODIR)
+
+
+# Tests
+
+debug : $(OBJS) $(LIBFT) # Rule for the #ifdef
+	@$(CC) $(CFLAGS) -D DEBUG $(INC) $^ -o $(NAME)
+	@echo "✓ built $(NAME)"
+
+bin:
+	@mkdir -p bin
+
+bin/test-%: $(CORE_OBJS) obj/%-main.o $(LIBFT) | bin
+	@$(CC) $(CFLAGS) $(INC) $^ -o $@ 
+	@echo "✓ built $(@F)"
+
+
+test-%: bin/test-% # Rule for automatically running tests
+	@echo "✓ $< is built"
+	@echo "Running tests..."
+	./test.sh $*
+
 
 clean:
 	@rm -rf obj
@@ -91,4 +124,4 @@ r:
 	make
 	@./$(NAME)
 
-.PHONY: all clean fclean re r debug
+.PHONY: all clean fclean re r test-%
