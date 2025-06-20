@@ -100,7 +100,7 @@ bin/test-%: $(CORE_OBJS) obj/%-main.o $(LIBFT) | bin
 	@echo "✓ built $(@F)"
 
 
-test-%: bin/test-% # Rule for automatically running tests
+test-%: bin/test-%		# Rule for automatically running tests
 	@echo "✓ $< is built"
 	@echo "Running tests..."
 	clear
