@@ -17,15 +17,22 @@
 # define CWD_BUFFER	128
 # define NUM_BUILTINS 	2
 
-typedef struct s_builtin
+
+typedef struct s_redirect
 {
-	void	(*foo)(char **args);
-}	t_builtin;
+	char				args[2];
+	struct s_redirect	*next;
+}	t_redirect;
 
-int				ft_isbuiltin(const char *str);
-void			exec_builtins(const char *f, char **tok);
-void			ft_echo(char **args);
 
+typedef struct s_cmd
+{
+	char			**args;
+	int				redirect_in;
+	int				redirect_out;
+	t_redirect		*redirect;
+	struct s_cmd	*next;
+}	t_cmd;
 
 // Display prompt and parse the line given by the user
 t_cmdtbl	*prompt(t_cmdtbl *cmd);

@@ -5,7 +5,7 @@
 t_simplecmd	**alloc_cmd_array(char **tokens, int *c);
 void		free_tokens(char **tokens);
 
-void	parser(t_cmdtbl *cmd, char ***tokens)
+void	parser(char **tokens)
 {
 	t_simplecmd	**cmdarray;
 	int		cmd_count;

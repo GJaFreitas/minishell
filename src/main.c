@@ -6,10 +6,9 @@ static void	__shell_delimiter(void);
 int	g_sig;
 
 // Display prompt and read the next line given to it
-t_cmdtbl	*prompt(t_cmdtbl *cmd)
+t_cmd	*prompt()
 {
 	char	*line;
-	char	**tok;
 	char	cwd[CWD_BUFFER];
 
 	if (!getcwd(cwd, CWD_BUFFER))
@@ -18,27 +17,28 @@ t_cmdtbl	*prompt(t_cmdtbl *cmd)
 		return (ft_printf("exit"), NULL);
 	ft_printf("%s » ", cwd);
 	line = get_next_line(0);
-	tok = lexer(line);
-	if (tok)
-		parser(cmd, &tok);
-	return (cmd);
+	if (!line)
+		exit(0);
+	return parser(lexer(line));
 }
 
 static void	shell_loop(void)
 {
-	t_cmdtbl	cmd;
+	t_cmd	*cmd;
 
-	while (prompt(&cmd))
+	while (1)
 	{
-		refresh_cmd(&cmd);
+		cmd = prompt()
+		// refresh_cmd(&cmd);
 	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **env)
 {
 	__shell_delimiter();
 	(void)argc;
 	(void)argv;
+	(void)env;
 	// signals();
 	shell_loop();
 	__shell_delimiter();
