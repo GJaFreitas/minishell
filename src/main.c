@@ -3,6 +3,8 @@
 
 static void	__shell_delimiter(void);
 
+int	g_sig;
+
 // Display prompt and read the next line given to it
 t_cmdtbl	*prompt(t_cmdtbl *cmd)
 {
@@ -13,7 +15,7 @@ t_cmdtbl	*prompt(t_cmdtbl *cmd)
 	if (!getcwd(cwd, CWD_BUFFER))
 		perror("getcwd() error\n");
 	if (feof(stdin))
-		ft_printf("[EOF]");
+		return (ft_printf("exit"), NULL);
 	ft_printf("%s » ", cwd);
 	line = get_next_line(0);
 	tok = lexer(line);

@@ -28,7 +28,6 @@ static void	shell_loop(void)
 
 	while (prompt(&cmd))
 	{
-		refresh_cmd(&cmd);
 	}
 }
 
