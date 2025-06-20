@@ -5,8 +5,6 @@
 # include "colors.h"
 # include "memory.h"
 # include "structs.h"
-# include "lexer.h"
-# include "parser.h"
 # include <stdio.h>
 # include <stdarg.h>
 # include <stddef.h>
@@ -41,7 +39,6 @@ t_cmdtbl	*prompt(t_cmdtbl *cmd);
 unsigned int	next_div_8(unsigned int n);
 
 void	refresh_cmd(t_cmdtbl *cmd);
-
 
 
 /***************************

@@ -1,17 +1,10 @@
 #include "minishell.h"
 #include "parser.h"
-#include "structs.h"
 
-t_simplecmd	**alloc_cmd_array(char **tokens, int *c);
-void		free_tokens(char **tokens);
-
-void	parser(char **tokens)
+t_cmd	*parser(char **tokens)
 {
-	t_simplecmd	**cmdarray;
-	int		cmd_count;
+	t_cmd		*cmds;
 
-	cmdarray = alloc_cmd_array(*tokens, &cmd_count);
-	cmd->num_cmds = cmd_count;
 	// expansions(tokens);
 
 	//@Remove
@@ -19,32 +12,10 @@ void	parser(char **tokens)
 	parser_debug(*tokens);
 	#endif
 
-	assign_cmds(cmdarray, *tokens, cmd_count);
-	cmd->cmds = cmdarray;
-	free_tokens(*tokens);
-	free(*tokens);
-}
-
-// Transverses the tokens and finds out how many commands there are
-t_simplecmd	**alloc_cmd_array(char **tokens, int *c)
-{
-	t_simplecmd	**cmd_array;
-	unsigned int		count;
-	unsigned int		i;
-
-	count = 1;
-	while (*tokens)
-	{
-		if ((*tokens)[0] == '|')
-			count++;
-		tokens++;
-	}
-	cmd_array = ft_calloc(count + 1, sizeof(t_simplecmd *));
-	i = 0;
-	while (i < count)
-		cmd_array[i++] = ft_calloc(1, sizeof(t_simplecmd));
-	*c = count;
-	return (cmd_array);
+	cmds = assign_cmds(tokens);
+	free_tokens(tokens);
+	free(tokens);
+	return (cmds);
 }
 
 void	free_tokens(char **tokens)
