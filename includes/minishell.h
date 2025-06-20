@@ -18,7 +18,7 @@
 
 typedef struct s_redirect
 {
-	char				args[2];
+	char				*args[2];
 	struct s_redirect	*next;
 }	t_redirect;
 

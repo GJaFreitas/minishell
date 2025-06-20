@@ -15,7 +15,8 @@ void	print_parser_results(t_cmd *cmds)
 		cur = cmds->redirect;
 		while (cur)
 		{
-			print_tokens(cur->args);
+			printf("1 - %s\n", cur->args[0]);
+			printf("2 - %s\n", cur->args[1]);
 			cur = cur->next;
 		}
 		cmds = cmds->next;
