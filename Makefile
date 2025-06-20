@@ -54,12 +54,8 @@ SRCS += \
 VPATH += src/parser
 SRCS += \
 	parser.c \
-	parser_quote_handler.c \
 	cmd_assignement.c \
 	parser_utils.c \
-	parser_redirections.c \
-	parser_options.c \
-	parser_args.c \
 
 
 # --- INCLUDES ---------------- #
@@ -107,6 +103,7 @@ bin/test-%: $(CORE_OBJS) obj/%-main.o $(LIBFT) | bin
 test-%: bin/test-% # Rule for automatically running tests
 	@echo "✓ $< is built"
 	@echo "Running tests..."
+	clear
 	./test.sh $*
 
 
@@ -121,7 +118,6 @@ re:
 	@make $(NODIR)
 
 r:
-	make
-	@./$(NAME)
+	make re && clear && ./$(NAME)
 
 .PHONY: all clean fclean re r test-%

@@ -32,15 +32,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-// Display prompt and parse the line given by the user
-t_cmdtbl	*prompt(t_cmdtbl *cmd);
-
-// Returns the next number divisible by 8
-unsigned int	next_div_8(unsigned int n);
-
-void	refresh_cmd(t_cmdtbl *cmd);
-
-
 /***************************
 DEBUG ---------
 ****************************/

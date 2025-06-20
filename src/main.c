@@ -1,12 +1,12 @@
 #include "minishell.h"
+#include "parser.h"
+#include "lexer.h"
 #include "structs.h"
-
-static void	__shell_delimiter(void);
 
 int	g_sig;
 
 // Display prompt and read the next line given to it
-t_cmd	*prompt()
+t_cmd	*prompt(void)
 {
 	char	*line;
 	char	cwd[CWD_BUFFER];
@@ -19,7 +19,7 @@ t_cmd	*prompt()
 	line = get_next_line(0);
 	if (!line)
 		exit(0);
-	return parser(lexer(line));
+	return (parser(lexer(line)));
 }
 
 static void	shell_loop(void)
@@ -28,25 +28,17 @@ static void	shell_loop(void)
 
 	while (1)
 	{
-		cmd = prompt()
-		// refresh_cmd(&cmd);
+		cmd = prompt();
+		(void)cmd;
 	}
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	__shell_delimiter();
 	(void)argc;
 	(void)argv;
 	(void)env;
 	// signals();
 	shell_loop();
-	__shell_delimiter();
 	return (0);
-}
-
-static void	__shell_delimiter(void)
-{
-	ft_printf(ANSI_BOLD"\n\n----- SHELL DELIMITER -----\n\n\n"
-ANSI_RESET);
 }

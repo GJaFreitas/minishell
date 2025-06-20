@@ -1,3 +1,4 @@
+#include "lexer.h"
 #include "minishell.h"
 #include "structs.h"
 

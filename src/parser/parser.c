@@ -5,6 +5,8 @@ t_cmd	*parser(char **tokens)
 {
 	t_cmd		*cmds;
 
+	if (tokens == NULL)
+		return (NULL);
 	// expansions(tokens);
 
 	//@Remove
