@@ -4,3 +4,4 @@ msh
 compile_flags.txt
 tester/
 *.out
+vgcore*
