@@ -18,8 +18,10 @@ void	print_parser_results(t_cmd *cmds)
 			printf("1 - %s\n", cur->args[0]);
 			printf("2 - %s\n", cur->args[1]);
 			cur = cur->next;
+			printf("\n");
 		}
 		cmds = cmds->next;
+		printf("\n");
 	}
 }
 
