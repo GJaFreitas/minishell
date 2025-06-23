@@ -1,0 +1,7 @@
+--- ./test-cases/lexer/case3.out	2025-06-20 19:08:51.138334638 +0100
++++ ./test-cases/lexer/case3.ans	2025-06-20 19:08:49.965050876 +0100
+@@ -1,2 +1,2 @@
+-e"ch"o
+-"double quotes here"
++echo
++double quotes here

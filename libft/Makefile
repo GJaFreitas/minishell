@@ -6,7 +6,7 @@
 #    By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 15:16:20 by gjacome-          #+#    #+#              #
-#    Updated: 2025/06/23 18:58:06 by gvon-ah-         ###   ########.fr        #
+#    Updated: 2025/06/23 19:58:50 by gvon-ah-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,7 @@ SRCS = \
 	ft_printf/ft_nexus.c \
 	get_next_line/get_next_line_utils.c \
 	get_next_line/get_next_line.c \
+
 
 ###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲
 

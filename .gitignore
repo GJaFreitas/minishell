@@ -1,5 +1,9 @@
+bin/
 obj/
 msh
 compile_flags.txt
 tester/
 *.out
+vgcore*
+
+*.o

@@ -1,36 +1,90 @@
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
-#include "structs.h"
 
-// Iterates over tokens until a pipe is found and fills up the
-// simplecmd struct with info
-static int	__assign_command(t_simplecmd *cmd, char **tokens)
+static t_cmd	*__init_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = ft_calloc(1, sizeof(struct s_cmd));
+	cmd->redirect_in = -1;
+	cmd->redirect_out = -1;
+	return (cmd);
+}
+
+static t_redirect	*__redirect(t_redirect *redir, char **tokens)
+{
+	t_redirect	*cur;
+
+	if (!redir)
+	{
+		redir = ft_calloc(1, sizeof(struct s_redirect));
+		redir->args[0] = ft_strdup(tokens[0]);
+		redir->args[1] = ft_strdup(tokens[1]);
+	}
+	else
+	{
+		cur = redir;
+		while (cur->next)
+			cur = cur->next;
+		cur->next = ft_calloc(1, sizeof(struct s_redirect));
+		cur = cur->next;
+		cur->args[0] = ft_strdup(tokens[0]);
+		cur->args[1] = ft_strdup(tokens[1]);
+	}
+	return (redir);
+}
+
+static int	__assign_command(t_cmd *cmd, char **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
+	{
+		if (is_pipe(tokens[i]))
+			return (i + 1);
+		else if (ft_strchr(REDIRECT, tokens[i][0]))
+			cmd->redirect = __redirect(cmd->redirect, &tokens[i++]);
+		else
+			cmd->args[i] = ft_strdup(tokens[i]);
+		i++;
+	}
+	//cmd->args[0] = get_path;
+	return (i);
+}
+
+int	__arg_count(char **tokens)
 {
 	int	i;
 
 	i = 1;
-	cmd->cmd = ft_strdup(tokens[0]);
-	while (tokens[i] && !is_pipe(tokens[i]))
+	while (*tokens)
 	{
-		if (ft_strchr(REDIRECT, tokens[i][0]))
-			i += __redirections(cmd, &tokens[i]);
-		else if (tokens[i][0] == '-')
-			__options(cmd, tokens[i]);
-		else
-			__args(cmd, tokens[i]);
+		if (is_pipe(*tokens))
+			return (i);
+		tokens++;
 		i++;
 	}
 	return (i);
 }
 
-void	assign_cmds(t_simplecmd **cmdarray, char **tokens, t_uint count)
+t_cmd	*assign_cmds(char **tokens)
 {
-	unsigned int	tok;
+	t_cmd	*cmds;
+	t_cmd	*current;
 
-	tok = 0;
-	while (tok < count && *tokens)
+	cmds = __init_cmd();
+	current = cmds;
+	while (*tokens)
 	{
-		tok += __assign_command(*cmdarray, tokens + tok);
+		current->args = ft_calloc(__arg_count(tokens) + 1, sizeof(char *));
+		tokens += __assign_command(current, tokens);
+		if (*tokens)
+		{
+			current->next = __init_cmd();
+			current = current->next;
+		}
 	}
+	return (cmds);
 }

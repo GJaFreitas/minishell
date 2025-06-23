@@ -1,6 +1,7 @@
 #include "libft.h"
-#include "minishell.h"
+#include "lexer.h"
 #include "parser.h"
+
 
 static int	__count_tokens(char *s);
 static int	__create_tokens(char *s, char **tok);

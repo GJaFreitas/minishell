@@ -1,17 +1,38 @@
+#include "lexer.h"
+#include "libft.h"
 #include "minishell.h"
 #include "parser.h"
-#include "structs.h"
 
-t_simplecmd	**alloc_cmd_array(char **tokens, int *c);
-void		free_tokens(char **tokens);
-
-void	parser(char **tokens)
+static void	__rm_quote_arg(char *arg)
 {
-	t_simplecmd	**cmdarray;
-	int		cmd_count;
+	while (*arg)
+	{
+		if (ft_strchr(QUOTES, *arg))
+			ft_memcpy(arg, arg + 1, ft_strlen(arg + 1) + 1);
+		else
+			arg++;
+	}
+}
 
-	cmdarray = alloc_cmd_array(*tokens, &cmd_count);
-	cmd->num_cmds = cmd_count;
+static void	__remove_quotes(t_cmd *cmds)
+{
+	int	i;
+
+	i = 0;
+	while (cmds)
+	{
+		while (cmds->args[i])
+			__rm_quote_arg(cmds->args[i++]);
+		cmds = cmds->next;
+	}
+}
+
+t_cmd	*parser(char **tokens)
+{
+	t_cmd		*cmds;
+
+	if (tokens == NULL)
+		return (NULL);
 	// expansions(tokens);
 
 	//@Remove
@@ -19,39 +40,9 @@ void	parser(char **tokens)
 	parser_debug(*tokens);
 	#endif
 
-	assign_cmds(cmdarray, *tokens, cmd_count);
-	cmd->cmds = cmdarray;
-	free_tokens(*tokens);
-	free(*tokens);
-}
-
-// Transverses the tokens and finds out how many commands there are
-t_simplecmd	**alloc_cmd_array(char **tokens, int *c)
-{
-	t_simplecmd	**cmd_array;
-	unsigned int		count;
-	unsigned int		i;
-
-	count = 1;
-	while (*tokens)
-	{
-		if ((*tokens)[0] == '|')
-			count++;
-		tokens++;
-	}
-	cmd_array = ft_calloc(count + 1, sizeof(t_simplecmd *));
-	i = 0;
-	while (i < count)
-		cmd_array[i++] = ft_calloc(1, sizeof(t_simplecmd));
-	*c = count;
-	return (cmd_array);
-}
-
-void	free_tokens(char **tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-		free(tokens[i++]);
+	cmds = assign_cmds(tokens);
+	__remove_quotes(cmds);
+	free_tokens(tokens);
+	free(tokens);
+	return (cmds);
 }

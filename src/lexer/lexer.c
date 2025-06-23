@@ -19,10 +19,6 @@ ls dir|grep a
 
 ********************************/
 
-/*
-* 	Temos de 
-*/
-
 char	**lexer(char *line)
 {
 	char	**toks;

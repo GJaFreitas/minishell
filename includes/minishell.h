@@ -5,8 +5,6 @@
 # include "colors.h"
 # include "memory.h"
 # include "structs.h"
-# include "lexer.h"
-# include "parser.h"
 # include <stdio.h>
 # include <stdarg.h>
 # include <stddef.h>
@@ -16,7 +14,7 @@
 # include <stdint.h>
 # include <fcntl.h>
 
-# define CWD_BUFFER	128
+# define CWD_BUFFER	1024
 # define NUM_BUILTINS 	2
 
 
@@ -37,19 +35,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-// Display prompt and parse the line given by the user
-t_cmdtbl	*prompt(t_cmdtbl *cmd);
-
-// Returns the next number divisible by 8
-unsigned int	next_div_8(unsigned int n);
-
-void	refresh_cmd(t_cmdtbl *cmd);
-
-// EXEC ***********************************
-
 void	ft_exec_all(t_cmd *cmd, char **env);
-
-
 /***************************
 DEBUG ---------
 ****************************/

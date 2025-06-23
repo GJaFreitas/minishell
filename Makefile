@@ -46,14 +46,17 @@ SRCS = \
 
 # Lexer sources
 VPATH += src/lexer
-SRCS += 
+SRCS += lexer.c \
+		lexer_tokenize.c \
+		lex_utils.c
 
 
 # Parser sources
 VPATH += src/parser
-SRCS += 
-	
-
+SRCS += \
+	parser.c \
+	cmd_assignement.c \
+	parser_utils.c \
 
 # --- INCLUDES ---------------- #
 
@@ -97,9 +100,10 @@ bin/test-%: $(CORE_OBJS) obj/%-main.o $(LIBFT) | bin
 	@echo "✓ built $(@F)"
 
 
-test-%: bin/test-% # Rule for automatically running tests
+test-%: bin/test-%		# Rule for automatically running tests
 	@echo "✓ $< is built"
 	@echo "Running tests..."
+	clear
 	./test.sh $*
 
 
