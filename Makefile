@@ -4,17 +4,19 @@ CC = cc
 
 # --- Compiler Flags -------------- #
 
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 
 # --- NAME ---------------------- #
 
-NAME = msh
+NAME = minishell
 
 NODIR = --no-print-directory
 
 # --- DEPENDENCIES ---------------- #
 
 LIBFT = libft/libft.a
+
+LIBFT_DIR = ./libft
 
 # --- VPATH ------------ #
 VPATH = src:src/functions:src/memory:src/signals:test-cases/
@@ -44,28 +46,19 @@ SRCS = \
 
 # Lexer sources
 VPATH += src/lexer
-SRCS += \
-	lexer.c \
-	lexer_tokenize.c \
-	lex_utils.c \
+SRCS += 
 
 
 # Parser sources
 VPATH += src/parser
-SRCS += \
-	parser.c \
-	parser_quote_handler.c \
-	cmd_assignement.c \
-	parser_utils.c \
-	parser_redirections.c \
-	parser_options.c \
-	parser_args.c \
+SRCS += 
+	
 
 
 # --- INCLUDES ---------------- #
 
-INC = -L./includes -I./includes
-INC += -L./libft -I./libft
+INC =  -I./includes
+INC += -I./libft
 
 OBJS = $(addprefix obj/,$(SRCS:.c=.o))
 CORE_OBJS  := $(filter-out obj/main.o,$(OBJS))
@@ -112,16 +105,20 @@ test-%: bin/test-% # Rule for automatically running tests
 
 clean:
 	@rm -rf obj
+	@$(MAKE) -C $(LIBFT_DIR) clean $(NODIR)
+	@echo "✓ removing all objs"
 
-fclean:	clean
+fclean:
+	@rm -rf obj
 	@$(RM) $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean $(NODIR)
+	@echo "✓ removing all"
 
 re:
 	@make fclean $(NODIR)
 	@make $(NODIR)
 
 r:
-	make
-	@./$(NAME)
+	make re && clear && ./$(NAME)
 
 .PHONY: all clean fclean re r test-%

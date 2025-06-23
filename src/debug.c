@@ -12,18 +12,15 @@ void	print_tokens(char **tokens)
 	}
 }
 
-void	print_cmd(t_cmdtbl *cmd)
+void	print_cmd(t_cmd *cmd)
 {
-	if (cmd->cmds[0]->cmd)
-		printf("%s\n", cmd->cmds[0]->cmd);
-	if (cmd->cmds[0]->opts)
-		printf("%s\n", cmd->cmds[0]->opts);
-	if (cmd->cmds[0]->args)
-		printf("%s\n", cmd->cmds[0]->args);
-	if (cmd->cmds[0]->infile)
-		printf("%s\n", cmd->cmds[0]->infile);
-	if (cmd->cmds[0]->outfile)
-		printf("%s\n", cmd->cmds[0]->outfile);
+	int i = 0;
+	while(cmd->args[i])
+	{
+		printf("%i - %s\n", i, cmd->args[i]);
+		i++;
+	}
+	printf("=========================\n");
 }
 
 void	parser_debug(char **tokens)
