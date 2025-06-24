@@ -25,17 +25,16 @@ void	print_parser_results(t_cmd *cmds)
 	}
 }
 
-// Display prompt and read the next line given to it
-void	prompt()
+void	prompt(char **env)
 {
-	t_cmd *cmds = parser(lexer(get_next_line(0)));
+	t_cmd *cmds = parser(lexer(get_next_line(0)), env);
 	print_parser_results(cmds);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	prompt();
+	prompt(env);
 	return (0);
 }

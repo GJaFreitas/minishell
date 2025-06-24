@@ -35,7 +35,7 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens)
 	return (redir);
 }
 
-static int	__assign_command(t_cmd *cmd, char **tokens)
+static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 {
 	int	i;
 
@@ -46,11 +46,12 @@ static int	__assign_command(t_cmd *cmd, char **tokens)
 			return (i + 1);
 		else if (ft_strchr(REDIRECT, tokens[i][0]))
 			cmd->redirect = __redirect(cmd->redirect, &tokens[i++]);
+		else if (i == 0)
+				cmd->args[i] = path_search(tokens[i], env);
 		else
-			cmd->args[i] = ft_strdup(tokens[i]);
+				cmd->args[i] = ft_strdup(tokens[i]);
 		i++;
 	}
-	//cmd->args[0] = get_path;
 	return (i);
 }
 
@@ -69,7 +70,7 @@ int	__arg_count(char **tokens)
 	return (i);
 }
 
-t_cmd	*assign_cmds(char **tokens)
+t_cmd	*assign_cmds(char **tokens, char **env)
 {
 	t_cmd	*cmds;
 	t_cmd	*current;
@@ -79,7 +80,7 @@ t_cmd	*assign_cmds(char **tokens)
 	while (*tokens)
 	{
 		current->args = ft_calloc(__arg_count(tokens) + 1, sizeof(char *));
-		tokens += __assign_command(current, tokens);
+		tokens += __assign_command(current, tokens, env);
 		if (*tokens)
 		{
 			current->next = __init_cmd();

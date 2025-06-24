@@ -27,7 +27,7 @@ static void	__remove_quotes(t_cmd *cmds)
 	}
 }
 
-t_cmd	*parser(char **tokens)
+t_cmd	*parser(char **tokens, char **env)
 {
 	t_cmd		*cmds;
 
@@ -40,7 +40,7 @@ t_cmd	*parser(char **tokens)
 	parser_debug(*tokens);
 	#endif
 
-	cmds = assign_cmds(tokens);
+	cmds = assign_cmds(tokens, env);
 	__remove_quotes(cmds);
 	free_tokens(tokens);
 	free(tokens);
