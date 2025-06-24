@@ -6,7 +6,7 @@
 int	g_sig;
 
 // Display prompt and read the next line given to it
-t_cmd	*prompt(void)
+t_cmd	*prompt(char **env)
 {
 	char *line;
 	char cwd[CWD_BUFFER];
@@ -19,7 +19,7 @@ t_cmd	*prompt(void)
 	line = get_next_line(0);
 	if (!line)
 		exit(0);
-	return (parser(lexer(line)));
+	return (parser(lexer(line), env));
 }
 
 static void	shell_loop(char **env)
@@ -28,7 +28,7 @@ static void	shell_loop(char **env)
 
 	while (1)
 	{
-		cmd = prompt();
+		cmd = prompt(env);
 		ft_exec_all(cmd, env);
 	}
 	
@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	(void)env;
 	// signals();
 	shell_loop(env);
 	return (0);

@@ -55,6 +55,7 @@ SRCS += lexer.c \
 VPATH += src/parser
 SRCS += \
 	parser.c \
+	path_explore.c \
 	cmd_assignement.c \
 	parser_utils.c \
 
