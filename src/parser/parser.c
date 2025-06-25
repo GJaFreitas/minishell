@@ -44,5 +44,6 @@ t_cmd	*parser(char **tokens, char **env)
 	__remove_quotes(cmds);
 	free_tokens(tokens);
 	free(tokens);
+	print_cmd(cmds);
 	return (cmds);
 }

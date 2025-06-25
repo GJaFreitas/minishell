@@ -36,6 +36,8 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	ft_exec_all(t_cmd *cmd, char **env);
+
+int if_redirect(t_cmd *cmd,int redirect,int input);
 /***************************
 DEBUG ---------
 ****************************/

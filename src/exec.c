@@ -27,7 +27,6 @@ static void wait_all(t_cmd *cmd)
 		status = WEXITSTATUS(status);
 		cmd = cmd->next;
 	}
-	printf("status: %i\n", status);
 }
 
 void	ft_exec_all(t_cmd *cmd, char **env)
@@ -48,15 +47,9 @@ void	ft_exec_all(t_cmd *cmd, char **env)
 			out = fd[1];
 		}
 		if (cmd->redirect_out)
-		{
-			close(out);
-			out = cmd->redirect_out;
-		}
+			out = if_redirect(cmd,1,out);
 		if (cmd->redirect_in)
-		{
-			close(in);
-			in = cmd->redirect_in;
-		}
+			in = if_redirect(cmd,2,in);
 		ft_exec(cmd, in, out, env);
 		if (cmd->next)
 		{
@@ -66,5 +59,15 @@ void	ft_exec_all(t_cmd *cmd, char **env)
 		cmd = cmd->next;
 	}
 	wait_all(tmp);
-	printf("test end\n");
+}
+
+
+int if_redirect(t_cmd *cmd,int redirect,int input)
+{
+	close(input);
+	if (redirect == 1)
+		input = cmd->redirect_out;
+	if (redirect == 2)
+		input = cmd->redirect_in;
+	return (input);
 }
