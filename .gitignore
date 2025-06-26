@@ -1,4 +1,6 @@
+bin/*
 bin/
+obj/*
 obj/
 msh
 compile_flags.txt
