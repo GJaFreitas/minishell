@@ -16,6 +16,12 @@
 
 # define CWD_BUFFER	1024
 
+typedef struct s_redirect
+{
+	char				*args[2];
+	struct s_redirect	*next;
+}	t_redirect;
+
 enum e_builtin
 {
 	NO_BUILTIN = 0,
@@ -27,13 +33,6 @@ enum e_builtin
 	CMD_ENV,
 	CMD_EXIT,
 };
-
-typedef struct s_redirect
-{
-	char				*args[2];
-	struct s_redirect	*next;
-}	t_redirect;
-
 
 typedef struct s_cmd
 {
