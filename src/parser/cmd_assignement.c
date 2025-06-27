@@ -1,3 +1,4 @@
+#include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
@@ -35,42 +36,50 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens)
 	return (redir);
 }
 
-static enum e_builtin	is_builtin(char *token, int tokenLen)
+static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 {
 	static char	*builtins[8] = { "echo", "cd", "pwd", \
 		"export", "unset", "env", "exit", NULL};
 	int	i;
+	int	tokenLen;
 
+	tokenLen = ft_strlen(token);
 	i = 0;
 	while (builtins[i])
 	{
 		if (ft_strncmp(token, builtins[i], tokenLen))
+		{
+			*cmd = i;
 			return (i);
+		}
 		i++;
 	}
+	*cmd = 0;
 	return (0);
 }
 
 static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 {
 	int	i;
+	int	tok_index;
 
 	i = 0;
-	while (tokens[i])
+	tok_index = -1;
+	while (tokens[++tok_index])
 	{
-		if (is_pipe(tokens[i]))
-			return (i + 1);
-		else if (ft_strchr(REDIRECT, tokens[i][0]))
-			cmd->redirect = __redirect(cmd->redirect, &tokens[i++]);
+		if (is_pipe(tokens[tok_index]))
+			return (tok_index + 1);
+		else if (ft_strchr(REDIRECT, tokens[tok_index][0]))
+			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index++]);
 		else if (i == 0)
 		{
-			cmd->builtin = is_builtin(tokens[i], ft_strlen(tokens[i]));
-			if (!cmd->builtin)
-				cmd->args[i] = path_search(tokens[i], env);
+			if (!is_builtin(&cmd->builtin, tokens[tok_index]))
+				cmd->args[i++] = path_search(tokens[tok_index], env);
+			else
+				cmd->args[i++] = ft_strdup(tokens[tok_index]);
 		}
 		else
-				cmd->args[i] = ft_strdup(tokens[i]);
-		i++;
+			cmd->args[i++] = ft_strdup(tokens[tok_index]);
 	}
 	return (i);
 }
@@ -84,8 +93,9 @@ int	__arg_count(char **tokens)
 	{
 		if (is_pipe(*tokens))
 			return (i);
+		if (!ft_strchr(REDIRECT, **tokens))
+			i++;
 		tokens++;
-		i++;
 	}
 	return (i);
 }
