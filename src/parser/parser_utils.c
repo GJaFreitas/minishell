@@ -16,6 +16,10 @@ int	is_pipe(char *token)
 	return (*token == '|');
 }
 
+// Esta funcao podia ser free_tokens(char ***tokens) e
+// tambem dava free ao proprio apontador mas era preciso
+// ter cuidado e passar o apontador verdadeiro, nao sei
+// se nao fica menos intuitivo
 void	free_tokens(char **tokens)
 {
 	int	i;
