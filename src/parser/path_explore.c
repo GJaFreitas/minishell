@@ -9,6 +9,7 @@
 	if dir_stream == NULL which is fine :)
 	(trick from bash scripting with regex)
 */
+
 static char	*__search_folders(char **folders, char *token)
 {
 	struct dirent	*entry;

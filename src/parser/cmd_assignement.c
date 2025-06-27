@@ -35,6 +35,22 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens)
 	return (redir);
 }
 
+static enum e_builtin	is_builtin(char *token, int tokenLen)
+{
+	static char	*builtins[8] = { "echo", "cd", "pwd", \
+		"export", "unset", "env", "exit", NULL};
+	int	i;
+
+	i = 0;
+	while (builtins[i])
+	{
+		if (ft_strncmp(token, builtins[i], tokenLen))
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
 static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 {
 	int	i;
@@ -47,7 +63,11 @@ static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 		else if (ft_strchr(REDIRECT, tokens[i][0]))
 			cmd->redirect = __redirect(cmd->redirect, &tokens[i++]);
 		else if (i == 0)
+		{
+			cmd->builtin = is_builtin(tokens[i], ft_strlen(tokens[i]));
+			if (!cmd->builtin)
 				cmd->args[i] = path_search(tokens[i], env);
+		}
 		else
 				cmd->args[i] = ft_strdup(tokens[i]);
 		i++;

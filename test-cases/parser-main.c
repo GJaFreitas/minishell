@@ -9,6 +9,7 @@ void	print_parser_results(t_cmd *cmds)
 	while (cmds)
 	{
 		printf("CMD %d:\n", i++);
+		printf("BUILTIN: %d\n", cmds->builtin);
 		printf("ARGS:\n");
 		print_tokens(cmds->args);
 		printf("REDIRECTIONS:\n");

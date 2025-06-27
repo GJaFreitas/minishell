@@ -15,8 +15,18 @@
 # include <fcntl.h>
 
 # define CWD_BUFFER	1024
-# define NUM_BUILTINS 	2
 
+enum e_builtin
+{
+	NO_BUILTIN = 0,
+	CMD_ECHO,
+	CMD_CD,
+	CMD_PWD,
+	CMD_EXPORT,
+	CMD_UNSET,
+	CMD_ENV,
+	CMD_EXIT,
+};
 
 typedef struct s_redirect
 {
@@ -29,6 +39,7 @@ typedef struct s_cmd
 {
 	int				pid;
 	char			**args;
+	enum e_builtin		builtin;
 	int				redirect_in;
 	int				redirect_out;
 	t_redirect		*redirect;
