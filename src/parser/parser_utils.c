@@ -1,4 +1,15 @@
+#include "minishell.h"
 #include "parser.h"
+
+t_cmd	*__init_cmd(void)
+{
+	t_cmd	*cmd;
+
+	cmd = ft_calloc(1, sizeof(struct s_cmd));
+	cmd->redirect_in = -1;
+	cmd->redirect_out = -1;
+	return (cmd);
+}
 
 int	is_pipe(char *token)
 {
@@ -16,17 +27,24 @@ void	free_tokens(char **tokens)
 
 void	free_cmds(t_cmd *cmds)
 {
-	if (!cmds)
-		return ;
-	while (cmds)
+	t_redirect	*cur;
+	t_cmd		*next;
+
+	next = cmds;
+	while (next)
 	{
+		cmds = next;
 		free_tokens(cmds->args);
+		free(cmds->args);
 		while (cmds->redirect)
 		{
-			free(cmds->redirect->args[0]);
-			free(cmds->redirect->args[1]);
-			cmds->redirect = cmds->redirect->next;
+			cur = cmds->redirect;
+			free(cur->args[0]);
+			free(cur->args[1]);
+			cmds->redirect = cur->next;
+			free(cur);
 		}
-		cmds = cmds->next;
+		next = cmds->next;
+		free(cmds);
 	}
 }

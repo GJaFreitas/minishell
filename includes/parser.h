@@ -9,6 +9,7 @@ t_cmd	*parser(char **tokens, char **env);
 
 
 t_cmd	*assign_cmds(char **tokens, char **env);
+t_cmd	*__init_cmd(void);
 char	*path_search(char *token, char **env);
 int	is_pipe(char *token);
 

@@ -30,6 +30,7 @@ void	prompt(char **env)
 {
 	t_cmd *cmds = parser(lexer(get_next_line(0)), env);
 	print_parser_results(cmds);
+	free_cmds(cmds);
 }
 
 int	main(int argc, char **argv, char **env)

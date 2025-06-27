@@ -3,16 +3,6 @@
 #include "minishell.h"
 #include "parser.h"
 
-static t_cmd	*__init_cmd(void)
-{
-	t_cmd	*cmd;
-
-	cmd = ft_calloc(1, sizeof(struct s_cmd));
-	cmd->redirect_in = -1;
-	cmd->redirect_out = -1;
-	return (cmd);
-}
-
 static t_redirect	*__redirect(t_redirect *redir, char **tokens)
 {
 	t_redirect	*cur;
