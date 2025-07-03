@@ -18,9 +18,9 @@ static void	__remove_quotes(t_cmd *cmds)
 {
 	int	i;
 
-	i = 0;
 	while (cmds)
 	{
+		i = 0;
 		while (cmds->args[i])
 			__rm_quote_arg(cmds->args[i++]);
 		cmds = cmds->next;
@@ -44,6 +44,6 @@ t_cmd	*parser(char **tokens, char **env)
 	__remove_quotes(cmds);
 	free_tokens(tokens);
 	free(tokens);
-	print_cmd(cmds);
+	//print_cmd(cmds);
 	return (cmds);
 }

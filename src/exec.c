@@ -40,6 +40,7 @@ void	ft_exec_all(t_cmd *cmd, char **env)
 	tmp = cmd;
 	while (cmd)
 	{
+		print_cmd(cmd);
 		out = dup(1);
 		if (cmd->next && pipe(fd) != -1)
 		{
