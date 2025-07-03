@@ -97,10 +97,10 @@ char	*path_search(char *token, char **env)
 	//@REMOVE
 	// #define DEBUG
 	#ifdef DEBUG
-	printf("path: %s\n", path_env_var);
-	printf("folders:\n");
-	print_tokens(folders);
-	printf("\npath: %s\n", path);
+	// printf("path: %s\n", path_env_var);
+	// printf("folders:\n");
+	// print_tokens(folders);
+	// printf("\npath: %s\n", path);
 	#endif
 	//@REMOVE
 
