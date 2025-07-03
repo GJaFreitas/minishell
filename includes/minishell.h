@@ -46,6 +46,7 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	ft_exec_all(t_cmd *cmd, char **env);
+int	ft_export(char *const argv[], char *const env[]);
 /***************************
 DEBUG ---------
 ****************************/

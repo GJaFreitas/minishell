@@ -44,6 +44,10 @@ SRCS = \
        utils.c \
 
 
+# Builtin functions sources
+VPATH += src/functions
+SRCS += ft_export.c \
+
 # Lexer sources
 VPATH += src/lexer
 SRCS += lexer.c \
