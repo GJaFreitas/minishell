@@ -5,6 +5,7 @@
 # include "colors.h"
 # include "memory.h"
 # include "structs.h"
+# include "exec.h"
 # include <stdio.h>
 # include <stdarg.h>
 # include <stddef.h>
@@ -52,5 +53,22 @@ DEBUG ---------
 
 void	print_tokens(char **tokens);
 void	print_cmd(t_cmd *cmd);
+
+
+
+/***************************
+TEST ====================== */
+
+
+// Add these function prototypes
+
+// Test functions for redirection
+t_cmd *create_test_cmd(char *cmd, char *redir_type, char *filename);
+t_cmd *create_test_pipeline(char **cmds, int num_cmds);
+void run_redirection_tests(char **env);
+
+
+/****************************/
+
 
 #endif

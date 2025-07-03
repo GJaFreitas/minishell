@@ -35,7 +35,6 @@ TEST_BINS    := $(addprefix bin/test-,$(TEST_NAMES))
 SRCS = \
        main.c \
        debug.c \
-       exec.c \
        builtin.c \
        ft_echo.c \
        mem_alloc.c \
@@ -43,12 +42,16 @@ SRCS = \
        mem_test.c \
        utils.c \
 
+# Exec sources
+VPATH += src/exec
+SRCS += \
+       exec.c \
 
 # Lexer sources
 VPATH += src/lexer
 SRCS += lexer.c \
 		lexer_tokenize.c \
-		lex_utils.c
+		lex_utils.c \
 
 
 # Parser sources
@@ -126,4 +129,8 @@ re:
 r:
 	make re && clear && ./$(NAME)
 
-.PHONY: all clean fclean re r test-%
+test_redirections:
+	@$(MAKE) CFLAGS="-D TEST_REDIRECTIONS"
+	@echo "✓ built with redirection tests"
+
+.PHONY: all clean fclean re r test-% test_redirections
