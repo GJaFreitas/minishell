@@ -24,12 +24,10 @@ char	**lexer(char *line)
 	char	**toks;
 	char	*tokenizable;
 
-	__remove_newline(line);
 	if (!*line)
 		return (free(line), NULL);
 	tokenizable = __prepare_tokenize(line);
 	toks = __tokenize(tokenizable);
-	free(line);
 	free(tokenizable);
 	return (toks);
 }
@@ -67,14 +65,4 @@ static char	*__prepare_tokenize(char *s)
 	str[j++] = s[i];
 	str[j] = 0;
 	return (str);
-}
-
-void	__remove_newline(char *line)
-{
-	while (line && *line)
-	{
-		if (*line == '\n')
-			*line = 0;
-		line++;
-	}
 }

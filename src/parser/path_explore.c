@@ -93,17 +93,6 @@ char	*path_search(char *token, char **env)
 		free(folders);
 		return (ft_strdup("Cmd not found"));
 	}
-
-	//@REMOVE
-	// #define DEBUG
-	#ifdef DEBUG
-	// printf("path: %s\n", path_env_var);
-	// printf("folders:\n");
-	// print_tokens(folders);
-	// printf("\npath: %s\n", path);
-	#endif
-	//@REMOVE
-
 	temp = ft_strjoin(path, "/");
 	free(path);
 	path = ft_strjoin(temp, token);
