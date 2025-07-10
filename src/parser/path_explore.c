@@ -91,7 +91,7 @@ char	*path_search(char *token, char **env)
 	{
 		free_tokens(folders);
 		free(folders);
-		return (ft_strdup("Cmd not found"));
+		return (ft_strdup("NO_CMD"));
 	}
 	temp = ft_strjoin(path, "/");
 	free(path);

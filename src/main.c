@@ -17,7 +17,7 @@ t_cmd	*prompt(char **env)
 		perror("getcwd() error\n");
 	if (feof(stdin))
 		return (ft_printf("exit"), NULL);
-	ft_memcpy(cwd + ft_strlen(cwd), " » ", 4);
+	ft_memcpy(cwd + ft_strlen(cwd) - 1, " » ", 4);
 	line = readline(cwd);
 	if (!line)
 		exit(0);
