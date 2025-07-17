@@ -70,9 +70,10 @@ SRCS += \
 
 INC =  -I./includes
 INC += -I./libft
+INC += -L/usr/local/lib -I/usr/local/include -lreadline
 
-OBJS = $(addprefix obj/,$(SRCS:.c=.o))
-CORE_OBJS  := $(filter-out obj/main.o,$(OBJS))
+OBJS 		:= $(addprefix obj/,$(SRCS:.c=.o))
+CORE_OBJS	:= $(filter-out obj/main.o,$(OBJS))
 
 RM = rm -f
 

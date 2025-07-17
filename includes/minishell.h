@@ -25,6 +25,7 @@ typedef struct s_redirect
 
 enum e_builtin
 {
+	UNKNOWN_COMMAND = -1,
 	NO_BUILTIN = 0,
 	CMD_ECHO,
 	CMD_CD,

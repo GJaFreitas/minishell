@@ -2,6 +2,8 @@
 #include "parser.h"
 #include "lexer.h"
 #include "structs.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "exec.h"
 
 int	g_sig;
@@ -128,8 +130,8 @@ t_cmd	*prompt(char **env)
 		perror("getcwd() error\n");
 	if (feof(stdin))
 		return (ft_printf("exit"), NULL);
-	ft_printf("%s » ", cwd);
-	line = get_next_line(0);
+	ft_memcpy(cwd + ft_strlen(cwd) - 1, " » ", 4);
+	line = readline(cwd);
 	if (!line)
 		exit(0);
 	return (parser(lexer(line), env));
