@@ -14,9 +14,16 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # define CWD_BUFFER	1024
 
+typedef struct s_env {
+    char *key;
+    char *value;
+    bool exported;
+    struct s_env *next;
+} t_env;
 
 typedef struct s_redirect
 {
@@ -55,13 +62,13 @@ int	if_redirect(t_cmd *cmd,int redirect,int input);
 /***************************
 FUNCTIONS ---------
 ****************************/
-int	ft_echo(char *const argv[], char *const env[]);
-int	ft_export(char *const argv[], char *const env[]);
-int	ft_pwd(char *const argv[], char *const env[]);
-int	ft_cd(char *const argv[], char *const env[]);
-int	ft_unset(char *const argv[], char *const env[]);
-int	ft_env(char *const argv[], char *const env[]);
-int	ft_exit(char *const argv[], char *const env[]);
+int	ft_echo(char *const argv[], t_env *env);
+int	ft_export(char *const argv[], t_env *env);
+int	ft_pwd(char *const argv[], t_env *env);
+int	ft_cd(char *const argv[], t_env *env);
+int	ft_unset(char *const argv[], t_env *env);
+int	ft_env(char *const argv[], t_env *env);
+int	ft_exit(char *const argv[], t_env *env);
 
 /***************************
 DEBUG ---------
