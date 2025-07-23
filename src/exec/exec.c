@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/07/23 14:50:09 by bag              ###   ########.fr       */
+/*   Updated: 2025/07/23 15:18:12 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,21 @@ int	__case_out(t_cmd *cmd, t_redirect *redir);
 int	__case_out_append(t_cmd *cmd, t_redirect *redir);
 int	__case_in(t_cmd *cmd, t_redirect *redir);
 int	__switch(t_cmd *cmd, t_redirect *redir);
+
+void	exec_builtin(t_cmd *cmd, char **env)
+{
+	static int (*jump_table[7])(char *const argv[], char *const env[]) = { \
+		ft_echo,
+		ft_cd,
+		ft_pwd,
+		ft_export,
+		ft_unset,
+		ft_env,
+		ft_exit
+	};
+
+	jump_table[cmd->builtin - 1](&cmd->args[1], env);
+}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -67,7 +82,9 @@ void	ft_exec(t_cmd *cmd, int in, int out, char **env)
                 perror("dup2 stdout");
             close(out);
         }
-        if (execve(cmd->args[0], cmd->args, env) == -1)
+	if (cmd->builtin > 0)
+		exec_builtin(cmd, env);
+	else if (execve(cmd->args[0], cmd->args, env) == -1)
         {
             perror("execve");
             exit(127);

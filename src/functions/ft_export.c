@@ -1,8 +1,8 @@
 #include "libft.h"
 #include "export.h"
 #include "minishell.h"
-//
-// /* ivar -> internal variable */
+
+/* ivar -> internal variable */
 //
 // static void	__print_env(char *const env[])
 // {
@@ -58,23 +58,26 @@
 // 	}
 // }
 //
-// int	ft_export(char *const argv[], char *const env[])
-// {
-// 	static t_ivar	**_ivars;
-// 	char	*new_entry;
-//
-// 	if (!argv || !*argv)
-// 		return (__print_env(env), 0);
-// 	while (*argv)
-// 	{
-// 		new_entry = __create_string(argv);
-// 		if (new_entry == NULL)
-// 			continue ;
-// 		if (ft_strchr(new_entry, '='))
-// 			__env_set(env, new_entry);
-// 		else
-// 			__internal_var(env, _ivars, new_entry);
-// 		argv++;
-// 	}
-// 	return (0);
-// }
+int	ft_export(char *const argv[], char *const env[])
+{
+	(void)argv;
+	(void)env;
+	printf("Implement export\n");
+	// static t_ivar	**_ivars;
+	// char	*new_entry;
+	//
+	// if (!argv || !*argv)
+	// 	return (__print_env(env), 0);
+	// while (*argv)
+	// {
+	// 	new_entry = __create_string(argv);
+	// 	if (new_entry == NULL)
+	// 		continue ;
+	// 	if (ft_strchr(new_entry, '='))
+	// 		__env_set(env, new_entry);
+	// 	else
+	// 		__internal_var(env, _ivars, new_entry);
+	// 	argv++;
+	// }
+	// return (0);
+}

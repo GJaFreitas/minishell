@@ -50,7 +50,14 @@ SRCS += \
 
 # Builtin functions sources
 VPATH += src/functions
-SRCS += ft_export.c \
+SRCS += \
+	ft_export.c \
+	ft_cd.c \
+	ft_env.c \
+	ft_echo.c \
+	ft_exit.c \
+	ft_pwd.c \
+	ft_unset.c \
 
 # Lexer sources
 VPATH += src/lexer

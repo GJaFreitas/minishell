@@ -17,6 +17,7 @@
 
 # define CWD_BUFFER	1024
 
+
 typedef struct s_redirect
 {
 	char				*args[2];
@@ -48,8 +49,19 @@ typedef struct s_cmd
 }	t_cmd;
 
 void	ft_exec_all(t_cmd *cmd, char **env);
+int	if_redirect(t_cmd *cmd,int redirect,int input);
+
+
+/***************************
+FUNCTIONS ---------
+****************************/
+int	ft_echo(char *const argv[], char *const env[]);
 int	ft_export(char *const argv[], char *const env[]);
-int if_redirect(t_cmd *cmd,int redirect,int input);
+int	ft_pwd(char *const argv[], char *const env[]);
+int	ft_cd(char *const argv[], char *const env[]);
+int	ft_unset(char *const argv[], char *const env[]);
+int	ft_env(char *const argv[], char *const env[]);
+int	ft_exit(char *const argv[], char *const env[]);
 
 /***************************
 DEBUG ---------
@@ -67,9 +79,9 @@ TEST ====================== */
 // Add these function prototypes
 
 // Test functions for redirection
-t_cmd *create_test_cmd(char *cmd, char *redir_type, char *filename);
-t_cmd *create_test_pipeline(char **cmds, int num_cmds);
-void run_redirection_tests(char **env);
+t_cmd	*create_test_cmd(char *cmd, char *redir_type, char *filename);
+t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
+void	run_redirection_tests(char **env);
 
 
 /****************************/
