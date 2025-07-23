@@ -37,9 +37,10 @@ static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 	i = 0;
 	while (builtins[i])
 	{
-		if (ft_strncmp(token, builtins[i], tokenLen))
+		printf("TOKEN: %s, BUILTIN: %s\n", token, builtins[i]);
+		if (!ft_strncmp(token, builtins[i], tokenLen))
 		{
-			*cmd = i;
+			*cmd = i + 1;
 			return (i);
 		}
 		i++;
