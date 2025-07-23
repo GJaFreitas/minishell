@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/07/23 15:41:21 by bag              ###   ########.fr       */
+/*   Updated: 2025/07/23 15:50:10 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	exec_builtin(t_cmd *cmd, char **env)
 		ft_exit
 	};
 
-	ft_printf("DEBUG: %d\n", cmd->builtin);
 	jump_table[cmd->builtin - 1](&cmd->args[1], env);
 }
 
