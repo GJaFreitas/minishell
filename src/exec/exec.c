@@ -6,12 +6,16 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/07/03 20:30:11 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:50:09 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
+int	__case_out(t_cmd *cmd, t_redirect *redir);
+int	__case_out_append(t_cmd *cmd, t_redirect *redir);
+int	__case_in(t_cmd *cmd, t_redirect *redir);
+int	__switch(t_cmd *cmd, t_redirect *redir);
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -27,59 +31,28 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-int setup_redirections(t_cmd *cmd)
+int	setup_redirections(t_cmd *cmd)
 {
-    t_redirect *redir;
-    
-    cmd->redirect_in = 0;   // stdin
-    cmd->redirect_out = 1;  // stdout
-    
-    redir = cmd->redirect;
-    while (redir)
-    {
-        // Handle output redirections
-        if (ft_strcmp(redir->args[0], ">") == 0)
-        {
-            if (cmd->redirect_out != 1)
-                close(cmd->redirect_out);
-                
-            cmd->redirect_out = open(redir->args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (cmd->redirect_out == -1)
-                return (perror("open"), -1);
-        }
-        else if (ft_strcmp(redir->args[0], ">>") == 0)
-        {
-            if (cmd->redirect_out != 1)
-                close(cmd->redirect_out);
-                
-            cmd->redirect_out = open(redir->args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (cmd->redirect_out == -1)
-                return (perror("open"), -1);
-        }
-        // Handle input redirections
-        else if (ft_strcmp(redir->args[0], "<") == 0)
-        {
-            // Close previous redirect_in if it's not stdin
-            if (cmd->redirect_in != 0)
-                close(cmd->redirect_in);
-                
-            cmd->redirect_in = open(redir->args[1], O_RDONLY);
-            if (cmd->redirect_in == -1)
-                return (perror("open"), -1);
-        }
-        else if (ft_strcmp(redir->args[0], "<<") == 0)
-            ft_printf("Here-doc with delimiter: %s (not implemented yet)\n", redir->args[1]);
-        redir = redir->next;
-    }
-    return (0);
+	t_redirect *redir;
+
+	cmd->redirect_in = 0;   // stdin
+	cmd->redirect_out = 1;  // stdout
+	redir = cmd->redirect;
+	while (redir)
+	{
+		// Esta tudo na file redir_utils.c
+		if (__switch(cmd, redir))
+			return (perror("open"), -1);
+		redir = redir->next;
+	}
+	return (0);
 }
 
-void ft_exec(t_cmd *cmd, int in, int out, char **env)
+void	ft_exec(t_cmd *cmd, int in, int out, char **env)
 {
     cmd->pid = fork();
     if (cmd->pid == -1)
         return (perror("fork"));
-    
     if (cmd->pid == 0) // Child process
     {
         if (in != 0)
@@ -94,8 +67,6 @@ void ft_exec(t_cmd *cmd, int in, int out, char **env)
                 perror("dup2 stdout");
             close(out);
         }
-        
-
         if (execve(cmd->args[0], cmd->args, env) == -1)
         {
             perror("execve");
@@ -111,7 +82,7 @@ void ft_exec(t_cmd *cmd, int in, int out, char **env)
     }
 }
 
-void ft_exec_all(t_cmd *cmd, char **env)
+void	ft_exec_all(t_cmd *cmd, char **env)
 {
     int in, out;
     int fd[2];
