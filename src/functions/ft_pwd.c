@@ -9,5 +9,6 @@ int	ft_pwd(char *const argv[], char *const env[])
 	if (!getcwd(cwd, CWD_BUFFER))
 		return (1);
 	write(1, cwd, ft_strlen(cwd));
-	return (0);
+	write(1, "\n", 1);
+	exit (0);
 }

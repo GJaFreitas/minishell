@@ -3,5 +3,6 @@
 int	ft_exit(char *const argv[], char *const env[])
 {
 	(void)env;
-	exit(ft_atoi(argv[0]));
+	write(1, "exit\n", 5);
+	exit(0);
 }
