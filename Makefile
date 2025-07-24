@@ -4,7 +4,7 @@ CC = cc
 
 # --- Compiler Flags -------------- #
 
-CFLAGS = -g #-Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 # --- NAME ---------------------- #
 
@@ -73,6 +73,7 @@ SRCS += \
 	path_explore.c \
 	cmd_assignement.c \
 	parser_utils.c \
+	expansions.c \
 
 # --- INCLUDES ---------------- #
 

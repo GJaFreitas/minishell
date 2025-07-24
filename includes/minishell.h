@@ -67,7 +67,7 @@ int	ft_exit(char *const argv[], char *const env[]);
 DEBUG ---------
 ****************************/
 
-void	print_tokens(char **tokens);
+void	print_tokens(char *const *tokens);
 void	print_cmd(t_cmd *cmd);
 
 

@@ -33,7 +33,7 @@ t_cmd	*parser(char **tokens, char **env)
 
 	if (tokens == NULL)
 		return (NULL);
-	// expansions(tokens);
+	expansions(tokens, env);
 
 	//@Remove
 	#ifdef DEBUG

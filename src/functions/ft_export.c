@@ -63,6 +63,7 @@ int	ft_export(char *const argv[], char *const env[])
 	(void)argv;
 	(void)env;
 	printf("Implement export\n");
+	exit(0);
 	// static t_ivar	**_ivars;
 	// char	*new_entry;
 	//
