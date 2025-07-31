@@ -121,7 +121,7 @@ void run_redirection_tests(char **env)
 
 
 // Display prompt and read the next line given to it
-t_cmd	*prompt(char **env)
+t_cmd	*prompt(t_env *env)
 {
 	char *line;
 	char cwd[CWD_BUFFER];
@@ -137,10 +137,9 @@ t_cmd	*prompt(char **env)
 	return (parser(lexer(line), env));
 }
 
-static void	shell_loop(char **env)
+static void	shell_loop(t_env *env)
 {
 	t_cmd	*cmd;
-
 	while (1)
 	{
 		cmd = prompt(env);
@@ -154,6 +153,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	
+	t_env *env;
+
     #ifdef TEST_REDIRECTIONS
         ft_printf("\n===== RUNNING REDIRECTION TESTS =====\n");
         run_redirection_tests(env);

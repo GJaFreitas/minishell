@@ -47,6 +47,8 @@ VPATH += src/exec
 SRCS += \
        exec.c \
        redir_utils.c \
+	   env.c \
+	   env_2.c \
 
 # Builtin functions sources
 VPATH += src/functions
