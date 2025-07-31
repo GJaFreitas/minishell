@@ -8,6 +8,20 @@ int	is_env_char(int c)
 	return (ft_isalnum(c) || c == '_');
 }
 
+int	__total_size(char *first, char *second, char *third)
+{
+	int	size;
+
+	size = 0;
+	while (first[size] != '$')
+		size++;
+	while (*second && *second != '=')
+		second++;
+	size += ft_strlen(second);
+	size += ft_strlen(third);
+	return (size + 4);
+}
+
 char	*__assemble(char *first, char *second, char *third)
 {
 	char	*new;
@@ -15,14 +29,10 @@ char	*__assemble(char *first, char *second, char *third)
 	int	j;
 
 	i = 0;
-	j = -1;
-	while (first[i] != '$')
-		i++;
-	while (*second != '=')
-		second++;
-	new = malloc(i + ft_strlen(++second) + ft_strlen(third));
-	while (i != ++j)
-		new[j] = first[j];
+	j = 0;
+	new = malloc(__total_size(first, second, third));
+	while (first[j] != '$')
+		new[i++] = first[j++];
 	while (*second)
 		new[j++] = *second++;
 	while (*third)
@@ -34,6 +44,7 @@ char	*__expand_token(char *tok, char **env, int len)
 {
 	int	i;
 	char	*expanded;
+	char	*temp;
 
 	i = 0;
 	while (env[i])
@@ -44,7 +55,9 @@ char	*__expand_token(char *tok, char **env, int len)
 	}
 	if (!env[i])
 		return (NULL);
-	expanded = ft_strdup(env[i]);
+	temp = env[i];
+	while (*temp++ != '=');
+	expanded = ft_strdup(temp);
 	return (expanded);
 }
 
@@ -87,7 +100,7 @@ void	expansions(char **tokens, char **env)
 		if (tokens[i][0] == '\"')
 			temp = __expand_quote(tokens[i], env);
 		else if (tokens[i][0] == '$')
-			temp = __expand_token(tokens[i], env, 0);
+			temp = __expand_token(&tokens[i][1], env, ft_strlen(tokens[i]) - 1);
 		if (temp && temp != tokens[i])
 		{
 			free(tokens[i]);
