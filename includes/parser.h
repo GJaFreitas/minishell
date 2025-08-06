@@ -6,12 +6,10 @@
 # include "minishell.h"
 
 t_cmd	*parser(char **tokens, t_env *env);
-
-
 t_cmd	*assign_cmds(char **tokens, t_env *env);
 t_cmd	*__init_cmd(void);
 char	*path_search(char *token, t_env *env);
-int	is_pipe(char *token);
+int		is_pipe(char *token);
 void	expansions(char **tokens, char **env);
 
 
@@ -20,8 +18,6 @@ void	free_tokens(char **tokens);
 // Para chamar no exec ou na main depois
 void	free_cmds(t_cmd *cmds);
 // ------------------
-
-
 
 /*********************
 Parser debugging

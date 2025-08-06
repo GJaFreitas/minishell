@@ -6,10 +6,10 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:38:37 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/06 18:46:24 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 # include "minishell.h"
 
 static int count_envs(t_env *input)
@@ -87,7 +87,7 @@ static t_env	*create_env_node(char *str)
 	int	i;
 
 	i = 0;
-	new_node = malloc(sizeof(s_env));
+	new_node = malloc(sizeof(t_env));
 	while (str[i] && str[i] != '=')
 		i++;
 	new_node->key = ft_substr(str, 0, i);
