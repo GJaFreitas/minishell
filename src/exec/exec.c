@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:53:35 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:57:53 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	__switch(t_cmd *cmd, t_redirect *redir);
 
 void	exec_builtin(t_cmd *cmd, t_env *env)
 {
-	static int (*jump_table[7])(char *const argv[],char *const env[]) = { \
+	static int (*jump_table[7])(char *const argv[], t_env *) = { \
 		ft_echo,
 		ft_cd,
 		ft_pwd,

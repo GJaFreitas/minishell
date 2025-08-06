@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_exit(char *const argv[], char *const env[])
+int	ft_exit(char *const argv[], t_env *env)
 {
 	(void)env;
 	(void)argv;

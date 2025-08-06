@@ -6,14 +6,14 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:53:48 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:52:29 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:55:48 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-int	ft_export(char *const argv[], char *const*env)
+int	ft_export(char *const argv[], t_env *env)
 {
 	(void)argv;
 	(void)env;

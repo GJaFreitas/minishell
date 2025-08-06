@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_pwd(char *const argv[], char *const env[])
+int	ft_pwd(char *const argv[], t_env *env)
 {
 	char	cwd[CWD_BUFFER];
 
