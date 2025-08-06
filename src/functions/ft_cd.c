@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	ft_cd(char *const argv[], char *const env[])
+int	ft_cd(char *const argv[], t_env *env)
 {
 	(void)argv;
 	(void)env;

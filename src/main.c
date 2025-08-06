@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:07:38 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:36:22 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "lexer.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "exec.h"
 
 int	g_sig;
 /*test ================================================================= */

@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:30:52 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:10:55 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:42:43 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**env_list_to_array(t_env *env_list)
 	return (env_array);
 }
 
-int	ft_export_l(char **args, t_env **env_list)
+int	ft_export_l(char * const*args, t_env **env_list)
 {
 	int		i;
 	t_env	*var;

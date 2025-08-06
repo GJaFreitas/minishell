@@ -36,12 +36,14 @@ SRCS = \
        main.c \
 
 # Env sources
+VPATH += src/env
 SRCS += \
 	env.c \
 	env_2.c \
 	env_sorted.c \
 	env_to_array.c \
-
+	env_to_array_2.c \
+	find_env_var.c \
 
 # Exec sources
 VPATH += src/exec

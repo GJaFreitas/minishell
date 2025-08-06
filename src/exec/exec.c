@@ -6,11 +6,12 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 16:47:03 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:53:35 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 int	__case_out(t_cmd *cmd, t_redirect *redir);
 int	__case_out_append(t_cmd *cmd, t_redirect *redir);
 int	__case_in(t_cmd *cmd, t_redirect *redir);
@@ -18,7 +19,7 @@ int	__switch(t_cmd *cmd, t_redirect *redir);
 
 void	exec_builtin(t_cmd *cmd, t_env *env)
 {
-	static int (*jump_table[7])(char *const argv[], t_env  *env) = { \
+	static int (*jump_table[7])(char *const argv[],char *const env[]) = { \
 		ft_echo,
 		ft_cd,
 		ft_pwd,

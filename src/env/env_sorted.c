@@ -6,12 +6,12 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:52:31 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:20:46 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/06 19:32:01 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-# include "minishell.h"
+#include "minishell.h"
 
 static t_env	*split(t_env *head)
 {
@@ -36,9 +36,9 @@ static t_env	*split(t_env *head)
 
 static t_env	*merge(t_env *first, t_env *second)
 {
-	if (first == NULL) 
+	if (first == NULL)
 		return (second);
-	if (second == NULL) 
+	if (second == NULL)
 		return (first);
 	if (ft_strcmp(first->key, second->key) < 0)
 	{
@@ -57,9 +57,7 @@ static t_env	*merge_sort(t_env *head)
 	t_env	*second;
 
 	if (head == NULL || head->next == NULL)
-	{
-		return head;
-	}
+		return (head);
 	second = split(head);
 	head = merge_sort(head);
 	second = merge_sort(second);
