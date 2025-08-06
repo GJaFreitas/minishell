@@ -1,22 +1,15 @@
 #include "minishell.h"
 
-static void	__print_env(char *const env[])
+int	ft_env(char *const argv[], t_env *env);
 {
-	int	i;
+	t_env	*current;
 
-	i = 0;
-	if (!env)
-		return ;
-	while (env[i])
+	current = env;
+	while (current)
 	{
-		ft_printf("%s", env[i++]);
-		write(1, "\n", 1);
+		if (current->exported && current->value[0] != '\0')
+			ft_printf("%s=%s\n", current->key, current->value);
+		current = current->next;
 	}
-}
-
-int	ft_env(char *const argv[], char *const env[])
-{
-	(void)argv;
-	__print_env(env);
-	exit(0);
+	return (0);
 }

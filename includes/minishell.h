@@ -94,4 +94,12 @@ void	run_redirection_tests(t_env *env);
 /****************************/
 
 
+/****************************
+
+find_env_var()
+remove_env_var()
+sort_env()
+
+****************************/
+
 #endif
