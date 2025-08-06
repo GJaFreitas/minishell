@@ -15,7 +15,7 @@ static int	_strncmp(const char *s1, const char *s2, size_t n)
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-int	ft_echo(char *const argv[], char *const env[])
+int	ft_echo(char *const argv[], t_env *env)
 {
 	int	i;
 	int	flag;
