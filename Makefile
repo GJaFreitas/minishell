@@ -36,20 +36,18 @@ SRCS = \
        main.c \
 
 # Env sources
-VPATH += src/env
 SRCS += \
-       env_to_array.c \
-	   env_to_array_2.c \
-	   env.c \
-	   env_2.c \
+	env.c \
+	env_2.c \
+	env_sorted.c \
+	env_to_array.c \
+
 
 # Exec sources
 VPATH += src/exec
 SRCS += \
-       exec.c \
-       heredoc.c \
-	   Builtin.c \
-	   redir_utils.c \
+	exec.c \
+	redir_utils.c \
 
 # Builtin functions sources
 VPATH += src/functions
