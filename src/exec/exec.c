@@ -6,9 +6,9 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/06 16:47:03 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 int	__case_out(t_cmd *cmd, t_redirect *redir);
@@ -16,9 +16,9 @@ int	__case_out_append(t_cmd *cmd, t_redirect *redir);
 int	__case_in(t_cmd *cmd, t_redirect *redir);
 int	__switch(t_cmd *cmd, t_redirect *redir);
 
-void	exec_builtin(t_cmd *cmd, char **env)
+void	exec_builtin(t_cmd *cmd, t_env *env)
 {
-	static int (*jump_table[7])(char *const argv[], char *const env[]) = { \
+	static int (*jump_table[7])(char *const argv[], t_env  *env) = { \
 		ft_echo,
 		ft_cd,
 		ft_pwd,
@@ -62,7 +62,7 @@ int	setup_redirections(t_cmd *cmd)
 	return (0);
 }
 
-void	ft_exec(t_cmd *cmd, int in, int out, char **env)
+void	ft_exec(t_cmd *cmd, int in, int out, t_env *env)
 {
     cmd->pid = fork();
     if (cmd->pid == -1)
@@ -83,7 +83,7 @@ void	ft_exec(t_cmd *cmd, int in, int out, char **env)
         }
 	if (cmd->builtin > 0)
 		exec_builtin(cmd, env);
-	else if (execve(cmd->args[0], cmd->args, env) == -1)
+	else if (execve(cmd->args[0], cmd->args, env_to_array(env)) == -1)
         {
             perror("execve");
             exit(127);
@@ -98,7 +98,7 @@ void	ft_exec(t_cmd *cmd, int in, int out, char **env)
     }
 }
 
-void	ft_exec_all(t_cmd *cmd, char **env)
+void	ft_exec_all(t_cmd *cmd, t_env *env)
 {
     int in, out;
     int fd[2];

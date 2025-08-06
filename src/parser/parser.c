@@ -27,7 +27,7 @@ static void	__remove_quotes(t_cmd *cmds)
 	}
 }
 
-t_cmd	*parser(char **tokens, char **env)
+t_cmd	*parser(char **tokens, t_env *env)
 {
 	t_cmd		*cmds;
 

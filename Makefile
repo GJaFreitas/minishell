@@ -81,7 +81,8 @@ SRCS += \
 
 INC =  -I./includes
 INC += -I./libft
-INC += -L/usr/local/lib -I/usr/local/include -lreadline
+
+READLINE += -L/usr/local/lib -I/usr/local/include -lreadline
 
 OBJS 		:= $(addprefix obj/,$(SRCS:.c=.o))
 CORE_OBJS	:= $(filter-out obj/main.o,$(OBJS))
@@ -98,7 +99,7 @@ obj/%.o: %.c | obj
 
 
 $(NAME) : $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INC) $^ -o $@ 
+	@$(CC) $(CFLAGS) $(INC) $^ -o $@ $(READLINE)
 	@echo "✓ built $(@F)"
 
 
@@ -112,7 +113,7 @@ debug : $(OBJS) $(LIBFT) # Rule for the #ifdef
 	@$(CC) $(CFLAGS) -D DEBUG $(INC) $^ -o $(NAME)
 	@echo "✓ built $(NAME)"
 
-bin:
+bin:usr/local/lib -I/usr/local/include -lreadline
 	@mkdir -p bin
 
 bin/test-%: $(CORE_OBJS) obj/%-main.o $(LIBFT) | bin

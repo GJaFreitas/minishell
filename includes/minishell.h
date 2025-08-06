@@ -55,7 +55,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-void	ft_exec_all(t_cmd *cmd, char **env);
+void	ft_exec_all(t_cmd *cmd, t_env *env);
 int	if_redirect(t_cmd *cmd,int redirect,int input);
 
 

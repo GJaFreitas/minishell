@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:53:48 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/07/31 16:05:57 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/06 16:30:51 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ int	ft_export(char *const argv[], t_env *env)
 	// 	argv++;
 	// }
 	// return (0);
-	return(ft_export_l(args, t_env));
+	return(ft_export_l(argv, env));
 }
