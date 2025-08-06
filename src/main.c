@@ -53,7 +53,7 @@ t_cmd *create_test_pipeline(char **cmds, int num_cmds)
 }
 
 // Function to run the tests
-void run_redirection_tests(char **env)
+void run_redirection_tests(t_env *env)
 {
     // Test case 1: Simple output redirection (ls > output.txt)
     ft_printf("\n\n===== TEST 1: Simple output redirection (ls > output.txt) =====\n");

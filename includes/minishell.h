@@ -88,7 +88,7 @@ TEST ====================== */
 // Test functions for redirection
 t_cmd	*create_test_cmd(char *cmd, char *redir_type, char *filename);
 t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
-void	run_redirection_tests(char **env);
+void	run_redirection_tests(t_env *env);
 
 
 /****************************/
