@@ -34,14 +34,6 @@ TEST_BINS    := $(addprefix bin/test-,$(TEST_NAMES))
 # Misc or Unorganized as of yet sources
 SRCS = \
        main.c \
-       debug.c \
-       builtin.c \
-       ft_echo.c \
-       mem_alloc.c \
-       mem_list.c \
-       mem_test.c \
-       utils.c \
-
 # Exec sources
 VPATH += src/exec
 SRCS += \
@@ -77,6 +69,11 @@ SRCS += \
 	parser_utils.c \
 	expansions.c \
 
+# Utils sources
+VPATH += src/utils
+SRCS += \
+	debug.c \
+	utils.c \
 # --- INCLUDES ---------------- #
 
 INC =  -I./includes

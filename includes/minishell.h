@@ -4,7 +4,6 @@
 # include "libft.h"
 # include "colors.h"
 # include "memory.h"
-# include "structs.h"
 # include "exec.h"
 # include <stdio.h>
 # include <stdarg.h>
@@ -62,6 +61,7 @@ int	if_redirect(t_cmd *cmd,int redirect,int input);
 /***************************
 FUNCTIONS ---------
 ****************************/
+
 int	ft_echo(char *const argv[], t_env *env);
 int	ft_export(char *const argv[], t_env *env);
 int	ft_pwd(char *const argv[], t_env *env);
@@ -77,11 +77,8 @@ DEBUG ---------
 void	print_tokens(char *const *tokens);
 void	print_cmd(t_cmd *cmd);
 
-
-
 /***************************
 TEST ====================== */
-
 
 // Add these function prototypes
 
@@ -89,9 +86,5 @@ TEST ====================== */
 t_cmd	*create_test_cmd(char *cmd, char *redir_type, char *filename);
 t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
 void	run_redirection_tests(t_env *env);
-
-
 /****************************/
-
-
 #endif
