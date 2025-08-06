@@ -15,5 +15,6 @@ void	ft_exec(t_cmd *cmd, int in, int out, t_env *env);
 void	ft_exec_all(t_cmd *cmd, t_env *env);
 int		ft_export_l(char **args, t_env **env_list);
 char	**env_to_array(t_env *env);
+void	free_env_array(char **env);
 
 #endif

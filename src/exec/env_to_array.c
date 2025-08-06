@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:38:37 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 16:46:44 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:45:53 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,24 @@ char **env_to_array(t_env *env)
         {
             while (i > 0)
                 free(env_array[--i]);
-            return (free(env_array),NULL);
+            return (free(env_array), NULL);
         }
         current = current->next;
         i++;
     }
     env_array[i] = NULL;
     return (env_array);
+}
+
+void	free_env_array(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		free(env[i]);
+		i++;
+	}
+	free(env);
 }

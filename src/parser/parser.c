@@ -37,16 +37,10 @@ t_cmd	*parser(char **tokens, t_env *env)
 		return (NULL);
 	env_expansions = env_to_array(env);
 	expansions(tokens, env_expansions);
-
-	//@Remove
-	#ifdef DEBUG
-	parser_debug(*tokens);
-	#endif
-
+	free_env_array(env_expansions);
 	cmds = assign_cmds(tokens, env);
 	__remove_quotes(cmds);
 	free_tokens(tokens);
 	free(tokens);
-	//print_cmd(cmds);
 	return (cmds);
 }
