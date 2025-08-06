@@ -1,3 +1,4 @@
+#include "exec.h"
 #include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
@@ -30,10 +31,12 @@ static void	__remove_quotes(t_cmd *cmds)
 t_cmd	*parser(char **tokens, t_env *env)
 {
 	t_cmd		*cmds;
+	char		**env_expansions;
 
 	if (tokens == NULL)
 		return (NULL);
-	expansions(tokens, env);
+	env_expansions = env_to_array(env);
+	expansions(tokens, env_expansions);
 
 	//@Remove
 	#ifdef DEBUG
