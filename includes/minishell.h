@@ -87,15 +87,9 @@ t_cmd	*create_test_cmd(char *cmd, char *redir_type, char *filename);
 t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
 void	run_redirection_tests(t_env *env);
 /****************************/
-<<<<<<< HEAD
+t_env	*find_env_var(t_env *env, char *var);
 
-
-/****************************
-
-find_env_var()
-remove_env_var()
-sort_env()
-
-****************************/
+// Utils
+int	ft_strcmp(char *s1, char *s2);
 
 #endif

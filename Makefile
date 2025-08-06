@@ -34,13 +34,20 @@ TEST_BINS    := $(addprefix bin/test-,$(TEST_NAMES))
 # Misc or Unorganized as of yet sources
 SRCS = \
        main.c \
+
+# Env sources
+SRCS += \
+	env.c \
+	env_2.c \
+	env_sorted.c \
+	env_to_array.c \
+
+
 # Exec sources
 VPATH += src/exec
 SRCS += \
-       exec.c \
-       redir_utils.c \
-	   env.c \
-	   env_2.c \
+	exec.c \
+	redir_utils.c \
 
 # Builtin functions sources
 VPATH += src/functions
