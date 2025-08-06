@@ -6,13 +6,13 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:52:31 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/07/23 16:57:32 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:13:55 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static void	print_sorted_env(t_env *env_list)
+void	print_sorted_env(t_env *env_list)
 {
     t_env	*current;
     t_env	**sorted;

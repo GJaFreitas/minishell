@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:40:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/07/23 16:53:31 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:13:13 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ void	add_env_var(t_env **env_list, char *key, char *value, bool exported)
     }
 }
 
-int	ft_env(t_env *env_list)
+int	ft_env(char *const argv[], t_env *env);
 {
     t_env	*current;
 
-    current = env_list;
+    current = env;
     while (current)
     {
         if (current->exported && current->value[0] != '\0')

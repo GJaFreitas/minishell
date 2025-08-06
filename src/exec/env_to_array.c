@@ -9,6 +9,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 # include "minishell.h"
 
 static int count_envs(t_env *input)
@@ -80,31 +81,51 @@ void	free_env_array(char **env)
 	free(env);
 }
 
-t_env *array_to_env(char **env)
+static t_env	*create_env_node(char *str)
 {
-    int count;
-    char **env_c;
-    int i;
-	t_env env_t;
+	t_env	*new_node;
+	int	i;
 
 	i = 0;
-	count = count_envs_pointers(env);
-    env_t = malloc(sizeof(t_env));
-    if (!env_t)
-        return (NULL);
-    current = env;
-    while (current)
-    {
-        env_array[i] = ft_strjoin(ft_strjoin(current->key, "="), current->value);
-        if (!env_array[i])
-        {
-            while (i > 0)
-                free(env_array[--i]);
-            return (free(env_array),NULL);
-        }
-        current = current->next;
-        i++;
-    }
-    env_array[i] = NULL;
-    return (env_array);
+	new_node = malloc(sizeof(s_env));
+	while (str[i] && str[i] != '=')
+		i++;
+	new_node->key = ft_substr(str, 0, i);
+	str = str + i;
+	new_node->value = ft_substr(str, 0, ft_strlen(str));
+	new_node->next = NULL;
+	return (new_node);
+}
+
+static void	__matar_o_env(t_env *env)
+{
+	t_env	*cur;
+	t_env	*prev;
+
+	cur = env;
+	while (cur)
+	{
+		prev = cur;
+		cur = cur->next;
+		free(prev);
+	}
+}
+
+t_env	*array_to_env(char **env)
+{
+	t_env	*list_env;
+	t_env	*cur;
+
+	cur = list_env;
+	cur = create_env_node(*env);
+	env++;
+	while (*env)
+	{
+		cur->next = create_env_node(*env);
+		if (cur->next == NULL)
+			__matar_o_env(list_env);
+		env++;
+		cur = list_env->next;
+	}
+	return (list_env);
 }
