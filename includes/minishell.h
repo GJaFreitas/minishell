@@ -57,7 +57,6 @@ typedef struct s_cmd
 void	ft_exec_all(t_cmd *cmd, t_env *env);
 int	if_redirect(t_cmd *cmd,int redirect,int input);
 
-
 /***************************
 FUNCTIONS ---------
 ****************************/
@@ -86,10 +85,8 @@ TEST ====================== */
 t_cmd	*create_test_cmd(char *cmd, char *redir_type, char *filename);
 t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
 void	run_redirection_tests(t_env *env);
-/****************************/
+/****************************
 <<<<<<< HEAD
-
-
 /****************************
 
 find_env_var()
@@ -97,5 +94,4 @@ remove_env_var()
 sort_env()
 
 ****************************/
-
 #endif

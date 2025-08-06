@@ -26,7 +26,6 @@ If 'size' * 'nmemb' is 0 returns NULL;
 ***********************/
 void	*alloc(size_t nmemb, size_t size);
 
-
 /**********************
 
 Removes the node with 'ptr' from the
@@ -35,15 +34,12 @@ list and frees the pointer 'ptr';
 ***********************/
 void	free_this(void *ptr);
 
-
 /**********************
 
 Frees all unfreed memory if any;
 
 ***********************/
 void	assure_memory(void);
-
-
 
 /**********************
 

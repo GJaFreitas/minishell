@@ -6,13 +6,13 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 19:30:52 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 18:53:16 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/06 19:10:55 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env *init_env(char **env)
+t_env	*init_env(char **env)
 {
 	t_env	*env_list;
 	int		i;
@@ -38,12 +38,12 @@ t_env *init_env(char **env)
 	return (env_list);
 }
 
-char **env_list_to_array(t_env *env_list)
+char	**env_list_to_array(t_env *env_list)
 {
-	int count;
-	t_env *current;
-	char **env_array;
-	char *temp;
+	int		count;
+	t_env	*current;
+	char	**env_array;
+	char	*temp;
 
 	current = env_list;
 	count = 0;
@@ -70,11 +70,11 @@ char **env_list_to_array(t_env *env_list)
 	return (env_array);
 }
 
-int ft_export_l(char **args, t_env **env_list)
+int	ft_export_l(char **args, t_env **env_list)
 {
-	int i;
-	t_env *var; 
-	char *equals;
+	int		i;
+	t_env	*var;
+	char	*equals;
 
 	i = 0;
 	if (!args[i])
@@ -89,7 +89,7 @@ int ft_export_l(char **args, t_env **env_list)
 			*equals = '=';
 		}
 		else
-	{
+		{
 			var = find_env_var(*env_list, args[i]);
 			if (var)
 				var->exported = 1;

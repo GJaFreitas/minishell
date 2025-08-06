@@ -34,13 +34,22 @@ TEST_BINS    := $(addprefix bin/test-,$(TEST_NAMES))
 # Misc or Unorganized as of yet sources
 SRCS = \
        main.c \
+
+# Env sources
+VPATH += src/env
+SRCS += \
+       env_to_array.c \
+	   env_to_array_2.c \
+	   env.c \
+	   env_2.c \
+
 # Exec sources
 VPATH += src/exec
 SRCS += \
        exec.c \
-       redir_utils.c \
-	   env.c \
-	   env_2.c \
+       heredoc.c \
+	   Builtin.c \
+	   redir_utils.c \
 
 # Builtin functions sources
 VPATH += src/functions
@@ -52,6 +61,7 @@ SRCS += \
 	ft_exit.c \
 	ft_pwd.c \
 	ft_unset.c \
+	export_utils\
 
 # Lexer sources
 VPATH += src/lexer
@@ -59,6 +69,12 @@ SRCS += lexer.c \
 		lexer_tokenize.c \
 		lex_utils.c \
 
+# Memory sources
+VPATH += src/memory
+SRCS += \
+	mem_alloc.c \
+	mem_list.c \
+	mem_test.c \
 
 # Parser sources
 VPATH += src/parser
@@ -68,6 +84,11 @@ SRCS += \
 	cmd_assignement.c \
 	parser_utils.c \
 	expansions.c \
+
+# Signal sources
+VPATH += src/signals
+SRCS += \
+	signals.c \
 
 # Utils sources
 VPATH += src/utils

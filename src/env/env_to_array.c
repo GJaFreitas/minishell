@@ -6,31 +6,31 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:38:37 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 18:46:24 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:21:39 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-static int count_envs(t_env *input)
+static int	count_envs(t_env *input)
 {
-	int i;
-	t_env *current;
+	int		i;
+	t_env	*current;
 
 	i = 0;
 	current = input;
 	while (current)
-    {
-        i++;
-        current = current->next;
-    }
+	{
+		i++;
+		current = current->next;
+	}
 	return (i);
 }
 
-static int count_envs_pointers(char **input)
+static int	count_envs_pointers(char **input)
 {
-	int i;
-	char **current;
+	int		i;
+	char	**current;
 
 	i = 0;
 	current = input;
@@ -39,33 +39,32 @@ static int count_envs_pointers(char **input)
 	return (i);
 }
 
-char **env_to_array(t_env *env)
+char	**env_to_array(t_env *env)
 {
-    int count;
-    t_env *current;
-    char **env_array;
-    int i;
+	t_env	*current;
+	char	**env_array;
+	int		i;
 
 	i = 0;
-	count = count_envs(env);
-    env_array = malloc(sizeof(char *) * (count + 1));
-    if (!env_array)
-        return (NULL);
-    current = env;
-    while (current)
-    {
-        env_array[i] = ft_strjoin(ft_strjoin(current->key, "="), current->value);
-        if (!env_array[i])
-        {
-            while (i > 0)
-                free(env_array[--i]);
-            return (free(env_array), NULL);
-        }
-        current = current->next;
-        i++;
-    }
-    env_array[i] = NULL;
-    return (env_array);
+	env_array = malloc(sizeof(char *) * (count_envs(env) + 1));
+	if (!env_array)
+		return (NULL);
+	current = env;
+	while (current)
+	{
+		env_array[i] = ft_strjoin(ft_strjoin(current->key, "="),
+				current->value);
+		if (!env_array[i])
+		{
+			while (i > 0)
+				free(env_array[--i]);
+			return (free(env_array), NULL);
+		}
+		current = current->next;
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
 }
 
 void	free_env_array(char **env)
@@ -84,7 +83,7 @@ void	free_env_array(char **env)
 static t_env	*create_env_node(char *str)
 {
 	t_env	*new_node;
-	int	i;
+	int		i;
 
 	i = 0;
 	new_node = malloc(sizeof(t_env));
@@ -95,37 +94,4 @@ static t_env	*create_env_node(char *str)
 	new_node->value = ft_substr(str, 0, ft_strlen(str));
 	new_node->next = NULL;
 	return (new_node);
-}
-
-static void	__matar_o_env(t_env *env)
-{
-	t_env	*cur;
-	t_env	*prev;
-
-	cur = env;
-	while (cur)
-	{
-		prev = cur;
-		cur = cur->next;
-		free(prev);
-	}
-}
-
-t_env	*array_to_env(char **env)
-{
-	t_env	*list_env;
-	t_env	*cur;
-
-	cur = list_env;
-	cur = create_env_node(*env);
-	env++;
-	while (*env)
-	{
-		cur->next = create_env_node(*env);
-		if (cur->next == NULL)
-			__matar_o_env(list_env);
-		env++;
-		cur = list_env->next;
-	}
-	return (list_env);
 }
