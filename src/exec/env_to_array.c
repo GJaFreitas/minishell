@@ -6,7 +6,6 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 16:38:37 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 17:45:53 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +23,18 @@ static int count_envs(t_env *input)
         i++;
         current = current->next;
     }
+	return (i);
+}
+
+static int count_envs_pointers(char **input)
+{
+	int i;
+	char **current;
+
+	i = 0;
+	current = input;
+	while (current[i])
+		i++;
 	return (i);
 }
 
@@ -67,4 +78,33 @@ void	free_env_array(char **env)
 		i++;
 	}
 	free(env);
+}
+
+t_env *array_to_env(char **env)
+{
+    int count;
+    char **env_c;
+    int i;
+	t_env env_t;
+
+	i = 0;
+	count = count_envs_pointers(env);
+    env_t = malloc(sizeof(t_env));
+    if (!env_t)
+        return (NULL);
+    current = env;
+    while (current)
+    {
+        env_array[i] = ft_strjoin(ft_strjoin(current->key, "="), current->value);
+        if (!env_array[i])
+        {
+            while (i > 0)
+                free(env_array[--i]);
+            return (free(env_array),NULL);
+        }
+        current = current->next;
+        i++;
+    }
+    env_array[i] = NULL;
+    return (env_array);
 }

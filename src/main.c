@@ -153,14 +153,15 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	
-	t_env *env;
+	t_env *env_t;
 
+	env_t = array_to_env(env);
     #ifdef TEST_REDIRECTIONS
         ft_printf("\n===== RUNNING REDIRECTION TESTS =====\n");
         run_redirection_tests(env);
         ft_printf("\n===== TESTS COMPLETED, STARTING SHELL =====\n\n");
 	#else
-		shell_loop(env);
+		shell_loop(env_t);
     #endif	
 	return (0);
 }
