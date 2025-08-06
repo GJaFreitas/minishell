@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:40:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 18:53:56 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/06 20:04:33 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,30 @@ void	add_env_var(t_env **env_list, char *key, char *value, bool exported)
 		while (current->next)
 			current = current->next;
 		current->next = new_env_var(key, value, exported);
+	}
+}
+
+void	remove_env_var(t_env *env, char *key)
+{
+	t_env	*cur;
+	t_env	*to_free;
+
+	cur = env;
+	while (cur)
+	{
+		if (ft_strcmp(cur->key, key) == 0)
+		{
+			to_free = cur;
+			if (cur->next)
+				cur->next = cur->next->next;
+			else
+				cur = NULL;
+			free(to_free->key);
+			free(to_free->value);
+			free(to_free);
+			return ;
+		}
+		cur = cur->next;
 	}
 }
 

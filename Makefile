@@ -61,7 +61,6 @@ SRCS += \
 	ft_exit.c \
 	ft_pwd.c \
 	ft_unset.c \
-	export_utils\
 
 # Lexer sources
 VPATH += src/lexer
@@ -94,7 +93,8 @@ SRCS += \
 VPATH += src/utils
 SRCS += \
 	debug.c \
-	utils.c \
+
+
 # --- INCLUDES ---------------- #
 
 INC =  -I./includes

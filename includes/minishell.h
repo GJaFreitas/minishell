@@ -99,5 +99,6 @@ void	free_env_list(t_env *env_list);
 void	print_sorted_env(t_env *env_list);
 t_env	*find_env_var(t_env *env, char *var);
 int		ft_strcmp(char *s1, char *s2);
+void	remove_env_var(t_env *env, char *key);
 
 #endif

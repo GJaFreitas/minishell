@@ -5,7 +5,7 @@ int ft_unset(char *const argv[], t_env *env)
     int i;
     
 	i = 0;
-    while (args[++i])
-        remove_env_var(env_list, args[i]);
+    while (argv[++i])
+        remove_env_var(env, argv[i]);
     return (0);
 }

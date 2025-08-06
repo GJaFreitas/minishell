@@ -1,9 +1,10 @@
 #include "minishell.h"
 
-int	ft_env(char *const argv[], t_env *env);
+int	ft_env(char *const argv[], t_env *env)
 {
 	t_env	*current;
 
+	(void)argv;
 	current = env;
 	while (current)
 	{

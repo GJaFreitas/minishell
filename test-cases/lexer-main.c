@@ -1,6 +1,5 @@
 #include "lexer.h"
 #include "minishell.h"
-#include "structs.h"
 
 void	print_tokens_test(char **tokens)
 {

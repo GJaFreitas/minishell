@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 16:52:31 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:32:01 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:09:19 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,23 @@ t_env	*sort_env(t_env *env)
 	env_copy = __copy_env(env);
 	env_copy = merge_sort(env_copy);
 	return (env_copy);
+}
+
+void	print_sorted_env(t_env *env)
+{
+	t_env	*sorted;
+	t_env	*cur;
+
+	sorted = sort_env(env);
+	cur = sorted;
+	while (cur)
+	{
+		cur = sorted;
+		if (cur->exported)
+			ft_printf("%s=%s\n", cur->key, cur->value);
+		else
+			ft_printf("%s\n", cur->key);
+		cur = cur->next;
+	}
+	free_env_list(sorted);
 }
