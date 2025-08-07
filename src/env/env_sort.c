@@ -9,7 +9,7 @@ void	env_print_sorted(t_env *env)
 	unsigned int	i;
 
 	i = 0;
-	env->sorted = env_create_sorted(env);
+	env_create_sorted(env);
 	while (i < env->used)
 	{
 		ft_printf("%s", declare);
