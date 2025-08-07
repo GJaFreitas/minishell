@@ -63,12 +63,14 @@ typedef struct s_env
 
 t_env	*init_env(char **old);
 void	env_free(t_env *env);
-// void	env_add(t_env *env, char *key, char *value);
+void	env_add(t_env *env, char *key, char *value);
 void	env_remove(t_env *env, char *key);
 void	env_print_sorted(t_env *env);
 char	*env_get_value(t_env *env, char *key);
 void	env_print(t_env *env);
 char	**env_to_array(t_env *env);
+int	env_var_exists(t_env *env, char *key);
+void	env_change_val(t_env *env, int index, char *val);
 
 /* UTILITIES FOR ENV */
 void	env_grow(t_env *env);
