@@ -39,11 +39,9 @@ SRCS = \
 VPATH += src/env
 SRCS += \
 	env.c \
-	env_2.c \
-	env_sorted.c \
-	env_to_array.c \
-	env_to_array_2.c \
-	find_env_var.c \
+	env_add_remove.c \
+	env_sort.c \
+	env_utilities.c \
 
 # Exec sources
 VPATH += src/exec

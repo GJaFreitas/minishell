@@ -5,23 +5,17 @@
 # include "colors.h"
 # include "memory.h"
 # include <stdio.h>
+# include <stdint.h>
 # include <stdarg.h>
 # include <stddef.h>
 # include <sys/wait.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdint.h>
 # include <fcntl.h>
 # include <stdbool.h>
 
 # define CWD_BUFFER	1024
 
-typedef struct s_env {
-    char *key;
-    char *value;
-    bool exported;
-    struct s_env *next;
-} t_env;
 
 typedef struct s_redirect
 {
@@ -53,8 +47,31 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-void	ft_exec_all(t_cmd *cmd, t_env *env);
-int	if_redirect(t_cmd *cmd,int redirect,int input);
+/***************************
+ENV ---------
+****************************/
+
+# define ENV_INIT_SIZE	64
+typedef struct s_env
+{
+	char		**keys;
+	char		**values;
+	uint32_t	size;
+	uint32_t	used;
+	int		*sorted;
+}	t_env;
+
+t_env	*init_env(char **old);
+void	env_free(t_env *env);
+void	env_add(t_env *env, char *key, char *value);
+void	env_remove(t_env *env, char *key);
+void	env_create_sorted(t_env *env);
+void	env_print_sorted(t_env *env);
+char	*env_get_value(t_env *env, char *key);
+char	**env_to_array(t_env *env);
+
+/* UTILITIES FOR ENV */
+void	env_grow(t_env *env);
 
 /***************************
 FUNCTIONS ---------
@@ -81,6 +98,9 @@ TEST ====================== */
 // Add these function prototypes
 
 // Test functions for redirection
+void	ft_exec_all(t_cmd *cmd, t_env *env);
+int	if_redirect(t_cmd *cmd,int redirect,int input);
+
 t_cmd	*create_test_cmd(char *cmd, char *redir_type, char *filename);
 t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
 void	run_redirection_tests(t_env *env);
@@ -89,16 +109,6 @@ int		setup_redirections(t_cmd *cmd);
 void	ft_exec(t_cmd *cmd, int in, int out, t_env *env);
 void	ft_exec_all(t_cmd *cmd, t_env *env);
 int		ft_export_l(char *const*args, t_env **env_list);
-char	**env_to_array(t_env *env);
-t_env	*array_to_env(char **env);
-void	free_env_array(char **env);
-void	add_env_var(t_env **env_list, char *key, char *value, bool exported);
-int		env_var_cmp(t_env *a, t_env *b);
-t_env	*new_env_var(char *key, char *value, bool exported);
-void	free_env_list(t_env *env_list);
-void	print_sorted_env(t_env *env_list);
-t_env	*find_env_var(t_env *env, char *var);
 int		ft_strcmp(char *s1, char *s2);
-void	remove_env_var(t_env *env, char *key);
 
 #endif

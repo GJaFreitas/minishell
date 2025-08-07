@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:36:22 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:10:21 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,18 +158,11 @@ static void	shell_loop(t_env *env)
 
 int	main(int argc, char **argv, char **env)
 {
-	(void)argc;
-	(void)argv;
-	
 	t_env *env_t;
 
-	env_t = array_to_env(env);
-    #ifdef TEST_REDIRECTIONS
-        ft_printf("\n===== RUNNING REDIRECTION TESTS =====\n");
-        run_redirection_tests(env);
-        ft_printf("\n===== TESTS COMPLETED, STARTING SHELL =====\n\n");
-	#else
-		shell_loop(env_t);
-    #endif	
+	(void)argc;
+	(void)argv;
+	env_t = init_env(env);
+	shell_loop(env_t);
 	return (0);
 }
