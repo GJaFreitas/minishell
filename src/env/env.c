@@ -19,6 +19,7 @@ t_env	*init_env(char **old)
 	env->keys = malloc(ENV_INIT_SIZE * sizeof(char *));
 	env->values = malloc(ENV_INIT_SIZE * sizeof(char *));
 	env->sorted = NULL;
+	env->exported = 0;
 	i = 0;
 	while (*old)
 	{
@@ -31,12 +32,6 @@ t_env	*init_env(char **old)
 	}
 	env->used = i;
 	return (env);
-}
-
-void	env_grow(t_env *env)
-{
-	env->values = ft_realloc(env->values, env->size, env->size * 2);
-	env->size *= 2;
 }
 
 /*

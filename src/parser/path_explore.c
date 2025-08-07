@@ -68,19 +68,14 @@ static char	**__get_folders(char *path)
 }
 
 // Returns a ptr to the line with 'PATH'
-static char	*__path_extract(t_env *env)
+static char	*__path_extract(char **env)
 {
-	t_env	*cur;
-
-	cur = env;
-	while (cur && ft_strncmp(cur->value, "PATH", 4))
-		cur = cur->next;
-	if (cur)
-		return (cur->value);
-	return (NULL);
+	while (*env && ft_strncmp(*env, "PATH", 4))
+		env++;
+	return (*env);
 }
 
-char	*path_search(char *token, t_env *env)
+char	*path_search(char *token, char **env)
 {
 	char	**folders;
 	char	*path;

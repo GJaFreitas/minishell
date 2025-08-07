@@ -25,9 +25,10 @@ void	env_print(t_env *env)
 	i = 0;
 	while (i < env->used)
 	{
-		ft_printf("%s", env->keys[i]);
-		write(1, "=", 1);
-		ft_printf("%s", env->values[i]);
+		ft_printf("%s=", env->keys[i]);
+		if (env->values[i])
+			ft_printf("%s", env->values[i]);
+		write(1, "\n", 1);
 	}
 }
 

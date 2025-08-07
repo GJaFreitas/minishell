@@ -6,9 +6,9 @@
 # include "minishell.h"
 
 t_cmd	*parser(char **tokens, t_env *env);
-t_cmd	*assign_cmds(char **tokens, t_env *env);
+t_cmd	*assign_cmds(char **tokens, char **env);
 t_cmd	*__init_cmd(void);
-char	*path_search(char *token, t_env *env);
+char	*path_search(char *token, char **env);
 int		is_pipe(char *token);
 void	expansions(char **tokens, char **env);
 

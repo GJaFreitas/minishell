@@ -18,6 +18,16 @@ char	**env_to_array(t_env *env)
 	return (arr);
 }
 
+void	free_env_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+}
+
 // +1 -> '='  +1 -> '\0'
 static char	*__strjoin_mod(char *s1, char *s2)
 {

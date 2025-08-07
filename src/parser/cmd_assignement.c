@@ -48,7 +48,7 @@ static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 	return (0);
 }
 
-static int	__assign_command(t_cmd *cmd, char **tokens, t_env *env)
+static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 {
 	int	i;
 	int	tok_index;
@@ -92,7 +92,7 @@ int	__arg_count(char **tokens)
 	return (i);
 }
 
-t_cmd	*assign_cmds(char **tokens, t_env *env)
+t_cmd	*assign_cmds(char **tokens, char **env)
 {
 	t_cmd	*cmds;
 	t_cmd	*current;

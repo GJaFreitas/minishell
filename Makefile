@@ -40,6 +40,8 @@ VPATH += src/env
 SRCS += \
 	env.c \
 	env_add_remove.c \
+	env_array.c \
+	env_internal_utils.c \
 	env_sort.c \
 	env_utilities.c \
 
