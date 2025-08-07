@@ -75,7 +75,9 @@ static char	*__path_extract(t_env *env)
 	cur = env;
 	while (cur && ft_strncmp(cur->value, "PATH", 4))
 		cur = cur->next;
-	return (cur->value);
+	if (cur)
+		return (cur->value);
+	return (NULL);
 }
 
 char	*path_search(char *token, t_env *env)
