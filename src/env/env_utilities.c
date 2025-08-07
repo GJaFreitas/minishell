@@ -16,3 +16,16 @@ char	*env_get_value(t_env *env, char *key)
 	}
 	return (NULL);
 }
+
+void	env_print(t_env *env)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i < env->used)
+	{
+		ft_printf("%s", env->keys[i]);
+		write(1, "=", 1);
+		ft_printf("%s", env->values[i]);
+	}
+}

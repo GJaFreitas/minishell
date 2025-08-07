@@ -65,9 +65,9 @@ t_env	*init_env(char **old);
 void	env_free(t_env *env);
 void	env_add(t_env *env, char *key, char *value);
 void	env_remove(t_env *env, char *key);
-void	env_create_sorted(t_env *env);
 void	env_print_sorted(t_env *env);
 char	*env_get_value(t_env *env, char *key);
+void	env_print(t_env *env);
 char	**env_to_array(t_env *env);
 
 /* UTILITIES FOR ENV */
