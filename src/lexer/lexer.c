@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 17:48:41 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/07 17:52:18 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
 #include <stddef.h>
 #include <stdio.h>
 
-char	**__tokenize(char *str);
+char		**__tokenize(char *str);
 static char	*__prepare_tokenize(char *s);
-void	__remove_newline(char *line);
-void	__expansions(char **line, size_t mem);
+void		__remove_newline(char *line);
+void		__expansions(char **line, size_t mem);
 
 /*******************************
 
@@ -37,10 +49,10 @@ int	meta_char_handler(char *s, int i, char *str)
 	int	count;
 
 	count = 0;
-	if (i-1 >= 0 && s[i-1] != ' ' && !special_char(s[i-1]))
+	if (i - 1 >= 0 && s[i - 1] != ' ' && !special_char(s[i - 1]))
 		str[count++] = ' ';
 	str[count++] = s[i];
-	if (s[i+1] != ' ' && !special_char(s[i+1]))
+	if (s[i + 1] != ' ' && !special_char(s[i + 1]))
 		str[count++] = ' ';
 	return (count);
 }
@@ -49,7 +61,7 @@ static char	*__prepare_tokenize(char *s)
 {
 	unsigned int	i;
 	unsigned int	j;
-	char		*str;
+	char			*str;
 
 	i = 0;
 	j = 0;

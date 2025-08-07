@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_tokenize.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 17:48:29 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/07 17:48:57 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "lexer.h"
 #include "parser.h"
-
 
 static int	__count_tokens(char *s);
 static int	__create_tokens(char *s, char **tok);

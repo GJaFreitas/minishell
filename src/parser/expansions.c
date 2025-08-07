@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 17:55:05 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/07 17:59:46 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
@@ -25,8 +37,8 @@ int	__total_size(char *first, char *second, char *third)
 char	*__assemble(char *first, char *second, char *third)
 {
 	char	*new;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -42,7 +54,7 @@ char	*__assemble(char *first, char *second, char *third)
 
 char	*__expand_token(char *tok, char **env, int len)
 {
-	int	i;
+	int		i;
 	char	*expanded;
 	char	*temp;
 
@@ -56,7 +68,8 @@ char	*__expand_token(char *tok, char **env, int len)
 	if (!env[i])
 		return (NULL);
 	temp = env[i];
-	while (*temp++ != '=');
+	while (*temp++ != '=')
+		;
 	expanded = ft_strdup(temp);
 	return (expanded);
 }
@@ -66,7 +79,7 @@ char	*__expand_quote(char *tok, char **env)
 	char	*expand;
 	char	*rest;
 	char	*new_tok;
-	int	i;
+	int		i;
 
 	i = 0;
 	new_tok = tok;
@@ -87,25 +100,4 @@ char	*__expand_quote(char *tok, char **env)
 		return (tok);
 	new_tok = __assemble(new_tok, expand, rest);
 	return (new_tok);
-}
-
-void	expansions(char **tokens, char **env)
-{
-	char	*temp;
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		if (tokens[i][0] == '\"')
-			temp = __expand_quote(tokens[i], env);
-		else if (tokens[i][0] == '$')
-			temp = __expand_token(&tokens[i][1], env, ft_strlen(tokens[i]) - 1);
-		if (temp && temp != tokens[i])
-		{
-			free(tokens[i]);
-			tokens[i] = temp;
-		}
-		i++;
-	}
 }

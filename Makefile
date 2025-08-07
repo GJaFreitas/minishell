@@ -68,13 +68,6 @@ SRCS += lexer.c \
 		lexer_tokenize.c \
 		lex_utils.c \
 
-# Memory sources
-VPATH += src/memory
-SRCS += \
-	mem_alloc.c \
-	mem_list.c \
-	mem_test.c \
-
 # Parser sources
 VPATH += src/parser
 SRCS += \

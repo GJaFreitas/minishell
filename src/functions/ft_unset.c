@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 17:43:43 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/07 17:48:14 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int ft_unset(char *const argv[], t_env *env)
+int	ft_unset(char *const argv[], t_env *env)
 {
-    int i;
-    
+	int	i;
+
 	i = 0;
-    while (argv[++i])
-        remove_env_var(env, argv[i]);
-    return (0);
+	while (argv[++i])
+		remove_env_var(env, argv[i]);
+	return (0);
 }

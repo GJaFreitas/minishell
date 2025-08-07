@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_assignement.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 17:55:02 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/07 17:56:52 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
@@ -28,16 +40,16 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens)
 
 static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 {
-	static char	*builtins[8] = { "echo", "cd", "pwd", \
+	static char	*builtins[8] = {"echo", "cd", "pwd",\
 		"export", "unset", "env", "exit", NULL};
-	int	i;
-	int	tokenLen;
+	int			i;
+	int			tokenlen;
 
-	tokenLen = ft_strlen(token);
+	tokenlen = ft_strlen(token);
 	i = 0;
 	while (builtins[i])
 	{
-		if (!ft_strncmp(token, builtins[i], tokenLen))
+		if (!ft_strncmp(token, builtins[i], tokenlen))
 		{
 			*cmd = i + 1;
 			return (i);

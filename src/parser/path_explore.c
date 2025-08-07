@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_explore.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 17:55:16 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/08/07 18:00:07 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
@@ -13,8 +25,8 @@
 static char	*__search_folders(char **folders, char *token)
 {
 	struct dirent	*entry;
-	char		*path;
-	DIR		*dir_stream;
+	char			*path;
+	DIR				*dir_stream;
 
 	path = NULL;
 	while (*folders)
@@ -44,8 +56,8 @@ static char	**__get_folders(char *path)
 {
 	char	**folders;
 	char	*temp;
-	int	i;
-	int	total;
+	int		i;
+	int		total;
 
 	i = 0;
 	total = 1;
