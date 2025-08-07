@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/07 17:10:21 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/07 18:47:25 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,7 @@ t_cmd	*prompt(t_env *env)
 
 	if (!getcwd(cwd, CWD_BUFFER))
 		perror("getcwd() error\n");
-	if (feof(stdin))
-		return (ft_printf("exit"), NULL);
-	ft_memcpy(cwd + ft_strlen(cwd) - 1, " » ", 4);
-	line = readline(cwd);
+	line = readline("string");
 	if (!line)
 		exit(0);
 	return (parser(lexer(line), env));
