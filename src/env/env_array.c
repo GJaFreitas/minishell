@@ -35,7 +35,7 @@ static char	*__strjoin_mod(char *s1, char *s2)
 	int	i;
 	int	j;
 
-	new = malloc(ft_strlen(s1) + ft_strlen(s1) + 1 + 1);
+	new = malloc(ft_strlen(s1) + ft_strlen(s2) + 1 + 1);
 	i = -1;
 	while (s1[++i])
 		new[i] = s1[i];

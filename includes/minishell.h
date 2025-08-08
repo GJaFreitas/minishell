@@ -51,7 +51,7 @@ typedef struct s_cmd
 ENV ---------
 ****************************/
 
-# define ENV_INIT_SIZE	64
+# define ENV_INIT_SIZE	128
 typedef struct s_env
 {
 	char		**keys;

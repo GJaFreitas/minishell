@@ -2,7 +2,8 @@
 
 void	env_grow(t_env *env)
 {
-	env->values = ft_realloc(env->values, env->size, env->size * 2);
+	env->values = ft_realloc(env->values, env->size * sizeof(char *), env->size * 2* sizeof(char *));
+	env->keys = ft_realloc(env->keys, env->size* sizeof(char *), env->size * 2* sizeof(char *));
 	env->size *= 2;
 }
 

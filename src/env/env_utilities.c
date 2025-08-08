@@ -29,6 +29,7 @@ void	env_print(t_env *env)
 		if (env->values[i])
 			ft_printf("%s", env->values[i]);
 		write(1, "\n", 1);
+		i++;
 	}
 }
 
