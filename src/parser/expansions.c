@@ -2,90 +2,114 @@
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
+#include <stdlib.h>
 
 int	is_env_char(int c)
 {
 	return (ft_isalnum(c) || c == '_');
 }
 
-int	__total_size(char *first, char *second, char *third)
+char	*__assemble(char *tok, t_expansion_list *list, int size)
 {
-	int	size;
-
-	size = 0;
-	while (first[size] != '$')
-		size++;
-	while (*second && *second != '=')
-		second++;
-	size += ft_strlen(second);
-	size += ft_strlen(third);
-	return (size + 4);
-}
-
-char	*__assemble(char *first, char *second, char *third)
-{
+	t_expansion_list	*cur;
 	char	*new;
 	int	i;
 	int	j;
 
 	i = 0;
-	j = 0;
-	new = malloc(__total_size(first, second, third));
-	while (first[j] != '$')
-		new[i++] = first[j++];
-	while (*second)
-		new[j++] = *second++;
-	while (*third)
-		new[j++] = *third++;
+	cur = list;
+	new = malloc(size + 1);
+	while (cur)
+	{
+		j = 0;
+		while (cur->expansion[j])
+			new[i++] = cur->expansion[j++];
+		cur = cur->next;
+	}
 	return (new);
 }
 
-char	*__expand_token(char *tok, char **env, int len)
+int	expansion_list_size(t_expansion_list *expansions)
+{
+	t_expansion_list	*cur;
+	int	size;
+
+	cur = expansions;
+	size = 0;
+	while (cur)
+	{
+		size += ft_strlen(cur->expansion);
+		cur = cur->next;
+	}
+	return (size);
+}
+
+char	*__get_expansion(char *tok, char **env)
 {
 	int	i;
-	char	*expanded;
-	char	*temp;
+	int	j;
 
 	i = 0;
-	while (env[i])
-	{
-		if (!ft_strncmp(tok, env[i], len) && env[i][len] == '=')
-			break ;
+	while (tok[i] && is_env_char(tok[i]))
 		i++;
+	j = 0;
+	while (env[j])
+	{
+		if (!ft_strncmp(tok, env[j], i) && env[j][i] == '=')
+			break ;
+		j++;
 	}
 	if (!env[i])
 		return (NULL);
-	temp = env[i];
-	while (*temp++ != '=');
-	expanded = ft_strdup(temp);
-	return (expanded);
+	i = 0;
+	while (env[j][i] != '=')
+		i++;
+	return (&env[j][i]);
 }
 
-char	*__expand_quote(char *tok, char **env)
+t_expansion_list	*get_all_expansions(char *tok, char **env)
 {
-	char	*expand;
-	char	*rest;
+	t_expansion_list	*list;
+	t_expansion_list	*cur;
+	int	expansion_flag;
+	int	i;
+
+	list = malloc(sizeof(t_expansion_list));
+	cur = list;
+	expansion_flag = (tok[0] == '$');
+	while (tok)
+	{
+		if (expansion_flag)
+		{
+			while (tok[i] && is_env_char(tok[i]))
+				i++;
+			expansion_flag = 0;
+		}
+		else
+			while (tok[i] && tok[i] != '$')
+				i++;
+		if (tok[i] == '$')
+			expansion_flag = 1;
+		cur->expansion = __get_expansion(&tok[i], env);
+		cur->next = malloc(sizeof(t_expansion_list));
+		cur = cur->next;
+	}
+	return (list);
+}
+
+char	*__expand_token(char *tok, char **env)
+{
 	char	*new_tok;
+	t_expansion_list	*expansions;
 	int	i;
 
 	i = 0;
-	new_tok = tok;
-	expand = 0;
-	while (*tok)
-	{
-		if (*tok == '$')
-		{
-			tok++;
-			while (tok[i] && is_env_char(tok[i]))
-				i++;
-			expand = __expand_token(tok, env, i);
-			rest = &tok[i];
-		}
-		tok++;
-	}
-	if (!expand)
+	while (tok[i] && tok[i] != '$')
+		i++;
+	if (!(tok[i] == '$'))
 		return (tok);
-	new_tok = __assemble(new_tok, expand, rest);
+	expansions = get_all_expansions(tok, env);
+	new_tok = __assemble(tok, expansions, expansion_list_size(expansions));
 	return (new_tok);
 }
 
@@ -99,21 +123,12 @@ char	*__expand_quote(char *tok, char **env)
 */
 void	expansions(char **tokens, char **env)
 {
-	char	*temp;
 	int	i;
 
 	i = 0;
 	while (tokens[i])
 	{
-		if (tokens[i][0] == '\"')
-			temp = __expand_quote(tokens[i], env);
-		else if (tokens[i][0] == '$')
-			temp = __expand_token(&tokens[i][1], env, ft_strlen(tokens[i]) - 1);
-		if (temp && temp != tokens[i])
-		{
-			free(tokens[i]);
-			tokens[i] = temp;
-		}
+		tokens[i] = __expand_token(tokens[i], env);
 		i++;
 	}
 }
