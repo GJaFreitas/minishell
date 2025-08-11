@@ -6,20 +6,21 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/06 19:57:53 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/07 18:48:35 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	__case_out(t_cmd *cmd, t_redirect *redir);
-int	__case_out_append(t_cmd *cmd, t_redirect *redir);
-int	__case_in(t_cmd *cmd, t_redirect *redir);
-int	__switch(t_cmd *cmd, t_redirect *redir);
+int			__case_out(t_cmd *cmd, t_redirect *redir);
+int			__case_out_append(t_cmd *cmd, t_redirect *redir);
+int			__case_in(t_cmd *cmd, t_redirect *redir);
+int			__switch(t_cmd *cmd, t_redirect *redir);
+static void	wait_pids();
 
 void	exec_builtin(t_cmd *cmd, t_env *env)
 {
-	static int (*jump_table[7])(char *const argv[], t_env *) = { \
+	static int	(*jump_table[7])(char *const argv[], t_env *) = {
 		ft_echo,
 		ft_cd,
 		ft_pwd,
@@ -48,14 +49,13 @@ int	ft_strcmp(char *s1, char *s2)
 
 int	setup_redirections(t_cmd *cmd)
 {
-	t_redirect *redir;
+	t_redirect	*redir;
 
-	cmd->redirect_in = 0;   // stdin
-	cmd->redirect_out = 1;  // stdout
+	cmd->redirect_in = 0;
+	cmd->redirect_out = 1;
 	redir = cmd->redirect;
 	while (redir)
 	{
-		// Esta tudo na file redir_utils.c
 		if (__switch(cmd, redir))
 			return (perror("open"), -1);
 		redir = redir->next;
@@ -65,93 +65,97 @@ int	setup_redirections(t_cmd *cmd)
 
 void	ft_exec(t_cmd *cmd, int in, int out, t_env *env)
 {
-    cmd->pid = fork();
-    if (cmd->pid == -1)
-        return (perror("fork"));
-    if (cmd->pid == 0) // Child process
-    {
-        if (in != 0)
-        {
-            if (dup2(in, STDIN_FILENO) == -1)
-                perror("dup2 stdin");
-            close(in);
-        }
-        if (out != 1)
-        {
-            if (dup2(out, STDOUT_FILENO) == -1)
-                perror("dup2 stdout");
-            close(out);
-        }
-	if (cmd->builtin > 0)
-		exec_builtin(cmd, env);
-	else if (execve(cmd->args[0], cmd->args, env_to_array(env)) == -1)
-        {
-            perror("execve");
-            exit(127);
-        }
-    }
-    else // need to remove after tests
-    {
-        if (in != 0)
-            close(in);
-        if (out != 1)
-            close(out);
-    }
+	cmd->pid = fork();
+	if (cmd->pid == -1)
+		return (perror("fork"));
+	if (cmd->pid == 0) // Child process
+	{
+		if (in != 0)
+		{
+			if (dup2(in, STDIN_FILENO) == -1)
+				perror("dup2 stdin");
+			close(in);
+		}
+		if (out != 1)
+		{
+			if (dup2(out, STDOUT_FILENO) == -1)
+				perror("dup2 stdout");
+			close(out);
+		}
+		if (cmd->builtin > 0)
+			exec_builtin(cmd, env);
+		else if (execve(cmd->args[0], cmd->args, env_to_array(env)) == -1)
+		{
+			perror("execve");
+			exit(127);
+		}
+	}
+	else // need to remove after tests
+	{
+		if (in != 0)
+			close(in);
+		if (out != 1)
+			close(out);
+	}
 }
 
 void	ft_exec_all(t_cmd *cmd, t_env *env)
 {
-    int in, out;
-    int fd[2];
-    t_cmd *current;
-    
-    if (!cmd)
-        return;
-    current = cmd;
-    while (current)
-    {
-        if (setup_redirections(current) == -1)
-            return;
-        current = current->next;
-    }
-    current = cmd;
-    in = 0;
-    
-    while (current)
-    {
-        if (current->redirect_in != 0)
-        {
-            if (in != 0)
-                close(in);
-            in = current->redirect_in;
-        }
-        if (current->next)
-        {
-            if (pipe(fd) == -1)
-            {
-                perror("pipe");
-                return;
-            }
-            out = fd[1];
-        }
-        else
-            out = (current->redirect_out != 1) ? current->redirect_out : 1;
-        ft_exec(current, in, out, env);
-        if (current->next)
-            close(fd[1]);
-        if (in != 0)
-            close(in);
-        in = (current->next) ? fd[0] : 0;
-        
-        current = current->next;
-    }
-    
-    // Wait for all children to complete
-    current = cmd;
-    while (current)
-    {
-        int status;
-        waitpid(current->pid, &status, 0);
-        current = current->next;
-    }
+	int		in;
+	int		out;
+	int		fd[2];
+	t_cmd	*current;
+
+	if (!cmd)
+		return ;
+	current = cmd;
+	while (current)
+	{
+		if (setup_redirections(current) == -1)
+			return ;
+		current = current->next;
+	}
+	current = cmd;
+	in = 0;
+	while (current)
+	{
+		if (current->redirect_in != 0)
+		{
+			if (in != 0)
+				close(in);
+			in = current->redirect_in;
+		}
+		if (current->next)
+		{
+			if (pipe(fd) == -1)
+			{
+				perror("pipe");
+				return ;
+			}
+			out = fd[1];
+		}
+		else
+			out = (current->redirect_out != 1) ? current->redirect_out : 1;
+		ft_exec(current, in, out, env);
+		if (current->next)
+			close(fd[1]);
+		if (in != 0)
+			close(in);
+		in = (current->next) ? fd[0] : 0;
+		current = current->next;
+	}
+	wait_pids(cmd);
+}
+
+void wait_pids(t_cmd *cmd)
+{
+	t_cmd *current;
+
+	current = cmd;
+	while (current)
+	{
+		int status;
+		waitpid(current->pid, &status, 0);
+		current = current->next;
+	}
 }
