@@ -89,6 +89,14 @@ char	*__expand_quote(char *tok, char **env)
 	return (new_tok);
 }
 
+/*
+*  @TODO: Add multiple expansions support
+*
+*  echo $HOME$HOME
+*  echo "$HOME is at $HOME"
+*
+*  and other cases
+*/
 void	expansions(char **tokens, char **env)
 {
 	char	*temp;

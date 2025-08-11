@@ -39,10 +39,10 @@ static char	*__strjoin_mod(char *s1, char *s2)
 	i = -1;
 	while (s1[++i])
 		new[i] = s1[i];
-	j = i + 1;
+	j = i;
 	new[j++] = '=';
 	i = -1;
 	while (s2[++i])
-		new[j++] = s1[i];
+		new[j++] = s2[i];
 	return (new);
 }

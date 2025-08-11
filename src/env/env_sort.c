@@ -34,6 +34,7 @@ static void	env_create_sorted(t_env *env)
 	free(temp);
 }
 
+//@TODO: Acabar de fazer esta funcao
 static void	__create_sorted_array(int *arr, char **keys, int size, int *used)
 {
 	int	i;

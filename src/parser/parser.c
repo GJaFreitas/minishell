@@ -36,7 +36,6 @@ t_cmd	*parser(char **tokens, t_env *env)
 		return (NULL);
 	env_array = env_to_array(env);
 	expansions(tokens, env_array);
-	print_tokens(tokens);
 	cmds = assign_cmds(tokens, env_array);
 	__remove_quotes(cmds);
 	free_tokens(tokens);
