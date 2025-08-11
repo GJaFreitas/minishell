@@ -10,7 +10,6 @@ void	env_print_sorted(t_env *env)
 
 	i = 0;
 	env_create_sorted(env);
-	return ;
 	while (i < env->used)
 	{
 		ft_printf("%s", declare);
@@ -30,7 +29,7 @@ static void	env_create_sorted(t_env *env)
 	if (env->sorted)
 		free(env->sorted);
 	env->sorted = malloc(sizeof(int) * env->used);
-	temp = ft_calloc(sizeof(int), (env->used + 1));
+	temp = ft_calloc((env->used + 1), sizeof(int));
 	__create_sorted_array(env->sorted, env->keys, env->used, temp);
 	free(temp);
 }
@@ -39,23 +38,32 @@ static void	__create_sorted_array(int *arr, char **keys, int size, int *used)
 {
 	int	i;
 	int	j;
+	int	cur;
 
 	j = 0;
-	arr[j] = 1;
 	while (j < size)
 	{
 		i = 0;
+		cur = j;
 		while (i < size)
 		{
-			if (!used[i] && ft_strcmp(keys[i], keys[arr[j]]) <= 0)
-			{
-				printf("CURRENT: %s\nNEXT: %s\n USED AT %d: %d\nj: %d\ni: %d\n", keys[arr[j]], keys[i], arr[j], used[arr[j]], j, i);
-				printf("CONDITION\n");
-				arr[j] = i;
-			}
+			while (i < size && used[i] == 1)
+				i++;
+			if (i < size && ft_strcmp(keys[i], keys[j]) < 0)
+				cur = i;
 			i++;
 		}
-		used[arr[j]] = 1;
+		arr[j] = cur;
+		used[cur] = 1;
 		j++;
 	}
+
+
+
+	// for (int i = 0; i < size; i++)
+	// 	printf("used[%d]: %d\n", i, used[i]);
+	// for (int i = 0; i < size; i++)
+	// 	printf("arr[%d]: %d\n", i, arr[i]);
+	// for (int i = 0; i < size; i++)
+	// 	printf("keys[%d]: %s\n", arr[i], keys[arr[i]]);
 }
