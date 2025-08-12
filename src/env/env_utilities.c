@@ -43,8 +43,9 @@ int	env_var_exists(t_env *env, char *key)
 		return (-1);
 	while (i < env->used)
 	{
-		if (ft_strcmp(env->keys[i], key))
+		if (!ft_strcmp(env->keys[i], key))
 			return (i);
+		i++;
 	}
 	return (-1);
 }

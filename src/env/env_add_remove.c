@@ -10,9 +10,6 @@
 
 static void	__get_key_value(char *args, char **key, char **value);
 
-// export var+="value"  -- VALID
-// export var="$env_var"value -- VALID
-// export var=$env_var"value" -- VALID
 void	env_add(t_env *env, char *args)
 {
 	char	*key;
@@ -28,7 +25,7 @@ void	env_add(t_env *env, char *args)
 		return ;
 	}
 	used = env->used;
-	if (used + 1 <= env->size)
+	if (used + 1 >= env->size)
 		env_grow(env);
 	env->keys[used] = ft_strdup(key);
 	env->values[used] = ft_strdup(value);
@@ -42,21 +39,15 @@ static void	__get_key_value(char *args, char **key, char **value)
 	int	j;
 
 	i = 0;
-	while (args[i])
-	{
-		if (args[i] == '=')
-		{
-			*key = ft_substr(args, 0, i);
-			break ;
-		}
+	while (args[i] && args[i] != '=')
 		i++;
-	}
-	if (!args[++i])
+	*key = ft_substr(args, 0, i);
+	if (!args[i])
 	{
 		*value = NULL;
 		return ;
 	}
-	j = i;
+	j = i + (args[i] == '=');
 	while (args[i++]);
 	*value = ft_substr(args, j, i - j);
 }

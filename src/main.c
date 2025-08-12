@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/12 16:38:35 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/12 17:58:48 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	env_t = init_env(env);
-	char	**env_array = env_to_array(env_t);
 	shell_loop(env_t);
 	return (0);
 }
