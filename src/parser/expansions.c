@@ -22,10 +22,11 @@ char	*__assemble(char *tok, t_expansion_list *list, int size)
 	while (cur)
 	{
 		j = 0;
-		while (cur->expansion[j])
+		while (cur->expansion && cur->expansion[j])
 			new[i++] = cur->expansion[j++];
 		cur = cur->next;
 	}
+	new[i] = 0;
 	return (new);
 }
 
@@ -59,12 +60,12 @@ char	*__get_expansion(char *tok, char **env)
 			break ;
 		j++;
 	}
-	if (!env[i])
+	if (!env[j])
 		return (NULL);
 	i = 0;
 	while (env[j][i] != '=')
 		i++;
-	return (&env[j][i]);
+	return (&env[j][i + 1]);
 }
 
 t_expansion_list	*get_all_expansions(char *tok, char **env)
@@ -76,23 +77,24 @@ t_expansion_list	*get_all_expansions(char *tok, char **env)
 
 	list = malloc(sizeof(t_expansion_list));
 	cur = list;
-	expansion_flag = (tok[0] == '$');
-	while (tok)
+	while (*tok)
 	{
+		i = 0;
+		expansion_flag = (tok[0] == '$');
 		if (expansion_flag)
 		{
+			i++;
 			while (tok[i] && is_env_char(tok[i]))
 				i++;
 			expansion_flag = 0;
 		}
 		else
-			while (tok[i] && tok[i] != '$')
-				i++;
-		if (tok[i] == '$')
-			expansion_flag = 1;
-		cur->expansion = __get_expansion(&tok[i], env);
+			while (*tok && *tok != '$')
+				tok++;
+		cur->expansion = __get_expansion(tok + 1, env);
 		cur->next = malloc(sizeof(t_expansion_list));
 		cur = cur->next;
+		tok += i;
 	}
 	return (list);
 }

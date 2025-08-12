@@ -2,10 +2,20 @@
 #include "parser.h"
 #include "minishell.h"
 
+void	print_output(char **args)
+{
+	while (*args)
+	{
+		printf("%s ", *args);
+		args++;
+	}
+	printf("\n");
+}
+
 void	prompt(t_env *env)
 {
 	t_cmd *cmds = parser(lexer(get_next_line(0)), env);
-	print_tokens(cmds->args);
+	print_output(cmds->args);
 	free_cmds(cmds);
 }
 

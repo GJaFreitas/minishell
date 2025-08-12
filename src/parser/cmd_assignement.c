@@ -59,9 +59,9 @@ static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 	{
 		if (is_pipe(tokens[tok_index]))
 			return (tok_index + 1);
-		else if (ft_strchr(REDIRECT, tokens[tok_index][0]))
+		else if (tokens[tok_index][0] && ft_strchr(REDIRECT, tokens[tok_index][0]))
 			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index++]);
-		else if (i == 0)
+		else if (tokens[tok_index][0] && i == 0)
 		{
 			if (!is_builtin(&cmd->builtin, tokens[tok_index]))
 				cmd->args[i++] = path_search(tokens[tok_index], env);

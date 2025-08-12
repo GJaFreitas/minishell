@@ -93,6 +93,7 @@ SRCS += \
 VPATH += src/utils
 SRCS += \
 	debug.c \
+	ft_strndup.c \
 
 
 # --- INCLUDES ---------------- #
