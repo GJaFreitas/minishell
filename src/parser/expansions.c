@@ -103,16 +103,12 @@ t_expansion_list	*get_all_expansions(char *tok, char **env)
 {
 	t_expansion_list	*list;
 	t_expansion_list	*cur;
-	int	expansion_flag;
 
 	list = malloc(sizeof(t_expansion_list));
 	cur = list;
 	while (*tok)
 	{
-		expansion_flag = (tok[0] == '$');
-		if (expansion_flag)
-			expansion_flag = 0;
-		else
+		if (tok[0] != '$')
 		{
 			cur->expansion = copy_until_expansion(tok);
 			cur = next_expansion(cur);

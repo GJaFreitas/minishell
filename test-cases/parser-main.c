@@ -15,7 +15,11 @@ void	print_output(char **args)
 void	prompt(t_env *env)
 {
 	t_cmd *cmds = parser(lexer(get_next_line(0)), env);
-	print_output(cmds->args);
+	while (cmds)
+	{
+		print_output(cmds->args);
+		cmds = cmds->next;
+	}
 	free_cmds(cmds);
 }
 
