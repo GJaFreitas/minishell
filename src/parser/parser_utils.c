@@ -13,7 +13,7 @@ t_cmd	*__init_cmd(void)
 
 int	is_pipe(char *token)
 {
-	return (token && *token == '|');
+	return (*token == '|');
 }
 
 // Esta funcao podia ser free_tokens(char ***tokens) e

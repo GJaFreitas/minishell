@@ -2,6 +2,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
+#include <stdint.h>
 #include <stdlib.h>
 
 int	is_env_char(int c)
@@ -50,6 +51,8 @@ char	*__get_expansion(char *tok, char **env)
 	int	i;
 	int	j;
 
+	if (!*tok)
+		return (NULL);
 	i = 0;
 	while (tok[i] && is_env_char(tok[i]))
 		i++;
@@ -68,33 +71,57 @@ char	*__get_expansion(char *tok, char **env)
 	return (&env[j][i + 1]);
 }
 
+int	get_expansion_size(char *tok)
+{
+	int	i;
+
+	i = 0;
+	i++;
+	while (tok[i] && is_env_char(tok[i]))
+		i++;
+	return (i);
+}
+
+t_expansion_list	*next_expansion(t_expansion_list *list)
+{
+	list->next = malloc(sizeof(t_expansion_list));
+	return (list->next);
+}
+
+char	*copy_until_expansion(char *tok)
+{
+	char	*temp;
+
+	temp = ft_strchr(tok, '$');
+	if (temp)
+		return (ft_strndup(tok, (uintptr_t)temp - (uintptr_t)tok));
+	return (ft_strdup(tok));
+}
+
+// Genuinely evil ass function
 t_expansion_list	*get_all_expansions(char *tok, char **env)
 {
 	t_expansion_list	*list;
 	t_expansion_list	*cur;
 	int	expansion_flag;
-	int	i;
 
 	list = malloc(sizeof(t_expansion_list));
 	cur = list;
 	while (*tok)
 	{
-		i = 0;
 		expansion_flag = (tok[0] == '$');
 		if (expansion_flag)
-		{
-			i++;
-			while (tok[i] && is_env_char(tok[i]))
-				i++;
 			expansion_flag = 0;
-		}
 		else
+		{
+			cur->expansion = copy_until_expansion(tok);
+			cur = next_expansion(cur);
 			while (*tok && *tok != '$')
 				tok++;
+		}
 		cur->expansion = __get_expansion(tok + 1, env);
-		cur->next = malloc(sizeof(t_expansion_list));
-		cur = cur->next;
-		tok += i;
+		cur = next_expansion(cur);
+		tok += get_expansion_size(tok);
 	}
 	return (list);
 }
