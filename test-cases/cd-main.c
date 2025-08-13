@@ -14,6 +14,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	env_t = init_env(env);
-	prompt(env_t);
+	while (1)
+		prompt(env_t);
 	return (0);
 }

@@ -58,6 +58,7 @@ SRCS += \
 	ft_export.c \
 	ft_cd.c \
 	path_search.c \
+	path_exists.c \
 	ft_env.c \
 	ft_echo.c \
 	ft_exit.c \

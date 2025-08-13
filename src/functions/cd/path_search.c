@@ -17,10 +17,17 @@
 * the expansion will be used, "." -> $CWD, "-" -> $OLD_PWD
 */
 
+// buf2 starts at '~' or '.' meaning we want to skip that first char
 static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1, char *buf2)
 {
-	ft_memcpy(*full_path, buf1, ft_strlen(buf2));
-	ft_memcpy(*full_path + ft_strlen(buf1), buf2 + 2, ft_strlen(buf2));
+	int	i;
+
+	i = 0;
+	while (*buf1)
+		(*full_path)[i++] = *buf1++;
+	buf2++;
+	while (*buf2)
+		(*full_path)[i++] = *buf2++;
 }
 
 static void	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
@@ -30,8 +37,11 @@ static void	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env 
 	if (input[0] == '~')
 	{
 		temp = env_get_value(env, "HOME");
-		if (!temp) return ;
-		// HOME NOT SET ERROR
+		if (!temp)
+		{
+			__assemble_path(full_path, "", "");
+			perror("minishell: cd: HOME not set\n");
+		}
 		__assemble_path(full_path, temp, input);
 	}
 	else if (input[0] == '-')
@@ -39,6 +49,8 @@ static void	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env 
 		temp = env_get_value(env, "OLD_PWD");
 		ft_memcpy(*full_path, temp, ft_strlen(temp));
 	}
+	else
+		ft_memcpy(*full_path, input, ft_strlen(input));
 }
 
 static void	__relative_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
@@ -47,18 +59,16 @@ static void	__relative_handler(char full_path[][CWD_BUFFER], char *input, t_env 
 
 	temp = env_get_value(env, "PWD");
 	if (input[0] == '.')
-	{
-		input[0] = '/';
 		__assemble_path(full_path, temp, input);
-	}
 	else
 	{
 		ft_memcpy(*full_path, temp, ft_strlen(temp));
-		*full_path[ft_strlen(temp)] = '/';
+		(*full_path)[ft_strlen(temp)] = '/';
 		ft_memcpy(*full_path + ft_strlen(temp) + 1, input, ft_strlen(input));
 	}
 }
 
+// Assume input is valid and not NULL
 void	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER])
 {
 	if (ft_strchr("/~-", input[0]))
