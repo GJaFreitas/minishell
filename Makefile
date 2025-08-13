@@ -53,9 +53,11 @@ SRCS += \
 
 # Builtin functions sources
 VPATH += src/functions
+VPATH += src/functions/cd
 SRCS += \
 	ft_export.c \
 	ft_cd.c \
+	path_search.c \
 	ft_env.c \
 	ft_echo.c \
 	ft_exit.c \

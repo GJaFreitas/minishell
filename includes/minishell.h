@@ -72,22 +72,30 @@ void	env_print(t_env *env);
 char	**env_to_array(t_env *env);
 void	free_env_array(char **arr);
 int	env_var_exists(t_env *env, char *key);
-void	env_change_val(t_env *env, int index, char *val);
+void	env_add_key_value_pair(t_env *env, char *key, char *value);
 
 /* UTILITIES FOR ENV */
 void	env_grow(t_env *env);
 int	is_exported(t_env *env, unsigned int index);
+void	env_change_val(t_env *env, int index, char *val);
 
 /***************************
 FUNCTIONS ---------
 ****************************/
 
 int	ft_echo(char *const argv[], t_env *env);
+
 int	ft_export(char *const argv[], t_env *env);
+
 int	ft_pwd(char *const argv[], t_env *env);
+
 int	ft_cd(char *const argv[], t_env *env);
+void	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER]);
+
 int	ft_unset(char *const argv[], t_env *env);
+
 int	ft_env(char *const argv[], t_env *env);
+
 int	ft_exit(char *const argv[], t_env *env);
 
 /***************************
