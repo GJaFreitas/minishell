@@ -30,7 +30,7 @@ static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1, char *buf2
 		(*full_path)[i++] = *buf2++;
 }
 
-static void	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
+static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
 {
 	char	*temp;
 
@@ -41,6 +41,7 @@ static void	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env 
 		{
 			__assemble_path(full_path, "", "");
 			perror("minishell: cd: HOME not set\n");
+			return (1);
 		}
 		__assemble_path(full_path, temp, input);
 	}
@@ -51,6 +52,7 @@ static void	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env 
 	}
 	else
 		ft_memcpy(*full_path, input, ft_strlen(input));
+	return (0);
 }
 
 static void	__relative_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
@@ -69,10 +71,11 @@ static void	__relative_handler(char full_path[][CWD_BUFFER], char *input, t_env 
 }
 
 // Assume input is valid and not NULL
-void	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER])
+int	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER])
 {
 	if (ft_strchr("/~-", input[0]))
-		__absolute_handler(full_path, input, env);
+		return (__absolute_handler(full_path, input, env));
 	else
 		__relative_handler(full_path, input, env);
+	return (0);
 }

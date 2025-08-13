@@ -90,7 +90,7 @@ int	ft_export(char *const argv[], t_env *env);
 int	ft_pwd(char *const argv[], t_env *env);
 
 int	ft_cd(char *const argv[], t_env *env);
-void	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER]);
+int	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER]);
 int	path_exists(char *path);
 
 int	ft_unset(char *const argv[], t_env *env);
