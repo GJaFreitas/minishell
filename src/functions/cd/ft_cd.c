@@ -38,5 +38,5 @@ int	ft_cd(char *const argv[], t_env *env)
 	}
 	else if (!flag)
 		printf("minishell: cd: %s: No such file or directory\n", argv[1]);
-	return (0); // TURN THIS INTO EXIT(0)
+	return (0);
 }

@@ -6,10 +6,11 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/12 17:58:48 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/13 23:49:11 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parser.h"
 #include "lexer.h"
@@ -23,9 +24,10 @@ t_cmd	*prompt(t_env *env)
 	char *line;
 	static char cwd[CWD_BUFFER];
 
+	ft_bzero(cwd, CWD_BUFFER);
 	if (!getcwd(cwd, CWD_BUFFER))
 		perror("getcwd() error\n");
-	ft_memcpy(cwd + ft_strlen(cwd) - 1, " » ", 4);
+	ft_memcpy(cwd + ft_strlen(cwd), " »  ", 4);
 	line = readline(cwd);
 	if (!line)
 		exit(0);
