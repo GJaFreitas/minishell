@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/07 18:48:35 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:15:25 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,21 @@ int	ft_strcmp(char *s1, char *s2)
 int	setup_redirections(t_cmd *cmd)
 {
 	t_redirect	*redir;
-
-	cmd->redirect_in = 0;
-	cmd->redirect_out = 1;
-	redir = cmd->redirect;
-	while (redir)
+	t_cmd		*current;
+	
+	current = cmd;
+	while(current)
 	{
-		if (__switch(cmd, redir))
-			return (perror("open"), -1);
-		redir = redir->next;
+		current->redirect_in = 0;
+		current->redirect_out = 1;
+		redir = current->redirect;
+		while (redir)
+		{
+			if (__switch(current, redir))
+				return (perror("open"), -1);
+			redir = redir->next;
+		}
+		current = current->next;
 	}
 	return (0);
 }
@@ -108,13 +114,8 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 
 	if (!cmd)
 		return ;
-	current = cmd;
-	while (current)
-	{
-		if (setup_redirections(current) == -1)
+	if (setup_redirections(cmd) == -1)
 			return ;
-		current = current->next;
-	}
 	current = cmd;
 	in = 0;
 	while (current)
@@ -135,13 +136,21 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 			out = fd[1];
 		}
 		else
-			out = (current->redirect_out != 1) ? current->redirect_out : 1;
+		{
+			if (current->redirect_out != 1)
+				out = current->redirect_out;
+			else
+				out = 1;
+		}
 		ft_exec(current, in, out, env);
 		if (current->next)
 			close(fd[1]);
 		if (in != 0)
 			close(in);
-		in = (current->next) ? fd[0] : 0;
+		if (current->next)
+			in = fd[0];
+		else
+			in = 0;
 		current = current->next;
 	}
 	wait_pids(cmd);
