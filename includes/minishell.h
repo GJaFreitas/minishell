@@ -76,6 +76,7 @@ void	env_add_key_value_pair(t_env *env, char *key, char *value);
 /* UTILITIES FOR ENV */
 void	env_grow(t_env *env);
 void	env_change_val(t_env *env, int index, char *val);
+void	free_env(t_env *env);
 
 /***************************
 FUNCTIONS ---------
@@ -96,6 +97,12 @@ int	ft_unset(char *const argv[], t_env *env);
 int	ft_env(char *const argv[], t_env *env);
 
 int	ft_exit(char *const argv[], t_env *env);
+
+/***************************
+SIGNALS ---------
+****************************/
+
+void	signals(void);
 
 /***************************
 DEBUG ---------

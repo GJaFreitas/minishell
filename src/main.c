@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/13 23:49:11 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/15 19:46:10 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,14 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	g_sig;
+pid_t	g_sig;
+
+int	free_minishell(t_env *env, int exitcode)
+{
+	free_env(env);
+	printf("exit\n");
+	return (exitcode);
+}
 
 t_cmd	*prompt(t_env *env)
 {
@@ -30,7 +37,7 @@ t_cmd	*prompt(t_env *env)
 	ft_memcpy(cwd + ft_strlen(cwd), " »  ", 4);
 	line = readline(cwd);
 	if (!line)
-		exit(0);
+		exit (free_minishell(env, 0));
 	return (parser(lexer(line), env));
 }
 
@@ -52,6 +59,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	env_t = init_env(env);
+	signals();
 	shell_loop(env_t);
 	return (0);
 }

@@ -1,10 +1,12 @@
 #include "minishell.h"
+#include <fcntl.h>
 
+//@TODO: Get exit to work by outputting EOF to stdin
 int	ft_exit(char *const argv[], t_env *env)
 {
+	int	fd;
+
 	(void)env;
 	(void)argv;
-	write(1, "exit\n", 5);
-	// This can just send a CTRL-D signal back to main
 	exit(0);
 }

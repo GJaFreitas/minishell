@@ -20,3 +20,21 @@ void	print_env_debug(t_env *env)
 		write(1, "\n", 1);
 	}
 }
+
+void	free_env(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (i < env->used)
+	{
+		free(env->keys[i]);
+		free(env->values[i]);
+		i++;
+	}
+	free(env->keys);
+	free(env->values);
+	if (env->sorted)
+		free(env->sorted);
+	free(env);
+}
