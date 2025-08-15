@@ -75,7 +75,6 @@ void	env_add_key_value_pair(t_env *env, char *key, char *value);
 
 /* UTILITIES FOR ENV */
 void	env_grow(t_env *env);
-int	is_exported(t_env *env, unsigned int index);
 void	env_change_val(t_env *env, int index, char *val);
 
 /***************************
