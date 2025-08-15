@@ -58,7 +58,6 @@ typedef struct s_env
 	char		**values;
 	uint32_t	size;
 	uint32_t	used;
-	uint32_t	exported;
 	int		*sorted;
 }	t_env;
 
