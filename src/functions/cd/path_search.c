@@ -30,6 +30,13 @@ static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1, char *buf2
 		(*full_path)[i++] = *buf2++;
 }
 
+static int	__norm_helper(char full_path[][CWD_BUFFER], char *error)
+{
+	__assemble_path(full_path, "", "");
+	perror(error);
+	return (1);
+}
+
 static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
 {
 	char	*temp;
@@ -38,16 +45,14 @@ static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *
 	{
 		temp = env_get_value(env, "HOME");
 		if (!temp)
-		{
-			__assemble_path(full_path, "", "");
-			perror("minishell: cd: HOME not set\n");
-			return (1);
-		}
+			return (__norm_helper(full_path, "minishell: cd: HOME not set\n"));
 		__assemble_path(full_path, temp, input);
 	}
 	else if (input[0] == '-')
 	{
 		temp = env_get_value(env, "OLD_PWD");
+		if (!temp)
+			return (__norm_helper(full_path, "minishell: cd: OLD_PWD not set\n"));
 		ft_memcpy(*full_path, temp, ft_strlen(temp));
 	}
 	else
