@@ -5,7 +5,7 @@
 void	prompt(t_env *env)
 {
 	t_cmd *cmds = parser(lexer(get_next_line(0)), env);
-	ft_cd(cmds->args, env);
+	ft_unset(cmds->args, env);
 }
 
 int	main(int argc, char **argv, char **env)

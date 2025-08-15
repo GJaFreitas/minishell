@@ -30,7 +30,6 @@ void	env_add(t_env *env, char *args)
 	env->keys[used] = ft_strdup(key);
 	env->values[used] = ft_strdup(value);
 	env->used++;
-	env->exported++;
 }
 
 static void	__get_key_value(char *args, char **key, char **value)
@@ -65,10 +64,9 @@ void	env_remove(t_env *env, char *key)
 		{
 			__move_back(&env->keys[i], &env->values[i], env->used - i);
 			env->used--;
-			if (is_exported(env, i))
-				env->exported--;
 			return ;
 		}
+		i++;
 	}
 }
 
@@ -76,6 +74,8 @@ static void	__move_back(char **keys, char **values, int size)
 {
 	int	i;
 
+	free(keys[0]);
+	free(values[0]);
 	i = 0;
 	while (i + 1 < size)
 	{

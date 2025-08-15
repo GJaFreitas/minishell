@@ -18,7 +18,6 @@ void	env_add_key_value_pair(t_env *env, char *key, char *value)
 	env->keys[used] = ft_strdup(key);
 	env->values[used] = ft_strdup(value);
 	env->used++;
-	env->exported++;
 
 }
 

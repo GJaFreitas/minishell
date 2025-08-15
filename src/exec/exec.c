@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/07 16:40:05 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/15 19:12:33 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exec_builtin(t_cmd *cmd, t_env *env)
 		ft_exit
 	};
 
-	jump_table[cmd->builtin - 1](&cmd->args[1], env);
+	jump_table[cmd->builtin - 1](cmd->args, env);
 }
 
 int	ft_strcmp(char *s1, char *s2)
