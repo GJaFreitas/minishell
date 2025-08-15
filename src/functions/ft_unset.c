@@ -2,7 +2,7 @@
 
 int	ft_unset(char *const argv[], t_env *env)
 {
-	(void)argv;
-	(void)env;
+	if (argv[1])
+		env_remove(env, argv[1]);
 	exit(0);
 }
