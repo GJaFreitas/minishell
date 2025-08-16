@@ -3,7 +3,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-static t_redirect	*__redirect(t_redirect *redir, char **tokens)
+static t_redirect	*__redirect(t_redirect *redir, char **tokens, int *i)
 {
 	t_redirect	*cur;
 
@@ -23,6 +23,7 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens)
 		cur->args[0] = ft_strdup(tokens[0]);
 		cur->args[1] = ft_strdup(tokens[1]);
 	}
+	*i += 2;
 	return (redir);
 }
 
@@ -40,7 +41,7 @@ static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 		if (!ft_strncmp(token, builtins[i], tokenLen))
 		{
 			*cmd = i + 1;
-			return (i);
+			return (1);
 		}
 		i++;
 	}
@@ -60,7 +61,7 @@ static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 		if (is_pipe(tokens[tok_index]))
 			return (tok_index + 1);
 		else if (tokens[tok_index][0] && ft_strchr(REDIRECT, tokens[tok_index][0]))
-			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index++]);
+			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index++], &i);
 		else if (tokens[tok_index][0] && i == 0)
 		{
 			if (!is_builtin(&cmd->builtin, tokens[tok_index]))

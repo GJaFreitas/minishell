@@ -4,12 +4,22 @@
 
 void	print_output(t_cmd *cmd)
 {
-	printf("Is Builtin: %d\n", cmd->builtin);
+	t_redirect	*cur;
+
+	printf("Is Builtin: %d\n", (cmd->builtin != 0));
 	printf("Args: \n");
 	while (*cmd->args)
 	{
 		printf("%s ", *cmd->args);
 		cmd->args++;
+	}
+	printf("\n");
+	cur = cmd->redirect;
+	while (cur)
+	{
+		printf("redir: %s %s", cur->args[0], cur->args[1]);
+		cur = cur->next;
+		printf("\n");
 	}
 	printf("\n");
 }
