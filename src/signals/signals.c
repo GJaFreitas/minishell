@@ -14,7 +14,7 @@ void	__sigquit_h(int code)
 {
 	(void)code;
 	//@TODO: Use isatty() to get CTRL-\ working
-	g_sig = SIGQUIT;
+	// g_sig = SIGQUIT;
 }
 
 void	signals(void)

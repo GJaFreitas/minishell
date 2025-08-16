@@ -2,12 +2,14 @@
 #include "parser.h"
 #include "minishell.h"
 
-void	print_output(char **args)
+void	print_output(t_cmd *cmd)
 {
-	while (*args)
+	printf("Is Builtin: %d\n", cmd->builtin);
+	printf("Args: \n");
+	while (*cmd->args)
 	{
-		printf("%s ", *args);
-		args++;
+		printf("%s ", *cmd->args);
+		cmd->args++;
 	}
 	printf("\n");
 }
@@ -17,7 +19,7 @@ void	prompt(t_env *env)
 	t_cmd *cmds = parser(lexer(get_next_line(0)), env);
 	while (cmds)
 	{
-		print_output(cmds->args);
+		print_output(cmds);
 		cmds = cmds->next;
 	}
 	free_cmds(cmds);
