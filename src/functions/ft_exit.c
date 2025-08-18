@@ -1,12 +1,14 @@
 #include "minishell.h"
-#include <fcntl.h>
 
-//@TODO: Get exit to work by outputting EOF to stdin
 int	ft_exit(char *const argv[], t_env *env)
 {
-	int	fd;
+	int	exitcode;
 
 	(void)env;
 	(void)argv;
-	exit(0);
+	if (argv[1])
+		exitcode = ft_atoi(argv[1]);
+	else
+		exitcode = 0;
+	exit (free_minishell(env, exitcode));
 }

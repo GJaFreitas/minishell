@@ -59,6 +59,8 @@ typedef struct s_env
 	uint32_t	size;
 	uint32_t	used;
 	int		*sorted;
+	char		**array;
+	bool		dirty;
 }	t_env;
 
 t_env	*init_env(char **old);
@@ -97,6 +99,13 @@ int	ft_unset(char *const argv[], t_env *env);
 int	ft_env(char *const argv[], t_env *env);
 
 int	ft_exit(char *const argv[], t_env *env);
+
+
+/***************************
+GENERAL MINISH ---------
+****************************/
+
+int	free_minishell(t_env *env, int exitcode);
 
 /***************************
 SIGNALS ---------

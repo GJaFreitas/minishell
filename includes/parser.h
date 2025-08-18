@@ -11,7 +11,7 @@ typedef struct s_expansion_list
 	struct s_expansion_list	*next;
 }	t_expansion_list;
 
-t_cmd	*parser(char **tokens, t_env *env);
+t_cmd	*parser(char **tokens, t_env *env, char **env_array);
 t_cmd	*assign_cmds(char **tokens, char **env);
 t_cmd	*__init_cmd(void);
 char	*path_search(char *token, char **env);

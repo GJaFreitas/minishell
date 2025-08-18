@@ -27,19 +27,16 @@ static void	__remove_quotes(t_cmd *cmds)
 	}
 }
 
-t_cmd	*parser(char **tokens, t_env *env)
+t_cmd	*parser(char **tokens, t_env *env, char **env_array)
 {
 	t_cmd		*cmds;
-	char		**env_array;
 
 	if (tokens == NULL)
 		return (NULL);
-	env_array = env_to_array(env);
 	expansions(tokens, env_array);
 	cmds = assign_cmds(tokens, env_array);
 	__remove_quotes(cmds);
 	free_tokens(tokens);
 	free(tokens);
-	free_env_array(env_array);
 	return (cmds);
 }

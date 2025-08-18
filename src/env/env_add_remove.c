@@ -30,6 +30,7 @@ void	env_add(t_env *env, char *args)
 	env->keys[used] = ft_strdup(key);
 	env->values[used] = ft_strdup(value);
 	env->used++;
+	env->dirty = true;
 }
 
 static void	__get_key_value(char *args, char **key, char **value)
@@ -68,6 +69,7 @@ void	env_remove(t_env *env, char *key)
 		}
 		i++;
 	}
+	env->dirty = true;
 }
 
 static void	__move_back(char **keys, char **values, int size)
@@ -83,4 +85,24 @@ static void	__move_back(char **keys, char **values, int size)
 		values[i] = values[i + 1];
 		i++;
 	}
+}
+
+void	env_add_key_value_pair(t_env *env, char *key, char *value)
+{	
+	unsigned int	used;
+	int	exists;
+
+	exists = env_var_exists(env, key);
+	if (exists != -1)
+	{
+		env_change_val(env, exists, value);
+		return ;
+	}
+	used = env->used;
+	if (used + 1 >= env->size)
+		env_grow(env);
+	env->keys[used] = ft_strdup(key);
+	env->values[used] = ft_strdup(value);
+	env->used++;
+	env->dirty = true;
 }

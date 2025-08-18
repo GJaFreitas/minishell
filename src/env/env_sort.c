@@ -31,7 +31,9 @@ static int	*env_create_sorted(t_env *env)
 	int	*arr;
 	int	*temp;
 
-	if (env->sorted)
+	if (env->dirty == false && env->sorted)
+		return (env->sorted);
+	else if (env->sorted)
 		free(env->sorted);
 	arr = malloc(sizeof(int) * env->used);
 	temp = ft_calloc((env->used + 1), sizeof(int));

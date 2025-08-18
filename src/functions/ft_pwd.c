@@ -10,5 +10,5 @@ int	ft_pwd(char *const argv[], t_env *env)
 		exit(1);
 	write(1, cwd, ft_strlen(cwd));
 	write(1, "\n", 1);
-	exit (0);
+	return (0);
 }

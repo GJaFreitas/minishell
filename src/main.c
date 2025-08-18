@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/15 19:46:10 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/18 16:03:32 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_cmd	*prompt(t_env *env)
 	line = readline(cwd);
 	if (!line)
 		exit (free_minishell(env, 0));
-	return (parser(lexer(line), env));
+	return (parser(lexer(line), env, env_to_array(env)));
 }
 
 static void	shell_loop(t_env *env)

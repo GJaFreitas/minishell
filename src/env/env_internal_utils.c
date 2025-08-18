@@ -36,5 +36,7 @@ void	free_env(t_env *env)
 	free(env->values);
 	if (env->sorted)
 		free(env->sorted);
+	if (env->array)
+		free_env_array(env->array);
 	free(env);
 }

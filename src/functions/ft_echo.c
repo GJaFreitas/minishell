@@ -21,7 +21,7 @@ int	ft_echo(char *const argv[], t_env *env)
 	int	flag;
 
 	(void)env;
-	i = 0;
+	i = 1;
 	flag = 1;
 	if (!_strncmp("-n\0", argv[i], 3))
 	{
@@ -36,5 +36,5 @@ int	ft_echo(char *const argv[], t_env *env)
 	}
 	if (flag || !argv[0])
 		write(1, "\n", 1);
-	exit(0);
+	return (0);
 }

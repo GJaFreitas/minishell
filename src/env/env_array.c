@@ -7,6 +7,10 @@ char	**env_to_array(t_env *env)
 	char	**arr;
 	unsigned int	i;
 
+	if (env->array && env->dirty == false)
+		return (env->array);
+	else if (env->array)
+		free_env_array(env->array);
 	arr = malloc(sizeof(char *) * (env->used + 1));
 	i = 0;
 	while (i < env->used)
@@ -15,6 +19,8 @@ char	**env_to_array(t_env *env)
 		i++;
 	}
 	arr[i] = NULL;
+	env->dirty = false;
+	env->array = arr;
 	return (arr);
 }
 

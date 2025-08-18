@@ -4,5 +4,5 @@ int	ft_env(char *const argv[], t_env *env)
 {
 	(void)argv;
 	env_print(env);
-	exit(0);
+	return (0);
 }

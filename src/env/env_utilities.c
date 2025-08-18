@@ -1,26 +1,6 @@
 #include "libft.h"
 #include "minishell.h"
 
-void	env_add_key_value_pair(t_env *env, char *key, char *value)
-{	
-	unsigned int	used;
-	int	exists;
-
-	exists = env_var_exists(env, key);
-	if (exists != -1)
-	{
-		env_change_val(env, exists, value);
-		return ;
-	}
-	used = env->used;
-	if (used + 1 >= env->size)
-		env_grow(env);
-	env->keys[used] = ft_strdup(key);
-	env->values[used] = ft_strdup(value);
-	env->used++;
-
-}
-
 // Get value for a given key
 char	*env_get_value(t_env *env, char *key)
 {
