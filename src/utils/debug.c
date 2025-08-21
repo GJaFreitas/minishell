@@ -17,14 +17,14 @@ void	print_cmd(t_cmd *cmd)
 	int i = 0;
 	while (cmd)
 	{
-	i = 0;
-	while(cmd->args[i])
-	{
-		printf("%i - %s\n", i, cmd->args[i]);
-		i++;
-	}
-	printf("redrections flag == in %d, out %d \n",cmd->redirect_in, cmd->redirect_out);
-	cmd = cmd->next;
+		i = 0;
+		while(cmd->args[i])
+		{
+			printf("%i - %s\n", i, cmd->args[i]);
+			i++;
+		}
+		printf("redrections flag == in %d, out %d \n",cmd->redirect_in, cmd->redirect_out);
+		cmd = cmd->next;
 	}
 }
 

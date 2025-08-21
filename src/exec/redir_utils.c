@@ -24,7 +24,7 @@ int	__case_out(t_cmd *cmd, t_redirect *redir)
 		close(cmd->redirect_out);
 	cmd->redirect_out = open(redir->args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (cmd->redirect_out == -1)
-		return (1);
+		return (perror("open"), 1);
 	return (0);
 }
 
@@ -34,7 +34,7 @@ int	__case_out_append(t_cmd *cmd, t_redirect *redir)
 		close(cmd->redirect_out);
 	cmd->redirect_out = open(redir->args[1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (cmd->redirect_out == -1)
-		return (1);
+		return (perror("open"), 1);
 	return (0);
 }
 
@@ -44,6 +44,6 @@ int	__case_in(t_cmd *cmd, t_redirect *redir)
 		close(cmd->redirect_in);
 	cmd->redirect_in = open(redir->args[1], O_RDONLY);
 	if (cmd->redirect_in == -1)
-		return (1);
+		return (perror("open"), 1);
 	return (0);
 }

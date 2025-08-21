@@ -134,8 +134,6 @@ t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
 void	run_redirection_tests(t_env *env);
 
 int		setup_redirections(t_cmd *cmd);
-void	ft_exec(t_cmd *cmd, t_env *env);
-void	ft_exec_all(t_cmd *cmd, t_env *env);
 int		ft_export_l(char *const*args, t_env **env_list);
 int		ft_strcmp(char *s1, char *s2);
 

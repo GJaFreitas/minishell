@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:42:24 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/21 22:52:15 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	setup_redirections(t_cmd *cmd)
 	current = cmd;
 	while (current)
 	{
-		cmd->redirect_in = 0;
-		cmd->redirect_out = 1;
+		current->redirect_in = 0;
+		current->redirect_out = 1;
 		redir = cmd->redirect;
 		while (redir)
 		{
@@ -76,7 +76,6 @@ int	setup_redirections(t_cmd *cmd)
 
 void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 {
-	printf("in: %d, out: %d\n", *in, *out);
 	if (cur->redirect_in != 0)
 	{
 		if (*in != 0)
@@ -92,27 +91,19 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 	}
 	else
 		*out = cur->redirect_out;
-	if (*in != 0)
-	{
-		if (dup2(*in, STDOUT_FILENO) == -1)
-			perror("dup2 stdin");
-		close(*in);
-	}
-	if (*out != 1)
-	{
-		if (dup2(*out, STDOUT_FILENO) == -1)
-			perror("dup2 stdout");
-		close(*out);
-	}
 }
 
-void	ft_exec(t_cmd *cmd, t_env *env)
+void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		return (perror("fork"));
 	if (cmd->pid == 0) // Child process
 	{
+		if (in != 0 && dup2(in, STDIN_FILENO) == -1)
+			perror("dup2 stdin");
+		if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
+			perror("dup2 stdout");
 		if (execve(cmd->args[0], cmd->args, env_to_array(env)) == -1)
 		{
 			perror("execve");
@@ -138,11 +129,13 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 		if (cur->builtin > 0)
 			exec_builtin(cur, env);
 		else
-			ft_exec(cur, env);
+			ft_exec(cur, env, in, out);
 		if (cur->next)
 			close(pipefd[1]);
 		if (in != 0)
 			close(in);
+		if (out != 0)
+			close(out);
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}
