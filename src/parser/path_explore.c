@@ -25,7 +25,7 @@ static char	*__search_folders(char **folders, char *token)
 		entry = readdir(dir_stream);
 		while (entry)
 		{
-			if (!ft_strcmp(entry->d_name, token))
+			if (!ft_strncmp(entry->d_name, token, ft_strlen(entry->d_name)))
 			{
 				path = ft_strdup(*folders);
 				closedir(dir_stream);
