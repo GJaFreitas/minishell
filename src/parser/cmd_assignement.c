@@ -65,11 +65,9 @@ static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 		else if (tokens[tok_index][0] && i == 0)
 		{
 			if (!is_builtin(&cmd->builtin, tokens[tok_index]))
-				cmd->args[i++] = path_search(tokens[tok_index], env);
+				cmd->args[i++] = path_search(tokens[tok_index], env, &cmd->builtin);
 			else
 				cmd->args[i++] = ft_strdup(tokens[tok_index]);
-			if (!ft_strncmp(cmd->args[0], "NO_CMD", 6))
-				cmd->builtin = UNKNOWN_COMMAND;
 		}
 		else
 			cmd->args[i++] = ft_strdup(tokens[tok_index]);

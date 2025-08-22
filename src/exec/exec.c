@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/21 22:52:15 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/22 12:32:30 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,10 @@ void	exec_builtin(t_cmd *cmd, t_env *env)
 		ft_exit
 	};
 
+	if (cmd->builtin == UNKNOWN_COMMAND)
+		return (printf("minishell: %s: command not found\n",
+		*cmd->args), (void)0);
 	jump_table[cmd->builtin - 1](cmd->args, env);
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s1 && !s2)
-		return (0);
-	if ((!s1 && s2) || (!s2 && s1))
-		return (1);
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			break ;
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 int	setup_redirections(t_cmd *cmd)
@@ -126,7 +111,7 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 	while (cur)
 	{
 		setup_pipes(cur, &in, &out, pipefd);
-		if (cur->builtin > 0)
+		if (cur->builtin != 0)
 			exec_builtin(cur, env);
 		else
 			ft_exec(cur, env, in, out);

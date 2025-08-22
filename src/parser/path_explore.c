@@ -25,7 +25,7 @@ static char	*__search_folders(char **folders, char *token)
 		entry = readdir(dir_stream);
 		while (entry)
 		{
-			if (!ft_strncmp(entry->d_name, token, ft_strlen(token)))
+			if (!ft_strcmp(entry->d_name, token))
 			{
 				path = ft_strdup(*folders);
 				closedir(dir_stream);
@@ -75,7 +75,7 @@ static char	*__path_extract(char **env)
 	return (*env);
 }
 
-char	*path_search(char *token, char **env)
+char	*path_search(char *token, char **env, enum e_builtin *cmd)
 {
 	char	**folders;
 	char	*path;
@@ -91,11 +91,13 @@ char	*path_search(char *token, char **env)
 	{
 		free_tokens(folders);
 		free(folders);
-		return (ft_strdup("NO_CMD"));
+		*cmd = UNKNOWN_COMMAND;
+		return (ft_strdup(token));
 	}
 	temp = ft_strjoin(path, "/");
 	free(path);
 	path = ft_strjoin(temp, token);
+	// free temp??
 	free_tokens(folders);
 	free(folders);
 	return (path);

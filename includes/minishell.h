@@ -127,14 +127,6 @@ TEST ====================== */
 
 // Test functions for redirection
 void	ft_exec_all(t_cmd *cmd, t_env *env);
-int	if_redirect(t_cmd *cmd,int redirect,int input);
-
-t_cmd	*create_test_cmd(char *cmd, char *redir_type, char *filename);
-t_cmd	*create_test_pipeline(char **cmds, int num_cmds);
-void	run_redirection_tests(t_env *env);
-
-int		setup_redirections(t_cmd *cmd);
-int		ft_export_l(char *const*args, t_env **env_list);
 int		ft_strcmp(char *s1, char *s2);
 
 #endif
