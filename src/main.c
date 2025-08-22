@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/21 23:01:10 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/22 11:56:10 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	free_minishell(t_env *env, int exitcode)
 t_cmd	*prompt(t_env *env)
 {
 	char *line;
-	char cwd[CWD_BUFFER];
+	static char cwd[CWD_BUFFER];
 
 	ft_bzero(cwd, CWD_BUFFER);
 	if (!getcwd(cwd, CWD_BUFFER))
