@@ -5,7 +5,7 @@ extern pid_t	g_sig;
 
 void	__sigint_h(int code)
 {
-	(void)code;
+	g_sig = SIGINT;
 	write(0, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
