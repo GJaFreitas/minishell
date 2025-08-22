@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <readline/readline.h>
 
 extern pid_t	g_sig;
 
@@ -7,7 +8,9 @@ void	__sigint_h(int code)
 	(void)code;
 	//@TODO: Get this to actually work
 	write(0, "\n", 1);
-	return ;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	__sigquit_h(int code)

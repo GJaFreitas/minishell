@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/22 12:05:55 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/22 12:57:27 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ int	free_minishell(t_env *env, int exitcode)
 	free_env(env);
 	printf("exit\n");
 	return (exitcode);
+}
+
+void	setup_readline(void)
+{
+	return ;
 }
 
 t_cmd	*prompt(t_env *env)
@@ -59,6 +64,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	env_t = init_env(env);
+	setup_readline();
 	signals();
 	shell_loop(env_t);
 	return (0);
