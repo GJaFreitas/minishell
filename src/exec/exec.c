@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/22 12:32:30 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/22 12:44:25 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 			close(pipefd[1]);
 		if (in != 0)
 			close(in);
-		if (out != 0)
+		if (out != 1)
 			close(out);
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
