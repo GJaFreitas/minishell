@@ -84,7 +84,7 @@ int	get_expansion_size(char *tok)
 
 t_expansion_list	*next_expansion(t_expansion_list *list)
 {
-	list->next = malloc(sizeof(t_expansion_list));
+	list->next = ft_calloc(1, sizeof(t_expansion_list));
 	return (list->next);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/22 13:31:43 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/22 18:06:37 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
+#include <termios.h>
+#include <unistd.h>
 
 pid_t	g_sig;
 
@@ -38,14 +40,16 @@ t_cmd	*prompt(t_env *env)
 	static char	cwd[CWD_BUFFER];
 
 	ft_bzero(cwd, CWD_BUFFER);
-	if (!getcwd(cwd, CWD_BUFFER))
-		perror("getcwd() error\n");
-	ft_memcpy(cwd + ft_strlen(cwd), " »  ", 4);
-	// printf("%d\n", g_sig);
-	if (g_sig == SIGINT)
-		line = readline(NULL);
+	if (g_sig != SIGINT)
+	{
+		if (!getcwd(cwd, CWD_BUFFER))
+			perror("getcwd() error\n");
+		ft_memcpy(cwd + ft_strlen(cwd), " »  ", 4);
+	}
 	else
-		line = readline(cwd);
+		g_sig = 0;
+	// printf("%d\n", g_sig);
+	line = readline(cwd);
 	if (!line)
 		exit (free_minishell(env, 0));
 	add_history(line);
@@ -57,7 +61,6 @@ static void	shell_loop(t_env *env)
 	t_cmd	*cmd;
 	while (1)
 	{
-		g_sig = 0;
 		cmd = prompt(env);
 		ft_exec_all(cmd, env);
 	}
@@ -67,6 +70,7 @@ static void	shell_loop(t_env *env)
 int	main(int argc, char **argv, char **env)
 {
 	t_env *env_t;
+	struct termios	term;
 
 	(void)argc;
 	(void)argv;
