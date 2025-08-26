@@ -73,6 +73,7 @@ void	env_print(t_env *env);
 char	**env_to_array(t_env *env);
 void	free_env_array(char **arr);
 int	env_var_exists(t_env *env, char *key);
+char	*env_get_value_index(t_env *env, int index);
 void	env_add_key_value_pair(t_env *env, char *key, char *value);
 
 /* UTILITIES FOR ENV */
@@ -119,14 +120,15 @@ DEBUG ---------
 
 void	print_tokens(char *const *tokens);
 void	print_cmd(t_cmd *cmd);
+void	print_one_cmd(t_cmd *cmd);
 
 /***************************
 TEST ====================== */
 
 // Add these function prototypes
 
-// Test functions for redirection
 void	ft_exec_all(t_cmd *cmd, t_env *env);
 int		ft_strcmp(char *s1, char *s2);
+char	*ft_itoa_buf(long int n, char *buf, int size);
 
 #endif

@@ -7,15 +7,10 @@ extern pid_t	g_sig;
 void	__sigint_h(int code)
 {
 	g_sig = SIGINT;
-	write(STDIN_FILENO, "\n", 2);
+	write(STDIN_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	__sigquit_h(int code)
-{
-	(void)code;
 }
 
 void	signals(void)

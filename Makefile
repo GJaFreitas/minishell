@@ -98,6 +98,7 @@ SRCS += \
 	debug.c \
 	ft_strndup.c \
 	ft_strcmp.c \
+	ft_itoa_buf.c \
 
 
 # --- INCLUDES ---------------- #
@@ -168,8 +169,8 @@ re:
 r:
 	make re && clear && ./$(NAME)
 
-test_redirections:
-	@$(MAKE) CFLAGS="-D TEST_REDIRECTIONS"
-	@echo "✓ built with redirection tests"
+leaks:
+	make && clear && valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --suppressions=readline.supp ./$(NAME)
+
 
 .PHONY: all clean fclean re r test-% test_redirections

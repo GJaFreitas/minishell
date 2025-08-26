@@ -12,6 +12,21 @@ void	print_tokens(char *const *tokens)
 	}
 }
 
+void	print_one_cmd(t_cmd *cmd)
+{
+	int i = 0;
+
+	printf("Builtin: %d\n", cmd->builtin);
+	printf("Next exists: %d\n", (cmd->next != NULL));
+	while(cmd->args[i])
+	{
+		printf("%i - %s\n", i, cmd->args[i]);
+		i++;
+	}
+	printf("redirections: in: %d, out: %d \n", cmd->redirect_in, cmd->redirect_out);
+	printf("\n\n");
+}
+
 void	print_cmd(t_cmd *cmd)
 {
 	int i = 0;

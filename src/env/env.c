@@ -9,13 +9,30 @@
 
 static char	*__extract_to_from(char *str, char end, char start);
 
+static inline void	__increment_shlvl(t_env *env, char cwd[CWD_BUFFER])
+{
+	int	idx;
+	int	n;
+
+	ft_bzero(cwd, CWD_BUFFER);
+	idx = env_var_exists(env, "SHLVL");
+	ft_strlcpy(cwd, env_get_value_index(env, idx), CWD_BUFFER);
+	n = ft_atoi(cwd);
+	n++;
+	ft_bzero(cwd, 12);
+	ft_itoa_buf(n, cwd, CWD_BUFFER);
+	env_change_val(env, idx, cwd);
+}
+
 void	start_env_vars(t_env *env)
 {
 	char	cwd[CWD_BUFFER];
 
+	ft_bzero(cwd, CWD_BUFFER);
 	getcwd(cwd, CWD_BUFFER);
 	env_add_key_value_pair(env, "PWD", cwd);
 	env_add_key_value_pair(env, "OLD_PWD", cwd);
+	__increment_shlvl(env, cwd);
 }
 
 t_env	*init_env(char **old)

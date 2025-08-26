@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/22 12:44:25 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/26 14:33:17 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,15 @@ int	__case_out_append(t_cmd *cmd, t_redirect *redir);
 int	__case_in(t_cmd *cmd, t_redirect *redir);
 int	__switch(t_cmd *cmd, t_redirect *redir);
 
-void	exec_builtin(t_cmd *cmd, t_env *env)
+void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 {
 	static int (*jump_table[7])(char *const argv[], t_env *) = { \
-		ft_echo,
-		ft_cd,
-		ft_pwd,
-		ft_export,
-		ft_unset,
-		ft_env,
-		ft_exit
+		ft_echo, ft_cd, ft_pwd, ft_export, ft_unset, ft_env, ft_exit
 	};
 
 	if (cmd->builtin == UNKNOWN_COMMAND)
 		return (printf("minishell: %s: command not found\n",
-		*cmd->args), (void)0);
+		 *cmd->args), (void)0);
 	jump_table[cmd->builtin - 1](cmd->args, env);
 }
 
@@ -111,8 +105,9 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 	while (cur)
 	{
 		setup_pipes(cur, &in, &out, pipefd);
+		// print_one_cmd(cur);
 		if (cur->builtin != 0)
-			exec_builtin(cur, env);
+			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
 		if (cur->next)

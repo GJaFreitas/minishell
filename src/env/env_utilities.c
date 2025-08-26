@@ -18,6 +18,13 @@ char	*env_get_value(t_env *env, char *key)
 	return (NULL);
 }
 
+char	*env_get_value_index(t_env *env, int index)
+{
+	if (index < 0)
+		return (NULL);
+	return (env->values[index]);
+}
+
 void	env_print(t_env *env)
 {
 	unsigned int	i;

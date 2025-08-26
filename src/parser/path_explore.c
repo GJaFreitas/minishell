@@ -97,7 +97,7 @@ char	*path_search(char *token, char **env, enum e_builtin *cmd)
 	temp = ft_strjoin(path, "/");
 	free(path);
 	path = ft_strjoin(temp, token);
-	// free temp??
+	free(temp);
 	free_tokens(folders);
 	free(folders);
 	return (path);
