@@ -19,7 +19,7 @@ LIBFT = libft/libft.a
 LIBFT_DIR = ./libft
 
 # --- VPATH ------------ #
-VPATH = src:src/functions:src/memory:src/signals:test-cases/
+VPATH = src:src/functions:src/signals:test-cases/
 
 # --- TESTS ------------ #
 
@@ -70,13 +70,6 @@ VPATH += src/lexer
 SRCS += lexer.c \
 		lexer_tokenize.c \
 		lex_utils.c \
-
-# Memory sources
-VPATH += src/memory
-SRCS += \
-	mem_alloc.c \
-	mem_list.c \
-	mem_test.c \
 
 # Parser sources
 VPATH += src/parser
