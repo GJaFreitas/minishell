@@ -1,6 +1,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 
+#include "stdbool.h"
+#include <sys/types.h>
 # define REDIRECT	"<>"
 
 # include "minishell.h"
@@ -8,6 +10,7 @@
 typedef struct s_expansion_list
 {
 	char	*expansion;
+	bool	allocd;
 	struct s_expansion_list	*next;
 }	t_expansion_list;
 
@@ -16,7 +19,7 @@ t_cmd	*assign_cmds(char **tokens, char **env);
 t_cmd	*__init_cmd(void);
 char	*path_search(char *token, char **env, enum e_builtin *cmd);
 int		is_pipe(char *token);
-void	expansions(char **tokens, char **env);
+void	expansions(char **tokens, char **env, u_char exit);
 
 
 // Utils ------------------

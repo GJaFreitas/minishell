@@ -6,11 +6,14 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/26 14:33:17 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/28 18:32:14 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 int	__case_out(t_cmd *cmd, t_redirect *redir);
 int	__case_out_append(t_cmd *cmd, t_redirect *redir);
@@ -19,14 +22,22 @@ int	__switch(t_cmd *cmd, t_redirect *redir);
 
 void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 {
+	int	stdin_fd;
+	int	stdout_fd;
 	static int (*jump_table[7])(char *const argv[], t_env *) = { \
 		ft_echo, ft_cd, ft_pwd, ft_export, ft_unset, ft_env, ft_exit
 	};
 
+	stdin_fd = dup(STDIN_FILENO);
+	stdout_fd = dup(STDOUT_FILENO);
 	if (cmd->builtin == UNKNOWN_COMMAND)
 		return (printf("minishell: %s: command not found\n",
 		 *cmd->args), (void)0);
-	jump_table[cmd->builtin - 1](cmd->args, env);
+	dup2(in, STDIN_FILENO);
+	dup2(out, STDOUT_FILENO);
+	env->exit = jump_table[cmd->builtin - 1](cmd->args, env);
+	dup2(stdin_fd, STDIN_FILENO);
+	dup2(stdout_fd, STDOUT_FILENO);
 }
 
 int	setup_redirections(t_cmd *cmd)
@@ -91,7 +102,34 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 	}
 }
 
-void	ft_exec_all(t_cmd *cmd, t_env *env)
+int	wait_pids(t_cmd *cmds, t_env *env)
+{
+	int	sig;
+	int	status;
+
+	status = env->exit;
+	while (cmds)
+	{
+		signal(SIGINT, SIG_IGN);
+		if (cmds->pid)
+			waitpid(cmds->pid, &status, 0);
+		signal(SIGINT, __sigint_h);
+		if (WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if (sig == SIGINT)
+				write(1, "\n", 1);
+		}
+		cmds = cmds->next;
+	}
+	if (WIFSIGNALED(status))
+		return (sig + 128);
+	if (status != env->exit)
+		return (WEXITSTATUS(status));
+	return (env->exit);
+}
+
+int	ft_exec_all(t_cmd *cmd, t_env *env)
 {
 	t_cmd	*cur;
 	int	in;
@@ -99,7 +137,7 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 	int	pipefd[2];
 
 	if (setup_redirections(cmd) < 0)
-		return ;
+		return (-1);
 	in = 0;
 	cur = cmd;
 	while (cur)
@@ -110,20 +148,11 @@ void	ft_exec_all(t_cmd *cmd, t_env *env)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		if (cur->next)
-			close(pipefd[1]);
-		if (in != 0)
-			close(in);
-		if (out != 1)
-			close(out);
+		(cur->next) && close(pipefd[1]);
+		(in != 0) && close(in);
+		(out != 1) && close(out);
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}
-	cur = cmd;
-	while (cur)
-	{
-		if (cur->pid)
-			waitpid(cur->pid, (int *)0, 0);
-		cur = cur->next;
-	}
+	return (wait_pids(cmd, env));
 }

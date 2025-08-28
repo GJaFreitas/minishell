@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/26 14:30:55 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/28 18:27:47 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,9 @@ t_cmd	*prompt(t_env *env)
 	static char	cwd[CWD_BUFFER];
 
 	ft_bzero(cwd, CWD_BUFFER);
-	if (g_sig != SIGINT)
-	{
-		if (!getcwd(cwd, CWD_BUFFER))
-			perror("getcwd() error\n");
-		ft_memcpy(cwd + ft_strlen(cwd), " »  ", 4);
-	}
-	else
-		g_sig = 0;
-	// printf("%d\n", g_sig);
+	if (!getcwd(cwd, CWD_BUFFER))
+		perror("getcwd() error\n");
+	ft_memcpy(cwd + ft_strlen(cwd), " »  ", 4);
 	line = readline(cwd);
 	if (!line)
 		exit (free_minishell(env, 0));
@@ -59,19 +53,18 @@ t_cmd	*prompt(t_env *env)
 static void	shell_loop(t_env *env)
 {
 	t_cmd	*cmd;
+
 	while (1)
 	{
 		cmd = prompt(env);
-		ft_exec_all(cmd, env);
+		env->exit = ft_exec_all(cmd, env);
 		free_cmds(cmd);
 	}
-	
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_env *env_t;
-	struct termios	term;
 
 	(void)argc;
 	(void)argv;

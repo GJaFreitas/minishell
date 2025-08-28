@@ -4,10 +4,12 @@
 # include "libft.h"
 # include "colors.h"
 # include "memory.h"
+# include "signals.h"
 # include <stdio.h>
 # include <stdint.h>
 # include <stdarg.h>
 # include <stddef.h>
+#include <sys/types.h>
 # include <sys/wait.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -39,6 +41,7 @@ enum e_builtin
 typedef struct s_cmd
 {
 	int				pid;
+	int				status;
 	char			**args;
 	enum e_builtin		builtin;
 	int				redirect_in;
@@ -61,6 +64,7 @@ typedef struct s_env
 	int		*sorted;
 	char		**array;
 	bool		dirty;
+	u_char		exit;
 }	t_env;
 
 t_env	*init_env(char **old);
@@ -127,7 +131,7 @@ TEST ====================== */
 
 // Add these function prototypes
 
-void	ft_exec_all(t_cmd *cmd, t_env *env);
+int	ft_exec_all(t_cmd *cmd, t_env *env);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_itoa_buf(long int n, char *buf, int size);
 

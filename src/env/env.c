@@ -40,13 +40,10 @@ t_env	*init_env(char **old)
 	t_env	*env;
 	unsigned int	i;
 
-	env = malloc(sizeof(t_env));
+	env = ft_calloc(1, sizeof(t_env));
 	env->size = ENV_INIT_SIZE;
 	env->keys = malloc(ENV_INIT_SIZE * sizeof(char *));
 	env->values = malloc(ENV_INIT_SIZE * sizeof(char *));
-	env->sorted = NULL;
-	env->dirty = false;
-	env->array = NULL;
 	i = 0;
 	while (*old)
 	{

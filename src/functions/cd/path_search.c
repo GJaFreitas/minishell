@@ -66,7 +66,11 @@ static void	__relative_handler(char full_path[][CWD_BUFFER], char *input, t_env 
 
 	temp = env_get_value(env, "PWD");
 	if (input[0] == '.')
+	{
 		__assemble_path(full_path, temp, input);
+		if (input[1] == '.')
+			*ft_strrchr(*full_path, '/') = 0;
+	}
 	else
 	{
 		ft_memcpy(*full_path, temp, ft_strlen(temp));

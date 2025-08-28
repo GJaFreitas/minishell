@@ -4,10 +4,11 @@
 #include "parser.h"
 #include <stdint.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 int	is_env_char(int c)
 {
-	return (ft_isalnum(c) || c == '_');
+	return (ft_isalnum(c) || c == '_' || c == '?');
 }
 
 char	*__assemble(char *tok, t_expansion_list *list, int size)
@@ -25,6 +26,8 @@ char	*__assemble(char *tok, t_expansion_list *list, int size)
 		j = 0;
 		while (cur->expansion && cur->expansion[j])
 			new[i++] = cur->expansion[j++];
+		if (cur->allocd)
+			free(cur->expansion);
 		cur = cur->next;
 	}
 	new[i] = 0;
@@ -99,7 +102,7 @@ char	*copy_until_expansion(char *tok)
 }
 
 // Genuinely evil ass function
-t_expansion_list	*get_all_expansions(char *tok, char **env)
+t_expansion_list	*get_all_expansions(char *tok, char **env, u_char exit)
 {
 	t_expansion_list	*list;
 	t_expansion_list	*cur;
@@ -115,14 +118,17 @@ t_expansion_list	*get_all_expansions(char *tok, char **env)
 			while (*tok && *tok != '$')
 				tok++;
 		}
-		cur->expansion = __get_expansion(tok + 1, env);
+		if (tok[1] == '?')
+			(cur->allocd = 1) && (cur->expansion = ft_itoa(exit));
+		else
+			cur->expansion = __get_expansion(tok + 1, env);
 		cur = next_expansion(cur);
 		tok += get_expansion_size(tok);
 	}
 	return (list);
 }
 
-char	*__expand_token(char *tok, char **env)
+char	*__expand_token(char *tok, char **env, u_char exit)
 {
 	char	*new_tok;
 	t_expansion_list	*expansions;
@@ -133,19 +139,19 @@ char	*__expand_token(char *tok, char **env)
 		i++;
 	if (!(tok[i] == '$'))
 		return (tok);
-	expansions = get_all_expansions(tok, env);
+	expansions = get_all_expansions(tok, env, exit);
 	new_tok = __assemble(tok, expansions, expansion_list_size(expansions));
 	return (new_tok);
 }
 
-void	expansions(char **tokens, char **env)
+void	expansions(char **tokens, char **env, u_char exit)
 {
 	int	i;
 
 	i = 0;
 	while (tokens[i])
 	{
-		tokens[i] = __expand_token(tokens[i], env);
+		tokens[i] = __expand_token(tokens[i], env, exit);
 		i++;
 	}
 }

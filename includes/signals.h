@@ -5,4 +5,5 @@
 
 void	signals(void);
 void	__sigint_h(int code);
+
 #endif 
