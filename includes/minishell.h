@@ -18,7 +18,6 @@
 
 # define CWD_BUFFER	1024
 
-
 typedef struct s_redirect
 {
 	char				*args[2];
@@ -90,19 +89,15 @@ FUNCTIONS ---------
 ****************************/
 
 int	ft_echo(char *const argv[], t_env *env);
-
 int	ft_export(char *const argv[], t_env *env);
-
 int	ft_pwd(char *const argv[], t_env *env);
-
+// CD
 int	ft_cd(char *const argv[], t_env *env);
 int	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER]);
 int	path_exists(char *path);
-
+// ---
 int	ft_unset(char *const argv[], t_env *env);
-
 int	ft_env(char *const argv[], t_env *env);
-
 int	ft_exit(char *const argv[], t_env *env);
 
 
@@ -127,12 +122,17 @@ void	print_cmd(t_cmd *cmd);
 void	print_one_cmd(t_cmd *cmd);
 
 /***************************
-TEST ====================== */
+EXEC ----------------
+****************************/
 
-// Add these function prototypes
-
+int	heredoc(char *delimiter, char **cmd_args);
 int	ft_exec_all(t_cmd *cmd, t_env *env);
-int		ft_strcmp(char *s1, char *s2);
+
+
+/***************************
+UTILS ----------------
+****************************/
+int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_itoa_buf(long int n, char *buf, int size);
 
 #endif

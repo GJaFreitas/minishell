@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/28 18:32:14 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/29 16:16:10 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 
 void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
+	//@TODO: free the copied memory here
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		return (perror("fork"));

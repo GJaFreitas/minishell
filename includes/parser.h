@@ -12,7 +12,7 @@ typedef struct s_expansion_list
 	char	*expansion;
 	bool	allocd;
 	struct s_expansion_list	*next;
-}	t_expansion_list;
+}	t_string_list;
 
 t_cmd	*parser(char **tokens, t_env *env, char **env_array);
 t_cmd	*assign_cmds(char **tokens, char **env);

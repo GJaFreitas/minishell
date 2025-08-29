@@ -50,6 +50,7 @@ VPATH += src/exec
 SRCS += \
 	exec.c \
 	redir_utils.c \
+	heredoc.c \
 
 # Builtin functions sources
 VPATH += src/functions
@@ -163,7 +164,7 @@ r:
 	make re && clear && ./$(NAME)
 
 leaks:
-	make && clear && valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --suppressions=readline.supp ./$(NAME)
+	make re && clear && valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --suppressions=readline.supp ./$(NAME)
 
 
 .PHONY: all clean fclean re r test-% test_redirections

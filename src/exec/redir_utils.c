@@ -13,8 +13,19 @@ int	__switch(t_cmd *cmd, t_redirect *redir)
 		return (1);
 	else if (ft_strcmp(redir->args[0], "<") == 0 && __case_in(cmd, redir))
 		return (1);
-	else if (ft_strcmp(redir->args[0], "<<") == 0)
-		ft_printf("Here-doc with delimiter: %s (not implemented yet)\n", redir->args[1]);
+	else if (ft_strcmp(redir->args[0], "<<") == 0 && __case_hdoc(cmd, redir))
+		return (1);
+	return (0);
+}
+
+int	__case_hdoc(t_cmd *cmd, t_redirect *redir)
+{
+	if (cmd->redirect_in != 0)
+		close(cmd->redirect_in);
+	cmd->redirect_in = heredoc(redir->args[1], cmd->args);
+	if (cmd->redirect_in == -1)
+		return (perror("heredoc"), 1);
+	redir->args[1][0] = cmd->redirect_in;
 	return (0);
 }
 

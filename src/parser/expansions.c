@@ -11,9 +11,9 @@ int	is_env_char(int c)
 	return (ft_isalnum(c) || c == '_' || c == '?');
 }
 
-char	*__assemble(char *tok, t_expansion_list *list, int size)
+char	*__assemble(char *tok, t_string_list *list, int size)
 {
-	t_expansion_list	*cur;
+	t_string_list	*cur;
 	char	*new;
 	int	i;
 	int	j;
@@ -34,9 +34,9 @@ char	*__assemble(char *tok, t_expansion_list *list, int size)
 	return (new);
 }
 
-int	expansion_list_size(t_expansion_list *expansions)
+int	expansion_list_size(t_string_list *expansions)
 {
-	t_expansion_list	*cur;
+	t_string_list	*cur;
 	int	size;
 
 	cur = expansions;
@@ -85,9 +85,9 @@ int	get_expansion_size(char *tok)
 	return (i);
 }
 
-t_expansion_list	*next_expansion(t_expansion_list *list)
+t_string_list	*next_expansion(t_string_list *list)
 {
-	list->next = ft_calloc(1, sizeof(t_expansion_list));
+	list->next = ft_calloc(1, sizeof(t_string_list));
 	return (list->next);
 }
 
@@ -102,12 +102,12 @@ char	*copy_until_expansion(char *tok)
 }
 
 // Genuinely evil ass function
-t_expansion_list	*get_all_expansions(char *tok, char **env, u_char exit)
+t_string_list	*get_all_expansions(char *tok, char **env, u_char exit)
 {
-	t_expansion_list	*list;
-	t_expansion_list	*cur;
+	t_string_list	*list;
+	t_string_list	*cur;
 
-	list = malloc(sizeof(t_expansion_list));
+	list = malloc(sizeof(t_string_list));
 	cur = list;
 	while (*tok)
 	{
@@ -131,7 +131,7 @@ t_expansion_list	*get_all_expansions(char *tok, char **env, u_char exit)
 char	*__expand_token(char *tok, char **env, u_char exit)
 {
 	char	*new_tok;
-	t_expansion_list	*expansions;
+	t_string_list	*expansions;
 	int	i;
 
 	i = 0;
