@@ -1,9 +1,9 @@
 #include "minishell.h"
 
+int	__case_hdoc(t_cmd *cmd, t_redirect *redir);
 int	__case_out(t_cmd *cmd, t_redirect *redir);
 int	__case_out_append(t_cmd *cmd, t_redirect *redir);
 int	__case_in(t_cmd *cmd, t_redirect *redir);
-int	ft_strcmp(char *s1, char *s2);
 
 int	__switch(t_cmd *cmd, t_redirect *redir)
 {		
@@ -20,12 +20,14 @@ int	__switch(t_cmd *cmd, t_redirect *redir)
 
 int	__case_hdoc(t_cmd *cmd, t_redirect *redir)
 {
+	int	fd[2];
+
 	if (cmd->redirect_in != 0)
 		close(cmd->redirect_in);
-	cmd->redirect_in = heredoc(redir->args[1], cmd->args);
+	if (cmd->args[1] != 0)
+		cmd->redirect_in = heredoc(redir->args[1], fd);
 	if (cmd->redirect_in == -1)
 		return (perror("heredoc"), 1);
-	redir->args[1][0] = cmd->redirect_in;
 	return (0);
 }
 

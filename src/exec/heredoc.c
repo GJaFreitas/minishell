@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <stdio.h>
+#include <unistd.h>
 
 void	get_lines(int fd, const char *delimiter)
 {
@@ -21,15 +22,41 @@ void	get_lines(int fd, const char *delimiter)
 	free(line);
 }
 
-// @TODO: Handle de sinais
-int	heredoc(char *delimiter, char **cmd_args)
+int	wait_hdoc(int pid)
 {
-	int				fd[2];
+	int	sig;
+	int	status;
 
-	if (cmd_args[1] != 0)
-		return (-1);
-	if (pipe(fd) == -1)
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, __sigint_h);
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGINT && write(1, "\n", 1))
+			return (-1);
+	}
+	if (WIFSIGNALED(status))
+		return (sig + 128);
+	return (1);
+}
+
+int	heredoc(char *delimiter, int pipefd[2])
+{
+	int	pid;
+
+	if (pipe(pipefd) == -1)
 		return (perror("Pipe:"), -1);
-	get_lines(fd[1], delimiter);
-	return (fd[0]);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (dup2(pipefd[1], STDIN_FILENO) == -1)
+			perror("dup2 hdoc:");
+		get_lines(STDIN_FILENO, delimiter);
+		free(delimiter);
+		return (0);
+	}
+	wait_hdoc(pid);
+	close(pipefd[1]);
+	return (pipefd[0]);
 }
