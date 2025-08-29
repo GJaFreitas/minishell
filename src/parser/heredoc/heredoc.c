@@ -74,6 +74,7 @@ void	handle_heredoc(char **tokens)
 	read_pipe_fd = heredoc(tokens[1], pipefd);
 	free(tokens[1]);
 	tokens[1] = ft_itoa(read_pipe_fd);
+	printf("Heredoc fd: %d\n", read_pipe_fd);
 }
 
 void	heredocs(char **tokens)
