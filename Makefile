@@ -50,7 +50,6 @@ VPATH += src/exec
 SRCS += \
 	exec.c \
 	redir_utils.c \
-	heredoc.c \
 
 # Builtin functions sources
 VPATH += src/functions
@@ -73,13 +72,14 @@ SRCS += lexer.c \
 		lex_utils.c \
 
 # Parser sources
-VPATH += src/parser
+VPATH += src/parser:src/parser/heredoc
 SRCS += \
 	parser.c \
 	path_explore.c \
 	cmd_assignement.c \
 	parser_utils.c \
 	expansions.c \
+	heredoc.c \
 
 # Signal sources
 VPATH += src/signals

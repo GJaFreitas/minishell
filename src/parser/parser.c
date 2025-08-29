@@ -33,6 +33,7 @@ t_cmd	*parser(char **tokens, t_env *env, char **env_array)
 
 	if (tokens == NULL)
 		return (NULL);
+	heredocs(tokens);
 	expansions(tokens, env_array, env->exit);
 	cmds = assign_cmds(tokens, env_array);
 	__remove_quotes(cmds);

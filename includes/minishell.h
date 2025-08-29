@@ -125,7 +125,6 @@ void	print_one_cmd(t_cmd *cmd);
 EXEC ----------------
 ****************************/
 
-int	heredoc(char *delimiter, int pipe[2]);
 int	ft_exec_all(t_cmd *cmd, t_env *env);
 
 

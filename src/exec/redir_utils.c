@@ -1,3 +1,4 @@
+#include "libft.h"
 #include "minishell.h"
 
 int	__case_hdoc(t_cmd *cmd, t_redirect *redir);
@@ -24,8 +25,7 @@ int	__case_hdoc(t_cmd *cmd, t_redirect *redir)
 
 	if (cmd->redirect_in != 0)
 		close(cmd->redirect_in);
-	if (cmd->args[1] != 0)
-		cmd->redirect_in = heredoc(redir->args[1], fd);
+	cmd->redirect_in = ft_atoi(redir->args[1]);
 	if (cmd->redirect_in == -1)
 		return (perror("heredoc"), 1);
 	return (0);
