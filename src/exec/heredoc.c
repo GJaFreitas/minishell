@@ -10,7 +10,7 @@ void	get_lines(int fd, const char *delimiter)
 
 	while (1)
 	{
-		line = readline(">");
+		line = readline("> ");
 		if (!ft_strcmp(delimiter, line))
 			break ;
 		write(fd, line, ft_strlen(line));

@@ -3,7 +3,7 @@
 int	__case_out(t_cmd *cmd, t_redirect *redir);
 int	__case_out_append(t_cmd *cmd, t_redirect *redir);
 int	__case_in(t_cmd *cmd, t_redirect *redir);
-int	ft_strcmp(char *s1, char *s2);
+int	__case_hdoc(t_cmd *cmd, t_redirect *redir);
 
 int	__switch(t_cmd *cmd, t_redirect *redir)
 {		
