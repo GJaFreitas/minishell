@@ -23,7 +23,7 @@ static void	__sigint_heredoc(int code)
 int	get_lines(int fd, const char *delimiter)
 {
 	char	*line;
-	int	line_n;
+	int		line_n;
 
 	signal(SIGINT, __sigint_heredoc);
 	line_n = 0;
@@ -55,8 +55,9 @@ int	heredoc(char *delimiter, int pipefd[2])
 		return (perror("Pipe:"), -1);
 	flag = get_lines(pipefd[1], delimiter);
 	if ((flag >> 31) & 1)
-		printf("bash: warning: here-document at line %d delimited by end-of-file (wanted %s)\n",
-		flag << 1 >> 1, delimiter);
+		printf("bash: warning: here-document at line \
+			%d delimited by end-of-file (wanted %s)\n", flag << 1 >> 1, \
+			delimiter);
 	else if (flag == -2)
 		printf("ctrl-c pressed\n");
 	close(pipefd[1]);
@@ -74,7 +75,6 @@ void	handle_heredoc(char **tokens)
 	read_pipe_fd = heredoc(tokens[1], pipefd);
 	free(tokens[1]);
 	tokens[1] = ft_itoa(read_pipe_fd);
-	printf("Heredoc fd: %d\n", read_pipe_fd);
 }
 
 void	heredocs(char **tokens)

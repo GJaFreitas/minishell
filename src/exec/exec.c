@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/29 23:22:30 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/30 16:11:17 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int	setup_redirections(t_cmd *cmd)
 	{
 		current->redirect_in = 0;
 		current->redirect_out = 1;
-		redir = cmd->redirect;
+		redir = current->redirect;
 		while (redir)
 		{
-			if (__switch(cmd, redir))
+			if (__switch(current, redir))
 				return (perror("open"), -1);
 			redir = redir->next;
 		}
@@ -81,7 +81,6 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 	}
 	else
 		*out = cur->redirect_out;
-	printf("Pipe setup: [%d %d]\n", pipefd[0], pipefd[1]);
 }
 
 void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
@@ -92,7 +91,6 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 		return (perror("fork"));
 	if (cmd->pid == 0) // Child process
 	{
-		printf("in: %d, out: %d\n", in, out);
 		if (in != 0 && dup2(in, STDIN_FILENO) == -1)
 			perror("dup2 stdin");
 		if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
@@ -146,7 +144,7 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 	while (cur)
 	{
 		setup_pipes(cur, &in, &out, pipefd);
-		print_one_cmd(cur);
+		// print_one_cmd(cur);
 		if (cur->builtin != 0)
 			exec_builtin(cur, env, in, out);
 		else
