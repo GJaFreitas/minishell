@@ -65,11 +65,11 @@ void	env_remove(t_env *env, char *key)
 		{
 			__move_back(&env->keys[i], &env->values[i], env->used - i);
 			env->used--;
+			env->dirty = true;
 			return ;
 		}
 		i++;
 	}
-	env->dirty = true;
 }
 
 static void	__move_back(char **keys, char **values, int size)

@@ -58,12 +58,12 @@ typedef struct s_env
 {
 	char		**keys;
 	char		**values;
-	uint32_t	size;
-	uint32_t	used;
 	int		*sorted;
 	char		**array;
-	bool		dirty;
+	uint32_t	size;
+	uint32_t	used;
 	u_char		exit;
+	bool		dirty;
 }	t_env;
 
 t_env	*init_env(char **old);
@@ -132,6 +132,6 @@ int	ft_exec_all(t_cmd *cmd, t_env *env);
 UTILS ----------------
 ****************************/
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_itoa_buf(long int n, char *buf, int size);
+void	ft_itoa_buf(long int n, char *buf, int size);
 
 #endif

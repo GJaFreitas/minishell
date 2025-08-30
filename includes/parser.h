@@ -3,9 +3,13 @@
 
 #include "stdbool.h"
 #include <sys/types.h>
+
 # define REDIRECT	"<>"
 
 # define HDOC_EOF	(1 << 31)
+
+# define NO_PATH_VAR	-1
+# define UNKNOW_CMD	-2
 
 # include "minishell.h"
 
@@ -22,7 +26,7 @@ t_cmd	*__init_cmd(void);
 char	*path_search(char *token, char **env, enum e_builtin *cmd);
 int		is_pipe(char *token);
 void	expansions(char **tokens, char **env, u_char exit);
-void	heredocs(char **tokens, char **env, u_char exit);
+void	heredocs(char **tokens, char **env);
 
 
 // Utils ------------------

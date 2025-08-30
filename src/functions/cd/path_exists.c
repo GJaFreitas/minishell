@@ -4,7 +4,6 @@
 // Assume path is a nul terminated string and not NULL
 int	path_exists(char *path)
 {
-	struct dirent	*entry;
 	DIR		*dir_stream;
 	int		ret;
 

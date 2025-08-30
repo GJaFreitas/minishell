@@ -21,8 +21,6 @@ int	__switch(t_cmd *cmd, t_redirect *redir)
 
 int	__case_hdoc(t_cmd *cmd, t_redirect *redir)
 {
-	int	fd[2];
-
 	if (cmd->redirect_in != 0)
 		close(cmd->redirect_in);
 	cmd->redirect_in = ft_atoi(redir->args[1]);

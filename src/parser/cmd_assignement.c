@@ -32,7 +32,6 @@ static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 	static char	*builtins[8] = { "echo", "cd", "pwd", \
 		"export", "unset", "env", "exit", NULL};
 	int	i;
-	int	tokenLen;
 
 	i = 0;
 	while (builtins[i])

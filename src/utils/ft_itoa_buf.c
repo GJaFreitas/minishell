@@ -45,9 +45,8 @@ static void	init(char *temp)
 	}
 }
 
-char	*ft_itoa_buf(long int n, char *buf, int size)
+void	ft_itoa_buf(long int n, char *buf, int size)
 {
-	char	*str;
 	char	temp[12];
 
 	init(temp);
@@ -61,5 +60,4 @@ char	*ft_itoa_buf(long int n, char *buf, int size)
 	else
 		ft_putnbr(n, temp);
 	ft_strlcpy(buf, temp, size);
-	return (str);
 }

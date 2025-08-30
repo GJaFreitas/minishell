@@ -2,19 +2,13 @@
 #include "minishell.h"
 #include "parser.h"
 #include <dirent.h>
-
-/*
-	!dir_stream && folders++
-	will only reach the folders++ instruction
-	if dir_stream == NULL which is fine :)
-	(trick from bash scripting with regex)
-*/
+#include <unistd.h>
 
 static char	*__search_folders(char **folders, char *token)
 {
 	struct dirent	*entry;
-	char		*path;
-	DIR		*dir_stream;
+	char			*path;
+	DIR				*dir_stream;
 
 	path = NULL;
 	while (*folders)
@@ -25,7 +19,7 @@ static char	*__search_folders(char **folders, char *token)
 		entry = readdir(dir_stream);
 		while (entry)
 		{
-			if (!ft_strncmp(entry->d_name, token, ft_strlen(entry->d_name)))
+			if (!ft_strcmp(entry->d_name, token))
 			{
 				path = ft_strdup(*folders);
 				closedir(dir_stream);
@@ -33,8 +27,7 @@ static char	*__search_folders(char **folders, char *token)
 			}
 			entry = readdir(dir_stream);
 		}
-		closedir(dir_stream);
-		folders++;
+		(closedir(dir_stream), folders++);
 	}
 	return (path);
 }
@@ -44,8 +37,8 @@ static char	**__get_folders(char *path)
 {
 	char	**folders;
 	char	*temp;
-	int	i;
-	int	total;
+	int		i;
+	int		total;
 
 	i = 0;
 	total = 1;
@@ -75,30 +68,79 @@ static char	*__path_extract(char **env)
 	return (*env);
 }
 
-char	*path_search(char *token, char **env, enum e_builtin *cmd)
+static char	*__env_path_srch(char *token, char **env, int *flag)
 {
 	char	**folders;
 	char	*path;
 	char	*path_env_var;
-	char	*temp;
 
 	path_env_var = __path_extract(env);
+	(!path_env_var) && (*flag = NO_PATH_VAR);
 	if (!path_env_var)
-		return (perror("PATH not set\n"), NULL);
+		return (NULL);
 	folders = __get_folders(path_env_var);
 	path = __search_folders(folders, token);
 	if (path == NULL)
 	{
 		free_tokens(folders);
 		free(folders);
-		*cmd = UNKNOWN_COMMAND;
-		return (ft_strdup(token));
+		*flag = UNKNOW_CMD;
+		return (NULL);
 	}
-	temp = ft_strjoin(path, "/");
-	free(path);
-	path = ft_strjoin(temp, token);
-	free(temp);
-	free_tokens(folders);
-	free(folders);
+	(free_tokens(folders), free(folders));
 	return (path);
+}
+
+static char	*__rel_path_srch(char *token, int *flag)
+{
+	char	*folders[2];
+	char	cwd[CWD_BUFFER];
+	char	*path;
+
+	folders[1] = NULL;
+	ft_bzero(cwd, CWD_BUFFER);
+	if (token[0] == '/')
+		ft_memcpy(cwd, token, ft_strrchr(token, '/') - token);
+	else if (token[0] == '.')
+	{
+		if (token[1] != '/')
+			return (NULL);
+		getcwd(cwd, CWD_BUFFER);
+	}
+	token = ft_strrchr(token, '/') + 1;
+	folders[0] = cwd;
+	path = __search_folders(folders, token);
+	if (path == NULL)
+	{
+		*flag = NO_PATH_VAR;
+		return (NULL);
+	}
+	return (path);
+}
+
+// Requires 2 branches:
+// 	- Relative file path -> "./file" "/bin/file"
+// 	- file in $PATH var  -> "cat" "ls"
+char	*path_search(char *token, char **env, enum e_builtin *cmd)
+{
+	int		flag;
+	char	*res;
+	char	*temp;
+
+	if (ft_strchr("/.", token[0]))
+		res = __rel_path_srch(token, &flag);
+	else
+		res = __env_path_srch(token, env, &flag);
+	if (flag == -1)
+		*cmd = NO_BUILTIN;
+	else if (flag == -2)
+		*cmd = UNKNOWN_COMMAND;
+	if (res == NULL)
+		return (ft_strdup(token));
+	temp = ft_strjoin(res, "/");
+	free(res);
+	res = ft_strjoin(temp, token);
+	free(temp);
+	printf("Final token: %s\n", res);
+	return (res);
 }

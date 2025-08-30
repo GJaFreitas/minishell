@@ -11,7 +11,7 @@ int	is_env_char(int c)
 	return (ft_isalnum(c) || c == '_' || c == '?');
 }
 
-char	*__assemble(char *tok, t_string_list *list, int size)
+char	*__assemble(t_string_list *list, int size)
 {
 	t_string_list	*cur;
 	char	*new;
@@ -119,7 +119,7 @@ t_string_list	*get_all_expansions(char *tok, char **env, u_char exit)
 				tok++;
 		}
 		if (tok[1] == '?')
-			(cur->allocd = 1) && (cur->expansion = ft_itoa(exit));
+			(void)((cur->allocd = 1) && (cur->expansion = ft_itoa(exit)));
 		else
 			cur->expansion = __get_expansion(tok + 1, env);
 		cur = next_expansion(cur);
@@ -154,7 +154,7 @@ char	*__expand_token(char *tok, char **env, u_char exit)
 	if (!(tok[i] == '$'))
 		return (tok);
 	expansions = get_all_expansions(tok, env, exit);
-	new_tok = __assemble(tok, expansions, expansion_list_size(expansions));
+	new_tok = __assemble(expansions, expansion_list_size(expansions));
 	free_list(expansions);
 	free(tok);
 	return (new_tok);

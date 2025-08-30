@@ -47,7 +47,7 @@ static void	__free_hdoc(t_redirect *redir)
 	while (entry)
 	{
 		if (entry->d_ino == stats.st_ino)
-			unlink(entry->d_name) && close(fd);
+			(void)(unlink(entry->d_name) && close(fd));
 		entry = readdir(dir_stream);
 	}
 	closedir(dir_stream);

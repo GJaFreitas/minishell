@@ -23,7 +23,7 @@ void	print_env_debug(t_env *env)
 
 void	free_env(t_env *env)
 {
-	int	i;
+	uint32_t	i;
 
 	i = 0;
 	while (i < env->used)

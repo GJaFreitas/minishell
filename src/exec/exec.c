@@ -6,10 +6,11 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/30 16:32:48 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/30 19:38:50 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include <signal.h>
 #include <stdlib.h>
@@ -32,7 +33,7 @@ void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 	stdout_fd = dup(STDOUT_FILENO);
 	if (cmd->builtin == UNKNOWN_COMMAND)
 		return (printf("minishell: %s: command not found\n",
-		 *cmd->args), (void)0);
+		*cmd->args), (void)0);
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 	env->exit = jump_table[cmd->builtin - 1](cmd->args, env);
@@ -86,6 +87,11 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
 	//@TODO: free the copied memory here
+	char	buf[256];
+
+	ft_bzero(buf, 256);
+	ft_strlcpy(buf, "minishell: ", 12);
+	ft_strlcpy(buf + 11, cmd->args[0], ft_strlen(cmd->args[0]) + 1);
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		return (perror("fork"));
@@ -98,7 +104,7 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 			perror("dup2 stdout");
 		if (execve(cmd->args[0], cmd->args, env_to_array(env)) == -1)
 		{
-			perror("execve");
+			perror(buf);
 			exit(127);
 		}
 	}
@@ -112,8 +118,10 @@ int	wait_pids(t_cmd *cmds, t_env *env)
 	status = env->exit;
 	while (cmds)
 	{
+		signal(SIGINT, SIG_IGN);
 		if (cmds->pid)
 			waitpid(cmds->pid, &status, 0);
+		signal(SIGINT, __sigint_h);
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
@@ -150,9 +158,9 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		(cur->next) && close(pipefd[1]);
-		(in != 0) && close(in);
-		(out != 1) && close(out);
+		(void)((cur->next) && close(pipefd[1]));
+		(void)((in != 0) && close(in));
+		(void)((out != 1) && close(out));
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}

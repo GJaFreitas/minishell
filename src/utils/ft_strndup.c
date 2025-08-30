@@ -1,9 +1,8 @@
 #include "minishell.h"
 
-char	*ft_strndup(const char *s, int n)
+char	*ft_strndup(const char *s, size_t n)
 {
 	char	*new_str;
-	int		strlen;
 
 	if (ft_strlen(s) < n)
 		return (NULL);
