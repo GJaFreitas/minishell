@@ -20,7 +20,7 @@ static void	__sigint_heredoc(int code)
 	rl_on_new_line();
 }
 
-int	get_lines(int fd, const char *delimiter)
+int	get_lines(int fd, const char *delimiter, char **env, u_char exit)
 {
 	char	*line;
 	int		line_n;
@@ -33,6 +33,7 @@ int	get_lines(int fd, const char *delimiter)
 		line = readline("> ");
 		if (!ft_strcmp(delimiter, line) || !line)
 			break ;
+		expansions(&line, env, 0);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -47,13 +48,13 @@ int	get_lines(int fd, const char *delimiter)
 	return (0);
 }
 
-int	heredoc(char *delimiter, int pipefd[2])
+int	heredoc(char *delimiter, int pipefd[2], char **env, u_char exit)
 {
 	volatile int	flag;
 
 	if (pipe(pipefd) == -1)
 		return (perror("Pipe:"), -1);
-	flag = get_lines(pipefd[1], delimiter);
+	flag = get_lines(pipefd[1], delimiter, env, exit);
 	if ((flag >> 31) & 1)
 		printf("bash: warning: here-document at line \
 			%d delimited by end-of-file (wanted %s)\n", flag << 1 >> 1, \
@@ -65,19 +66,19 @@ int	heredoc(char *delimiter, int pipefd[2])
 }
 
 // Substitutes delimiter token for fd of HEREDOC pipe
-void	handle_heredoc(char **tokens)
+void	handle_heredoc(char **tokens, char **env, u_char exit)
 {
 	int	read_pipe_fd;
 	int	pipefd[2];
 
 	if (!tokens[1])
 		return (printf("Please give a delimiter\n"), (void)0);
-	read_pipe_fd = heredoc(tokens[1], pipefd);
+	read_pipe_fd = heredoc(tokens[1], pipefd, env, exit);
 	free(tokens[1]);
 	tokens[1] = ft_itoa(read_pipe_fd);
 }
 
-void	heredocs(char **tokens)
+void	heredocs(char **tokens, char **env, u_char exit)
 {
 	int	i;
 
@@ -86,7 +87,7 @@ void	heredocs(char **tokens)
 	while (tokens[i])
 	{
 		if (!ft_strcmp(tokens[i], "<<"))
-			handle_heredoc(&tokens[i++]);
+			handle_heredoc(&tokens[i++], env, exit);
 		i++;
 	}
 }

@@ -33,7 +33,7 @@ static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1, char *buf2
 static int	__norm_helper(char full_path[][CWD_BUFFER], char *error)
 {
 	__assemble_path(full_path, "", "");
-	perror(error);
+	printf("%s", error);
 	return (1);
 }
 

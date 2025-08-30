@@ -60,6 +60,7 @@ int	env_var_exists(t_env *env, char *key)
 // Assumes valid index and value
 void	env_change_val(t_env *env, int index, char *val)
 {
+	env->dirty = true;
 	if (env->values[index])
 		free(env->values[index]);
 	env->values[index] = ft_strdup(val);

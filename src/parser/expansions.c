@@ -107,7 +107,7 @@ t_string_list	*get_all_expansions(char *tok, char **env, u_char exit)
 	t_string_list	*list;
 	t_string_list	*cur;
 
-	list = malloc(sizeof(t_string_list));
+	list = ft_calloc(1, sizeof(t_string_list));
 	cur = list;
 	while (*tok)
 	{
@@ -128,6 +128,20 @@ t_string_list	*get_all_expansions(char *tok, char **env, u_char exit)
 	return (list);
 }
 
+void	free_list(t_string_list *l)
+{
+	t_string_list	*cur;
+	t_string_list	*prev;
+
+	cur = l;
+	while (cur)
+	{
+		prev = cur;
+		cur = cur->next;
+		free(prev);
+	}
+}
+
 char	*__expand_token(char *tok, char **env, u_char exit)
 {
 	char	*new_tok;
@@ -141,6 +155,8 @@ char	*__expand_token(char *tok, char **env, u_char exit)
 		return (tok);
 	expansions = get_all_expansions(tok, env, exit);
 	new_tok = __assemble(tok, expansions, expansion_list_size(expansions));
+	free_list(expansions);
+	free(tok);
 	return (new_tok);
 }
 

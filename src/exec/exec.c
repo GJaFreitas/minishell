@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/30 16:11:17 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/30 16:32:48 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 		return (perror("fork"));
 	if (cmd->pid == 0) // Child process
 	{
+		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
 		if (in != 0 && dup2(in, STDIN_FILENO) == -1)
 			perror("dup2 stdin");
 		if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
@@ -111,15 +112,15 @@ int	wait_pids(t_cmd *cmds, t_env *env)
 	status = env->exit;
 	while (cmds)
 	{
-		signal(SIGINT, SIG_IGN);
 		if (cmds->pid)
 			waitpid(cmds->pid, &status, 0);
-		signal(SIGINT, __sigint_h);
 		if (WIFSIGNALED(status))
 		{
 			sig = WTERMSIG(status);
 			if (sig == SIGINT)
 				write(1, "\n", 1);
+			else if (sig == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 20);
 		}
 		cmds = cmds->next;
 	}

@@ -13,10 +13,10 @@
 
 void	update_env(char *old, char *new, t_env *env)
 {
-	if (env_var_exists(env, "PWD"))
-		env_add_key_value_pair(env, "PWD", new);
-	if (env_var_exists(env, "OLD_PWD"))
-		env_add_key_value_pair(env, "OLD_PWD", old);
+	if (new[ft_strlen(new) - 1] == '/')
+		new[ft_strlen(new) - 1] = 0;
+	env_add_key_value_pair(env, "PWD", new);
+	env_add_key_value_pair(env, "OLD_PWD", old);
 }
 
 // flag is only for when the $HOME env variable is unset

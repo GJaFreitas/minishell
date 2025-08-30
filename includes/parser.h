@@ -22,7 +22,7 @@ t_cmd	*__init_cmd(void);
 char	*path_search(char *token, char **env, enum e_builtin *cmd);
 int		is_pipe(char *token);
 void	expansions(char **tokens, char **env, u_char exit);
-void	heredocs(char **tokens);
+void	heredocs(char **tokens, char **env, u_char exit);
 
 
 // Utils ------------------
