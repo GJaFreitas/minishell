@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 18:28:25 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 19:37:37 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,19 @@
 #include <unistd.h>
 
 extern pid_t	g_sig;
-int	norm_nao_gosta;
-
-static void	__sigint_heredoc(int code)
-{
-	(void)code;
-	g_sig = SIGINT;
-	rl_done = 1;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_replace_line("", 0);
-}
 
 int	get_lines(int fd, const char *delimiter, char **env)
 {
 	char	*line[2];
 	int		line_n;
 
-	norm_nao_gosta = fd;
-	signal(SIGINT, __sigint_heredoc);
 	line_n = 0;
 	line[1] = NULL;
 	while (1)
 	{
 		line_n++;
 		line[0] = readline("> ");
-		if (!ft_strcmp(delimiter, line[0]) || !line[0] || g_sig)
+		if (!ft_strcmp(delimiter, line[0]) || !line[0])
 			break ;
 		expansions(line, env, 0);
 		ft_fprintf(fd, "%s\n", line[0]);
@@ -54,47 +42,52 @@ int	get_lines(int fd, const char *delimiter, char **env)
 	if (!line[0])
 		return (line_n | HDOC_EOF);
 	free(line[0]);
-	signal(SIGINT, __sigint_h);
 	if (g_sig)
 		return (-2);
 	return (0);
 }
 
-int	heredoc(char *delimiter, int pipefd[2], char **env)
+int	heredoc(char *delimiter, char **env)
 {
 	pid_t	pid;
-    int		status;
+	int	fd;
 
-    if (pipe(pipefd) == -1)
-        return (perror("Pipe:"), -1);
-    pid = fork();
-    if (pid == -1)
-        return (perror("Fork:"), close(pipefd[0]), close(pipefd[1]), -1);
-    if (pid == 0)
-    {
-        close(pipefd[0]);
-        signal(SIGINT, SIG_DFL);
-        get_lines(pipefd[1], delimiter, env);
-        close(pipefd[1]);
-        	exit(g_sig);
-    }
-    close(pipefd[1]);
-    waitpid(pid, &status, 0);
-    return (pipefd[0]);
-	// todo memory duplicate 
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid == -1)
+		return (perror("Fork:"), -1);
+	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		fd = open("/tmp/hdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		get_lines(fd, delimiter, env);
+		close(fd);
+		free_tokens(env);
+		free(env);
+		free(delimiter);
+		exit(g_sig);
+	}
+	else
+	{
+		waitpid(pid, &g_sig, 0);
+		write(1, "\n", 1);
+		signal(SIGINT, __sigint_h);
+	}
+	if (g_sig == 0)
+		return (open("/tmp/hdoc", O_RDONLY));
+	return (-1);
 }
 
 // Substitutes delimiter token for fd of HEREDOC pipe
 void	handle_heredoc(char **tokens, char **env)
 {
-	int	read_pipe_fd;
-	int	pipefd[2];
+	int	fd;
 
 	if (!tokens[1])
 		return (ft_fprintf(2, "Please give a delimiter\n"), (void)0);
-	read_pipe_fd = heredoc(tokens[1], pipefd, env);
+	fd = heredoc(tokens[1], env);
 	free(tokens[1]);
-	tokens[1] = ft_itoa(read_pipe_fd);
+	tokens[1] = ft_itoa(fd);
 }
 
 void	heredocs(char **tokens, char **env)

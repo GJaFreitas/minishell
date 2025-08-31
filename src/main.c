@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/31 17:47:06 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 18:35:09 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ static void	shell_loop(t_env *env)
 	while (1)
 	{
 		cmd = prompt(env);
-		env->exit = ft_exec_all(cmd, env);
+		if (g_sig == 0)
+			env->exit = ft_exec_all(cmd, env);
+		g_sig = 0;
 		free_cmds(cmd);
 	}
 }
