@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 17:32:33 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 18:08:38 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static void	__sigint_heredoc(int code)
 {
 	(void)code;
 	g_sig = SIGINT;
-	rl_replace_line("", 0);
 	rl_done = 1;
 	write(STDOUT_FILENO, "\n", 1);
+	rl_replace_line("", 0);
+
 }
 
 int	get_lines(int fd, const char *delimiter, char **env)
@@ -45,7 +46,6 @@ int	get_lines(int fd, const char *delimiter, char **env)
 	{
 		line_n++;
 		line[0] = readline("> ");
-		printf("Saiu umal linah\n");
 		if (!ft_strcmp(delimiter, line[0]) || !line[0] || g_sig)
 			break ;
 		expansions(line, env, 0);
@@ -63,18 +63,26 @@ int	get_lines(int fd, const char *delimiter, char **env)
 
 int	heredoc(char *delimiter, int pipefd[2], char **env)
 {
-	volatile int	flag;
+	pid_t	pid;
+    int		status;
 
-	if (pipe(pipefd) == -1)
-		return (perror("Pipe:"), -1);
-	flag = get_lines(pipefd[1], delimiter, env);
-	g_sig = 0;
-	if ((flag >> 31) & 1)
-		ft_fprintf(2, HDOC_ERROR1 HDOC_ERROR2, flag << 1 >> 1, delimiter);
-	else if (flag == -2)
-		printf("ctrl-c pressed\n");
-	close(pipefd[1]);
-	return (pipefd[0]);
+    if (pipe(pipefd) == -1)
+        return (perror("Pipe:"), -1);
+    pid = fork();
+    if (pid == -1)
+        return (perror("Fork:"), close(pipefd[0]), close(pipefd[1]), -1);
+    if (pid == 0)
+    {
+        close(pipefd[0]);
+        signal(SIGINT, SIG_DFL);
+        get_lines(pipefd[1], delimiter, env);
+        close(pipefd[1]);
+        	exit(g_sig);
+    }
+    close(pipefd[1]);
+    waitpid(pid, &status, 0);
+    return (pipefd[0]);
+	// todo memory duplicate 
 }
 
 // Substitutes delimiter token for fd of HEREDOC pipe
