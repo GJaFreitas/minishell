@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:38 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 16:46:11 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ char	*__assemble(t_string_list *list, int size)
 		j = 0;
 		while (cur->expansion && cur->expansion[j])
 			new[i++] = cur->expansion[j++];
-		if (cur->allocd)
-			free(cur->expansion);
 		cur = cur->next;
 	}
 	new[i] = 0;
@@ -126,6 +124,7 @@ t_string_list	*get_all_expansions(char *tok, char **env, u_char exit)
 		if (tok[0] != '$')
 		{
 			cur->expansion = copy_until_expansion(tok);
+			cur->allocd = 1;
 			cur = next_expansion(cur);
 			while (*tok && *tok != '$')
 				tok++;
@@ -149,6 +148,8 @@ void	free_list(t_string_list *l)
 	while (cur)
 	{
 		prev = cur;
+		if (cur->allocd)
+			free(cur->expansion);
 		cur = cur->next;
 		free(prev);
 	}
@@ -163,7 +164,7 @@ char	*__expand_token(char *tok, char **env, u_char exit)
 	i = 0;
 	while (tok[i] && tok[i] != '$')
 		i++;
-	if (!(tok[i] == '$'))
+	if (tok[i] != '$')
 		return (tok);
 	expansions = get_all_expansions(tok, env, exit);
 	new_tok = __assemble(expansions, expansion_list_size(expansions));

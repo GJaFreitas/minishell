@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:43 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 16:32:19 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ char	*path_search(char *token, char **env, enum e_builtin *cmd)
 	char	*res;
 	char	*temp;
 
+	flag = 0;
 	if (ft_strchr("/.", token[0]))
 		res = __rel_path_srch(token, &flag);
 	else
@@ -153,6 +154,5 @@ char	*path_search(char *token, char **env, enum e_builtin *cmd)
 	free(res);
 	res = ft_strjoin(temp, token);
 	free(temp);
-	printf("Final token: %s\n", res);
 	return (res);
 }

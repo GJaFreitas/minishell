@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:42 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 16:33:06 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,6 @@ void	free_tokens(char **tokens)
 		free(tokens[i++]);
 }
 
-static void	__free_hdoc(t_redirect *redir)
-{
-	struct stat	stats;
-	struct dirent	*entry;
-	DIR		*dir_stream;
-	int	fd;
-
-
-	fd = redir->args[1][0];
-	fstat(fd, &stats);
-	dir_stream = opendir("/tmp/");
-	entry = readdir(dir_stream);
-	while (entry)
-	{
-		if (entry->d_ino == stats.st_ino)
-			(void)(unlink(entry->d_name) && close(fd));
-		entry = readdir(dir_stream);
-	}
-	closedir(dir_stream);
-}
-
 void	free_cmds(t_cmd *cmds)
 {
 	t_redirect	*cur;
@@ -79,8 +58,6 @@ void	free_cmds(t_cmd *cmds)
 		while (cmds->redirect)
 		{
 			cur = cmds->redirect;
-			if (!ft_strcmp(cmds->redirect->args[0], "<<"))
-				__free_hdoc(cmds->redirect);
 			free(cur->args[0]);
 			free(cur->args[1]);
 			cmds->redirect = cur->next;

@@ -6,7 +6,7 @@
 /*   By: gjacome- <gjacome-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 12:38:47 by gjacome-          #+#    #+#             */
-/*   Updated: 2025/04/30 11:28:38 by gjacome-         ###   ########.fr       */
+/*   Updated: 2025/08/31 16:12:31 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,16 @@ typedef struct s_list
 # define POSSIBLE_FLAGS "cspdiuxX%"
 
 int		ft_printf(char *input, ...);
-int		ft_nexus(char input, va_list args);
-int		ft_putnbr_base(unsigned int nbr, char *base, int total);
-int		ft_printchar(char c);
-int		ft_printstring(char *str);
-int		ft_printint(int n);
-int		ft_printuint(unsigned int n);
-int		ft_printhexbig(unsigned int n);
-int		ft_printhexsmall(unsigned int n);
-int		ft_printptr(void *ptr);
+int		ft_fprintf(int fd, char *input, ...);
+int		ft_nexus(int fd, char input, va_list args);
+int		ft_putnbr_base(int fd, unsigned int nbr, char *base, int total);
+int		ft_printchar(int fd, char c);
+int		ft_printstring(int fd, char *str);
+int		ft_printint(int fd, int n);
+int		ft_printuint(int fd, unsigned int n);
+int		ft_printhexbig(int fd, unsigned int n);
+int		ft_printhexsmall(int fd, unsigned int n);
+int		ft_printptr(int fd, void *ptr);
 
 // Get Next Line
 

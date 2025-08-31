@@ -164,7 +164,7 @@ r:
 	make re && clear && ./$(NAME)
 
 leaks:
-	make re && clear && valgrind --show-leak-kinds=all --track-origins=yes --leak-check=full --suppressions=readline.supp ./$(NAME)
+	make re && clear && valgrind --track-fds=yes --show-leak-kinds=all --leak-check=full --suppressions=readline.supp ./$(NAME)
 
 
 .PHONY: all clean fclean re r test-% test_redirections

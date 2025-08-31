@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:34 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 16:13:41 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int	ft_cd(char *const argv[], t_env *env)
 		chdir(full_dir_path);
 	}
 	else if (!flag)
-		printf("minishell: cd: %s: No such file or directory\n", argv[1]);
+		ft_fprintf(2, "minishell: cd: %s: No such file or directory\n", argv[1]);
 	return (0);
 }

@@ -6,39 +6,43 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:33 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 16:58:54 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include "parser.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-int	__case_out(t_cmd *cmd, t_redirect *redir);
-int	__case_out_append(t_cmd *cmd, t_redirect *redir);
-int	__case_in(t_cmd *cmd, t_redirect *redir);
-int	__switch(t_cmd *cmd, t_redirect *redir);
+int		__case_out(t_cmd *cmd, t_redirect *redir);
+int		__case_out_append(t_cmd *cmd, t_redirect *redir);
+int		__case_in(t_cmd *cmd, t_redirect *redir);
+int		__switch(t_cmd *cmd, t_redirect *redir);
 
 void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 {
 	int	stdin_fd;
 	int	stdout_fd;
-	static int (*jump_table[7])(char *const argv[], t_env *) = { \
-		ft_echo, ft_cd, ft_pwd, ft_export, ft_unset, ft_env, ft_exit
-	};
 
+	static int (*jump_table[7])(char *const argv[], t_env *) = {ft_echo, ft_cd,
+		ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
 	stdin_fd = dup(STDIN_FILENO);
 	stdout_fd = dup(STDOUT_FILENO);
 	if (cmd->builtin == UNKNOWN_COMMAND)
-		return (printf("minishell: %s: command not found\n",
-		*cmd->args), (void)0);
+	{
+		ft_fprintf(2, "minishell: %s: command not found\n", *cmd->args);
+		env->exit = 127;
+		return ;
+	}
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 	env->exit = jump_table[cmd->builtin - 1](cmd->args, env);
 	dup2(stdin_fd, STDIN_FILENO);
 	dup2(stdout_fd, STDOUT_FILENO);
+	//@TODO: Dar close de cenas talvez
 }
 
 int	setup_redirections(t_cmd *cmd)
@@ -84,9 +88,10 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 		*out = cur->redirect_out;
 }
 
+//@TODO: write errors to stderr
 void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
-	//@TODO: free the copied memory here
+	int	execve_return;
 	char	buf[256];
 
 	ft_bzero(buf, 256);
@@ -95,18 +100,20 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		return (perror("fork"));
-	if (cmd->pid == 0) // Child process
+	if (cmd->pid != 0)
+		return ;
+	(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
+	if (in != 0 && dup2(in, STDIN_FILENO) == -1)
+		perror("dup2 stdin");
+	if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
+		perror("dup2 stdout");
+	execve_return = execve(cmd->args[0], cmd->args, env_to_array(env));
+	(free_env(env), free_cmds(cmd));
+	(close(in), close(out));
+	if (execve_return == -1)
 	{
-		(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
-		if (in != 0 && dup2(in, STDIN_FILENO) == -1)
-			perror("dup2 stdin");
-		if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
-			perror("dup2 stdout");
-		if (execve(cmd->args[0], cmd->args, env_to_array(env)) == -1)
-		{
-			perror(buf);
-			exit(127);
-		}
+		perror(buf);
+		exit(127);
 	}
 }
 
@@ -142,9 +149,9 @@ int	wait_pids(t_cmd *cmds, t_env *env)
 int	ft_exec_all(t_cmd *cmd, t_env *env)
 {
 	t_cmd	*cur;
-	int	in;
-	int	out;
-	int	pipefd[2];
+	int		in;
+	int		out;
+	int		pipefd[2];
 
 	if (setup_redirections(cmd) < 0)
 		return (-1);

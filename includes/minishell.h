@@ -16,6 +16,9 @@
 # include <fcntl.h>
 # include <stdbool.h>
 
+# define HDOC_ERROR1 "minishell: warning: here-document at "
+# define HDOC_ERROR2 "line %d delimited by end-of-file (wanted %s)\n"
+
 # define CWD_BUFFER	1024
 
 typedef struct s_redirect

@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:38 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 17:32:33 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,42 +21,43 @@
 #include <unistd.h>
 
 extern pid_t	g_sig;
+int	norm_nao_gosta;
 
 static void	__sigint_heredoc(int code)
 {
 	(void)code;
 	g_sig = SIGINT;
-	rl_done = 1;
-	write(STDIN_FILENO, "\n", 1);
 	rl_replace_line("", 0);
-	rl_on_new_line();
+	rl_done = 1;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
 int	get_lines(int fd, const char *delimiter, char **env)
 {
-	char	*line;
+	char	*line[2];
 	int		line_n;
 
+	norm_nao_gosta = fd;
 	signal(SIGINT, __sigint_heredoc);
 	line_n = 0;
+	line[1] = NULL;
 	while (1)
 	{
 		line_n++;
-		line = readline("> ");
-		if (!ft_strcmp(delimiter, line) || !line)
+		line[0] = readline("> ");
+		printf("Saiu umal linah\n");
+		if (!ft_strcmp(delimiter, line[0]) || !line[0] || g_sig)
 			break ;
-		expansions(&line, env, 0);
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
+		expansions(line, env, 0);
+		ft_fprintf(fd, "%s\n", line[0]);
+		free(line[0]);
 	}
-	if (!line)
+	if (!line[0])
 		return (line_n | HDOC_EOF);
+	free(line[0]);
+	signal(SIGINT, __sigint_h);
 	if (g_sig)
 		return (-2);
-	signal(SIGINT, __sigint_h);
-	g_sig = 0;
-	free(line);
 	return (0);
 }
 
@@ -67,10 +68,9 @@ int	heredoc(char *delimiter, int pipefd[2], char **env)
 	if (pipe(pipefd) == -1)
 		return (perror("Pipe:"), -1);
 	flag = get_lines(pipefd[1], delimiter, env);
+	g_sig = 0;
 	if ((flag >> 31) & 1)
-		printf("bash: warning: here-document at line \
-			%d delimited by end-of-file (wanted %s)\n", flag << 1 >> 1, \
-			delimiter);
+		ft_fprintf(2, HDOC_ERROR1 HDOC_ERROR2, flag << 1 >> 1, delimiter);
 	else if (flag == -2)
 		printf("ctrl-c pressed\n");
 	close(pipefd[1]);

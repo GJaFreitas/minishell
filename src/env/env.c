@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:48:00 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 15:42:22 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,4 @@ static char	*__extract_to_from(char *str, char end, char start)
 	while (str[i] && str[i] != end)
 		i++;
 	return (ft_substr(str, 0, i));
-}
-
-// Doesnt free the env pointer itself
-void	env_free(t_env *env)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i < env->used)
-	{
-		free(env->keys[i]);
-		free(env->values[i]);
-		i++;
-	}
-	free(env->keys);
-	free(env->values);
-	if (env->sorted)
-		free(env->sorted);
 }
