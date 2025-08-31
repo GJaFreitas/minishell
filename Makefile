@@ -99,7 +99,8 @@ SRCS += \
 
 INC =  -I./includes
 INC += -I./libft
-INC += -L/usr/local/lib -I/usr/local/include -lreadline
+#INC += -L/usr/local/lib -lreadline
+INC +=-I/usr/local/include 
 
 OBJS 		:= $(addprefix obj/,$(SRCS:.c=.o))
 CORE_OBJS	:= $(filter-out obj/main.o,$(OBJS))
@@ -116,7 +117,7 @@ obj/%.o: %.c | obj
 
 
 $(NAME) : $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INC) $^ -o $@
+	@$(CC) $(CFLAGS) $(INC) -lreadline $^ -o $@
 	@echo "✓ built $(@F)"
 
 
