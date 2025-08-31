@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 17:32:33 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 17:44:19 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	__sigint_heredoc(int code)
 	g_sig = SIGINT;
 	rl_replace_line("", 0);
 	rl_done = 1;
-	write(STDOUT_FILENO, "\n", 1);
+	write(STDIN_FILENO, "\n", 1);
 }
 
 int	get_lines(int fd, const char *delimiter, char **env)
