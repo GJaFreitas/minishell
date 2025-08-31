@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/31 16:58:54 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 19:48:53 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,6 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 //@TODO: write errors to stderr
 void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
-	int	execve_return;
-	char	buf[256];
-
-	ft_bzero(buf, 256);
-	ft_strlcpy(buf, "minishell: ", 12);
-	ft_strlcpy(buf + 11, cmd->args[0], ft_strlen(cmd->args[0]) + 1);
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		return (perror("fork"));
@@ -107,14 +101,7 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 		perror("dup2 stdin");
 	if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
 		perror("dup2 stdout");
-	execve_return = execve(cmd->args[0], cmd->args, env_to_array(env));
-	(free_env(env), free_cmds(cmd));
-	(close(in), close(out));
-	if (execve_return == -1)
-	{
-		perror(buf);
-		exit(127);
-	}
+	execve(cmd->args[0], cmd->args, env_to_array(env));
 }
 
 int	wait_pids(t_cmd *cmds, t_env *env)

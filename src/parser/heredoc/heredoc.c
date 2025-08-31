@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 19:37:37 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 20:07:07 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	get_lines(int fd, const char *delimiter, char **env)
 		line[0] = readline("> ");
 		if (!ft_strcmp(delimiter, line[0]) || !line[0])
 			break ;
-		expansions(line, env, 0);
+		// expansions(line, env, 0);
 		ft_fprintf(fd, "%s\n", line[0]);
-		free(line[0]);
+		// free(line[0]);
 	}
 	if (!line[0])
 		return (line_n | HDOC_EOF);
-	free(line[0]);
+	// free(line[0]);
 	if (g_sig)
 		return (-2);
 	return (0);
@@ -50,7 +50,7 @@ int	get_lines(int fd, const char *delimiter, char **env)
 int	heredoc(char *delimiter, char **env)
 {
 	pid_t	pid;
-	int	fd;
+	int		fd;
 
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
@@ -62,9 +62,6 @@ int	heredoc(char *delimiter, char **env)
 		fd = open("/tmp/hdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		get_lines(fd, delimiter, env);
 		close(fd);
-		free_tokens(env);
-		free(env);
-		free(delimiter);
 		exit(g_sig);
 	}
 	else

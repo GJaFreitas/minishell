@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 16:46:11 by bag              ###   ########.fr       */
+/*   Updated: 2025/08/31 20:12:21 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,10 @@ void	expansions(char **tokens, char **env, u_char exit)
 	i = 0;
 	while (tokens[i])
 	{
+		if (tokens[i][0] == '\'')
+			i++;
+		if (!tokens[i])
+			break ;
 		tokens[i] = __expand_token(tokens[i], env, exit);
 		i++;
 	}
