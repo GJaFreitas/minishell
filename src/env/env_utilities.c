@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:48:20 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 14:54:33 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	env_var_exists(t_env *env, char *key)
 // Assumes valid index and value
 void	env_change_val(t_env *env, int index, char *val)
 {
-	env->dirty = true;
+	env->dirty = ENV_DIRTY;
 	if (env->values[index])
 		free(env->values[index]);
 	env->values[index] = ft_strdup(val);

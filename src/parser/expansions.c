@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 20:12:21 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 13:38:04 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*copy_until_expansion(char *tok)
 }
 
 // Genuinely evil ass function
-t_string_list	*get_all_expansions(char *tok, char **env, u_char exit)
+t_string_list	*get_all_expansions(char *tok, char **env, int exit)
 {
 	t_string_list	*list;
 	t_string_list	*cur;
@@ -155,7 +155,7 @@ void	free_list(t_string_list *l)
 	}
 }
 
-char	*__expand_token(char *tok, char **env, u_char exit)
+char	*__expand_token(char *tok, char **env, int exit)
 {
 	char	*new_tok;
 	t_string_list	*expansions;
@@ -173,7 +173,7 @@ char	*__expand_token(char *tok, char **env, u_char exit)
 	return (new_tok);
 }
 
-void	expansions(char **tokens, char **env, u_char exit)
+void	expansions(char **tokens, char **env, int exit)
 {
 	int	i;
 

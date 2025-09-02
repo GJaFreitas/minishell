@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/31 19:48:53 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 19:31:26 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <limits.h>
 
 int		__case_out(t_cmd *cmd, t_redirect *redir);
 int		__case_out_append(t_cmd *cmd, t_redirect *redir);
@@ -26,23 +28,34 @@ void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 {
 	int	stdin_fd;
 	int	stdout_fd;
-
+	DIR	*test;
 	static int (*jump_table[7])(char *const argv[], t_env *) = {ft_echo, ft_cd,
 		ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
-	stdin_fd = dup(STDIN_FILENO);
-	stdout_fd = dup(STDOUT_FILENO);
+
 	if (cmd->builtin == UNKNOWN_COMMAND)
 	{
-		ft_fprintf(2, "minishell: %s: command not found\n", *cmd->args);
-		env->exit = 127;
+		test = opendir(cmd->args[0]);
+		if (test)
+			ft_fprintf(2, "minishell: %s: Is a directory\n", *cmd->args);
+		else
+			ft_fprintf(2, "minishell: %s: command not found\n", *cmd->args);
+		env->exit = 127 - ((closedir(test) == 0));
 		return ;
 	}
+	if (cmd->builtin == 7 && cmd->next)
+	{
+		env->exit = 0;
+		return ;
+	}
+	stdin_fd = dup(STDIN_FILENO);
+	stdout_fd = dup(STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 	env->exit = jump_table[cmd->builtin - 1](cmd->args, env);
+	(close(in), close(out));
 	dup2(stdin_fd, STDIN_FILENO);
 	dup2(stdout_fd, STDOUT_FILENO);
-	//@TODO: Dar close de cenas talvez
+	(close(stdin_fd), close(stdout_fd));
 }
 
 int	setup_redirections(t_cmd *cmd)
@@ -61,7 +74,7 @@ int	setup_redirections(t_cmd *cmd)
 		while (redir)
 		{
 			if (__switch(current, redir))
-				return (perror("open"), -1);
+				return (-1);
 			redir = redir->next;
 		}
 		current = current->next;
@@ -88,7 +101,6 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 		*out = cur->redirect_out;
 }
 
-//@TODO: write errors to stderr
 void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
 	cmd->pid = fork();
@@ -102,6 +114,7 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 	if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
 		perror("dup2 stdout");
 	execve(cmd->args[0], cmd->args, env_to_array(env));
+	exit(0);
 }
 
 int	wait_pids(t_cmd *cmds, t_env *env)
@@ -109,7 +122,7 @@ int	wait_pids(t_cmd *cmds, t_env *env)
 	int	sig;
 	int	status;
 
-	status = env->exit;
+	status = INT_MIN;
 	while (cmds)
 	{
 		signal(SIGINT, SIG_IGN);
@@ -126,6 +139,8 @@ int	wait_pids(t_cmd *cmds, t_env *env)
 		}
 		cmds = cmds->next;
 	}
+	if (status == INT_MIN)
+		return (env->exit);
 	if (WIFSIGNALED(status))
 		return (sig + 128);
 	if (status != env->exit)
@@ -141,7 +156,7 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 	int		pipefd[2];
 
 	if (setup_redirections(cmd) < 0)
-		return (-1);
+		return (1);
 	in = 0;
 	cur = cmd;
 	while (cur)
@@ -152,9 +167,9 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		(void)((cur->next) && close(pipefd[1]));
+		(void)((cur->next && cur->builtin < 1) && close(pipefd[1]));
 		(void)((in != 0) && close(in));
-		(void)((out != 1) && close(out));
+		(void)((out != 1 && out != pipefd[1]) && close(out));
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}

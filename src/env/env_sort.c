@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 15:25:04 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 15:56:05 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ void	env_print_sorted(t_env *env)
 	{
 		ft_printf("%s", declare);
 		ft_printf("%s", env->keys[env->sorted[i]]);
-		if (env->values[env->sorted[i]][0])
+		if (env->values[env->sorted[i]])
 		{
 			write(1, "=", 1);
 			write(1, "\"", 1);
-			ft_printf("%s", env->values[env->sorted[i]]);
+			if (env->values[env->sorted[i]][0])
+				ft_printf("%s", env->values[env->sorted[i]]);
 			write(1, "\"", 1);
 		}
 		write(1, "\n", 1);
@@ -43,7 +44,7 @@ static int	*env_create_sorted(t_env *env)
 	int	*arr;
 	int	*temp;
 
-	if (env->dirty == false && env->sorted)
+	if (env->sorted && is_env_clean(env, ENV_SORTING))
 		return (env->sorted);
 	else if (env->sorted)
 		free(env->sorted);
@@ -51,6 +52,7 @@ static int	*env_create_sorted(t_env *env)
 	temp = ft_calloc((env->used + 1), sizeof(int));
 	__create_sorted_array(arr, env->keys, env->used, temp);
 	free(temp);
+	env->dirty = clean_env(env, ENV_SORTING);
 	return (arr);
 }
 

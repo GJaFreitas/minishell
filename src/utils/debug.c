@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:48 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 13:15:39 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	print_cmd(t_cmd *cmd)
 			printf("%i - %s\n", i, cmd->args[i]);
 			i++;
 		}
-		printf("redrections flag == in %d, out %d \n",cmd->redirect_in, cmd->redirect_out);
+		printf("redirections: in: %d, out: %d \n", cmd->redirect_in, cmd->redirect_out);
+		printf("Builtin: %d\n", cmd->builtin);
 		cmd = cmd->next;
 	}
 }

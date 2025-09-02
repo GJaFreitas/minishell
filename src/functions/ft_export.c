@@ -6,28 +6,30 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:53:48 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:36 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 16:06:39 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-int	__count_args(char *const argv[])
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-		i++;
-	return (i);
-}
-
 int	ft_export(char *const argv[], t_env *env)
 {
-	if (__count_args(argv) > 1)
-		env_add(env, *(argv + 1));
+	int	i;
+	int	retval;
+
+	i = 0;
+	retval = 0;
+	if (count_args(argv) > 1)
+	{
+		while (argv[i + 1])
+		{
+			if (argv[i + 1][0])
+				retval = env_add(env, argv[i + 1]);
+			i++;
+		}
+	}
 	else
 		env_print_sorted(env);
-	return (0);
+	return (retval);
 }

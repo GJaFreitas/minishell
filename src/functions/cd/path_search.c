@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:36 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 15:23:58 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1, char *buf2
 	i = 0;
 	while (*buf1)
 		(*full_path)[i++] = *buf1++;
-	buf2++;
+	if ((*full_path)[i] != '/')
+		(*full_path)[i++] = '/';
+	(void)((*buf2 != '.') && buf2++);
 	while (*buf2)
 		(*full_path)[i++] = *buf2++;
 }
@@ -74,21 +76,8 @@ static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *
 
 static void	__relative_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
 {
-	char	*temp;
-
-	temp = env_get_value(env, "PWD");
-	if (input[0] == '.')
-	{
-		__assemble_path(full_path, temp, input);
-		if (input[1] == '.')
-			*ft_strrchr(*full_path, '/') = 0;
-	}
-	else
-	{
-		ft_memcpy(*full_path, temp, ft_strlen(temp));
-		(*full_path)[ft_strlen(temp)] = '/';
-		ft_memcpy(*full_path + ft_strlen(temp) + 1, input, ft_strlen(input));
-	}
+	(void)env;
+	ft_memcpy(full_path, input, ft_strlen(input));
 }
 
 // Assume input is valid and not NULL

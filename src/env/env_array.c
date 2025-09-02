@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:48:14 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 15:27:30 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,25 @@ char	**env_to_array(t_env *env)
 {
 	char	**arr;
 	unsigned int	i;
+	unsigned int	j;
 
-	if (env->array && env->dirty == false)
+	if (env->array && is_env_clean(env, ENV_ARRAYING))
 		return (env->array);
 	else if (env->array)
 		free_env_array(env->array);
 	arr = malloc(sizeof(char *) * (env->used + 1));
-	i = 0;
-	while (i < env->used)
+	(i = 0, j = 0);
+	while (j < env->used)
 	{
-		arr[i] = __strjoin_mod(env->keys[i], env->values[i]);
-		i++;
+		if (env->values[i])
+		{
+			arr[j] = __strjoin_mod(env->keys[i], env->values[i]);
+			i++;
+		}
+		j++;
 	}
-	arr[i] = NULL;
-	env->dirty = false;
+	arr[j] = NULL;
+	env->dirty = clean_env(env, ENV_ARRAYING);
 	env->array = arr;
 	return (arr);
 }

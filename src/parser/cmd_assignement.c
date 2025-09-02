@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:37 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 17:24:31 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens, int *i)
 		redir = ft_calloc(1, sizeof(struct s_redirect));
 		redir->args[0] = ft_strdup(tokens[0]);
 		redir->args[1] = ft_strdup(tokens[1]);
+		cur = redir;
 	}
 	else
 	{
@@ -35,7 +36,7 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens, int *i)
 		cur->args[0] = ft_strdup(tokens[0]);
 		cur->args[1] = ft_strdup(tokens[1]);
 	}
-	*i += 2;
+	*i += 1 + (cur->args[1][0] != 0);
 	return (redir);
 }
 
@@ -48,7 +49,7 @@ static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 	i = 0;
 	while (builtins[i])
 	{
-		if (!ft_strncmp(token, builtins[i], ft_strlen(builtins[i])))
+		if (!ft_strcmp(token, builtins[i]))
 		{
 			*cmd = i + 1;
 			return (1);
@@ -64,14 +65,16 @@ static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 	int	i;
 	int	tok_index;
 
-	i = 0;
-	tok_index = -1;
+	(i = 0, tok_index = -1);
 	while (tokens[++tok_index])
 	{
 		if (is_pipe(tokens[tok_index]))
 			return (tok_index + 1);
 		else if (tokens[tok_index][0] && ft_strchr(REDIRECT, tokens[tok_index][0]))
-			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index++], &i);
+		{
+			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index], &i);
+			(void)((cmd->redirect->args[1][0]) && tok_index++);
+		}
 		else if (tokens[tok_index][0] && i == 0)
 		{
 			if (!is_builtin(&cmd->builtin, tokens[tok_index]))

@@ -2,7 +2,6 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include "colors.h"
 # include "memory.h"
 # include "signals.h"
 # include <stdio.h>
@@ -57,6 +56,17 @@ ENV ---------
 ****************************/
 
 # define ENV_INIT_SIZE	128
+# define ENV_SORTING	1
+# define ENV_ARRAYING	2
+
+enum e_env_dirt
+{
+	ENV_DIRTY = 0,
+	ENV_A,
+	ENV_S,
+	ENV_CLEAN
+};
+
 typedef struct s_env
 {
 	char		**keys;
@@ -65,13 +75,14 @@ typedef struct s_env
 	char		**array;
 	uint32_t	size;
 	uint32_t	used;
-	u_char		exit;
-	bool		dirty;
+	int		exit;
+	enum e_env_dirt	dirty;
 }	t_env;
 
+int	is_env_clean(t_env *env, int flag);
 t_env	*init_env(char **old);
 void	env_free(t_env *env);
-void	env_add(t_env *env, char *args);
+int	env_add(t_env *env, char *args);
 void	env_remove(t_env *env, char *key);
 void	env_print_sorted(t_env *env);
 char	*env_get_value(t_env *env, char *key);
@@ -86,6 +97,8 @@ void	env_add_key_value_pair(t_env *env, char *key, char *value);
 void	env_grow(t_env *env);
 void	env_change_val(t_env *env, int index, char *val);
 void	free_env(t_env *env);
+int	is_env_char(int c);
+enum e_env_dirt	clean_env(t_env *env, int flag);
 
 /***************************
 FUNCTIONS ---------
@@ -104,6 +117,7 @@ int	ft_env(char *const argv[], t_env *env);
 int	ft_exit(char *const argv[], t_env *env);
 
 
+int	count_args(char *const argv[]);
 /***************************
 GENERAL MINISH ---------
 ****************************/

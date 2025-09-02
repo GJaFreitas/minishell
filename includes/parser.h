@@ -25,7 +25,7 @@ t_cmd	*assign_cmds(char **tokens, char **env);
 t_cmd	*__init_cmd(void);
 char	*path_search(char *token, char **env, enum e_builtin *cmd);
 int		is_pipe(char *token);
-void	expansions(char **tokens, char **env, u_char exit);
+void	expansions(char **tokens, char **env, int exit);
 void	heredocs(char **tokens, char **env);
 
 

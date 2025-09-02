@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:48:12 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 16:02:01 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,52 @@
 
 static void	__get_key_value(char *args, char **key, char **value);
 
-void	env_add(t_env *env, char *args)
+static int	__check_valid_env(char *args)
+{
+	int	i;
+
+	i = 0;
+	if (args[i] == '=')
+	{
+		ft_fprintf(2, "minishell: export: %s: not a valid identifier\n", args);
+		return (0);
+	}
+	while (args[i])
+	{
+		if (!is_env_char(args[i]) && args[i] != '=')
+		{
+			ft_fprintf(2, "minishell: export: %s: not a valid identifier\n", args);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	env_add(t_env *env, char *args)
 {
 	char	*key;
 	char	*value;
 	unsigned int	used;
 	int	exists;
 
+	if (!__check_valid_env(args))
+		return (1);
 	__get_key_value(args, &key, &value);
 	exists = env_var_exists(env, key);
 	if (exists != -1)
 	{
 		env_change_val(env, exists, value);
-		return ;
+		return (0);
 	}
 	used = env->used;
 	if (used + 1 >= env->size)
 		env_grow(env);
-	env->keys[used] = ft_strdup(key);
-	env->values[used] = ft_strdup(value);
+	env->keys[used] = key;
+	env->values[used] = value;
 	env->used++;
-	env->dirty = true;
+	env->dirty = ENV_DIRTY;
+	return (0);
 }
 
 static void	__get_key_value(char *args, char **key, char **value)
@@ -77,7 +102,7 @@ void	env_remove(t_env *env, char *key)
 		{
 			__move_back(&env->keys[i], &env->values[i], env->used - i);
 			env->used--;
-			env->dirty = true;
+			env->dirty = ENV_DIRTY;
 			return ;
 		}
 		i++;
@@ -116,5 +141,5 @@ void	env_add_key_value_pair(t_env *env, char *key, char *value)
 	env->keys[used] = ft_strdup(key);
 	env->values[used] = ft_strdup(value);
 	env->used++;
-	env->dirty = true;
+	env->dirty = ENV_DIRTY;
 }

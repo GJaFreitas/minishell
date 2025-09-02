@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 16:32:19 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 14:02:47 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,14 @@ static char	*__rel_path_srch(char *token, int *flag)
 	folders[1] = NULL;
 	ft_bzero(cwd, CWD_BUFFER);
 	if (token[0] == '/')
-		ft_memcpy(cwd, token, ft_strrchr(token, '/') - token);
+		return (NULL);
 	else if (token[0] == '.')
 	{
 		if (token[1] != '/')
+		{
+			*flag = UNKNOW_CMD;
 			return (NULL);
+		}
 		getcwd(cwd, CWD_BUFFER);
 	}
 	token = ft_strrchr(token, '/') + 1;
@@ -146,7 +149,7 @@ char	*path_search(char *token, char **env, enum e_builtin *cmd)
 		res = __env_path_srch(token, env, &flag);
 	if (flag == -1)
 		*cmd = NO_BUILTIN;
-	else if (flag == -2)
+	else if (flag == UNKNOW_CMD)
 		*cmd = UNKNOWN_COMMAND;
 	if (res == NULL)
 		return (ft_strdup(token));

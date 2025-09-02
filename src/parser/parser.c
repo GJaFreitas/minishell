@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:39 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/01 17:55:33 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,18 @@
 
 static void	__rm_quote_arg(char *arg)
 {
+	char	temp;
+
+	temp = 0;
 	while (*arg)
 	{
 		if (ft_strchr(QUOTES, *arg))
+		{
+			temp = *(ft_strchr(QUOTES, *arg));
 			ft_memcpy(arg, arg + 1, ft_strlen(arg + 1) + 1);
+			while (*arg && *arg != temp)
+				arg++;
+		}
 		else
 			arg++;
 	}
