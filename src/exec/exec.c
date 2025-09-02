@@ -6,18 +6,18 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/02 20:16:56 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:21:07 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
+#include <dirent.h>
+#include <limits.h>
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <dirent.h>
-#include <limits.h>
 
 int		__case_out(t_cmd *cmd, t_redirect *redir);
 int		__case_out_append(t_cmd *cmd, t_redirect *redir);
@@ -29,9 +29,9 @@ void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 	int	stdin_fd;
 	int	stdout_fd;
 	DIR	*test;
+
 	static int (*jump_table[7])(char *const argv[], t_env *) = {ft_echo, ft_cd,
 		ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
-
 	if (cmd->builtin == UNKNOWN_COMMAND)
 	{
 		test = opendir(cmd->args[0]);
@@ -52,7 +52,6 @@ void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 	env->exit = jump_table[cmd->builtin - 1](cmd->args, env);
-	(close(in), close(out));
 	dup2(stdin_fd, STDIN_FILENO);
 	dup2(stdout_fd, STDOUT_FILENO);
 	(close(stdin_fd), close(stdout_fd));
@@ -169,14 +168,15 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		if (cur->next && cur->redirect_out != 1 && cur->redirect_out != pipefd[1])
-            close(pipefd[1]);
-        else if (cur->next && cur->builtin < 1)
-            close(pipefd[1]);
-        if (in != 0) 
-            close(in);
-        if (out != 1 && out != pipefd[1]) 
-            close(out);
+		if (cur->next && cur->redirect_out != 1
+			&& cur->redirect_out != pipefd[1])
+			close(pipefd[1]);
+		else if (cur->next && cur->builtin < 1)
+			close(pipefd[1]);
+		if (in != 0)
+			close(in);
+		if (out != 1 && out != pipefd[1])
+			close(out);
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}
