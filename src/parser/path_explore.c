@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 14:02:47 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/02 18:55:15 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,26 @@ static char	*__search_folders(char **folders, char *token)
 	struct dirent	*entry;
 	char			*path;
 	DIR				*dir_stream;
+	int		i;
 
 	path = NULL;
-	while (*folders)
+	i = count_args(folders);
+	while (--i >= 0)
 	{
-		dir_stream = opendir(*folders);
-		if (!dir_stream && folders++)
+		dir_stream = opendir(folders[i]);
+		if (!dir_stream && folders[i])
 			continue ;
 		entry = readdir(dir_stream);
 		while (entry)
 		{
 			if (!ft_strcmp(entry->d_name, token))
 			{
-				path = ft_strdup(*folders);
-				closedir(dir_stream);
+				(path = ft_strdup(folders[i]), closedir(dir_stream));
 				return (path);
 			}
 			entry = readdir(dir_stream);
 		}
-		(closedir(dir_stream), folders++);
+		closedir(dir_stream);
 	}
 	return (path);
 }
