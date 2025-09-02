@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/02 20:01:23 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:16:56 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,9 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		if (cur->next && cur->builtin < 1) 
+		if (cur->next && cur->redirect_out != 1 && cur->redirect_out != pipefd[1])
+            close(pipefd[1]);
+        else if (cur->next && cur->builtin < 1)
             close(pipefd[1]);
         if (in != 0) 
             close(in);
