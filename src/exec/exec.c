@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/02 19:02:20 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/02 20:01:23 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 	{
 		if (pipe(pipefd) == -1)
 			return (perror("pipe error"));
-		else
+		if (cur->redirect_out == 1)
 			*out = pipefd[1];
+		else
+			*out = cur->redirect_out;
 	}
 	else
 		*out = cur->redirect_out;
@@ -167,9 +169,12 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		(void)((cur->next && cur->builtin < 1) && close(pipefd[1]));
-		(void)((in != 0) && close(in));
-		(void)((out != 1 && out != pipefd[1]) && close(out));
+		if (cur->next && cur->builtin < 1) 
+            close(pipefd[1]);
+        if (in != 0) 
+            close(in);
+        if (out != 1 && out != pipefd[1]) 
+            close(out);
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}
