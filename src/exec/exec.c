@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/03 19:44:43 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:47:42 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 	while (cur)
 	{
 		setup_pipes(cur, &in, &out, pipefd);
-		print_one_cmd(cur);
+		// print_one_cmd(cur);
 		if (cur->builtin != 0)
 			exec_builtin(cur, env, in, out);
 		else
