@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 12:12:07 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:54:59 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	get_lines(int fd, const char *delimiter, char **env)
 		free(line[0]);
 	}
 	if (!line[0])
-		return (line_n | HDOC_EOF);
+		return (free(line[0]), line_n | HDOC_EOF);
 	free(line[0]);
 	if (g_sig)
 		return (-2);
@@ -95,8 +95,10 @@ void	heredocs(char **tokens, char **env)
 	i = 0;
 	while (tokens[i])
 	{
-		if (!ft_strcmp(tokens[i], "<<"))
+		if (tokens[i] && !ft_strcmp(tokens[i], "<<"))
 			handle_heredoc(&tokens[i++], env);
+		if (!tokens[i])
+			break ;
 		i++;
 	}
 }
