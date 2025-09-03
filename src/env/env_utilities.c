@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 14:54:33 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 18:46:04 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ void	env_print(t_env *env)
 	i = 0;
 	while (i < env->used)
 	{
-		ft_printf("%s=", env->keys[i]);
 		if (env->values[i])
-			ft_printf("%s", env->values[i]);
-		write(1, "\n", 1);
+		{
+			ft_printf("%s=%s", env->keys[i], env->values[i]);
+			write(1, "\n", 1);
+		}
 		i++;
 	}
 }

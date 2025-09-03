@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 16:02:01 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:28:52 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,6 @@
 
 static void	__get_key_value(char *args, char **key, char **value);
 
-static int	__check_valid_env(char *args)
-{
-	int	i;
-
-	i = 0;
-	if (args[i] == '=')
-	{
-		ft_fprintf(2, "minishell: export: %s: not a valid identifier\n", args);
-		return (0);
-	}
-	while (args[i])
-	{
-		if (!is_env_char(args[i]) && args[i] != '=')
-		{
-			ft_fprintf(2, "minishell: export: %s: not a valid identifier\n", args);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
 int	env_add(t_env *env, char *args)
 {
 	char	*key;
@@ -51,13 +29,13 @@ int	env_add(t_env *env, char *args)
 	unsigned int	used;
 	int	exists;
 
-	if (!__check_valid_env(args))
-		return (1);
 	__get_key_value(args, &key, &value);
 	exists = env_var_exists(env, key);
 	if (exists != -1)
 	{
 		env_change_val(env, exists, value);
+		free(value);
+		free(key);
 		return (0);
 	}
 	used = env->used;

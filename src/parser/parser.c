@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 17:19:49 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 18:23:30 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "minishell.h"
 #include "parser.h"
 
-static void	__rm_quote_arg(char *arg)
+void	__rm_quote_arg(char *arg)
 {
 	char	temp;
 
@@ -34,15 +34,18 @@ static void	__rm_quote_arg(char *arg)
 	}
 }
 
-static void	__remove_quotes(t_cmd *cmds)
+static void	__remove_quotes(t_cmd *cmds, int flag)
 {
 	int	i;
 
 	while (cmds)
 	{
 		i = 0;
-		while (cmds->args && cmds->args[i])
-			__rm_quote_arg(cmds->args[i++]);
+		if (flag && !ft_strcmp(cmds->args[0], "export"))
+			;
+		else
+			while (cmds->args && cmds->args[i])
+				__rm_quote_arg(cmds->args[i++]);
 		cmds = cmds->next;
 	}
 }
@@ -56,7 +59,7 @@ t_cmd	*parser(char **tokens, t_env *env, char **env_array)
 	heredocs(tokens, env_array);
 	expansions(tokens, env_array, env->exit);
 	cmds = assign_cmds(tokens, env_array);
-	__remove_quotes(cmds);
+	__remove_quotes(cmds, 1);
 	free_tokens(tokens);
 	free(tokens);
 	return (cmds);

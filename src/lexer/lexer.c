@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 17:27:02 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:27:33 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**lexer(char *line)
 	char	*tokenizable;
 
 	i = 0;
-	while (line[i] && line[i] == ' ')
+	while (line[i] && ft_isspace(line[i]))
 		i++;
 	if (!line[i])
 		return (free(line), NULL);

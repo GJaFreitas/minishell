@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/31 15:42:22 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 17:51:41 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,20 @@ static inline void	__increment_shlvl(t_env *env, char cwd[CWD_BUFFER])
 
 	ft_bzero(cwd, CWD_BUFFER);
 	idx = env_var_exists(env, "SHLVL");
-	ft_strlcpy(cwd, env_get_value_index(env, idx), CWD_BUFFER);
-	n = ft_atoi(cwd);
-	n++;
-	ft_bzero(cwd, 12);
-	ft_itoa_buf(n, cwd, CWD_BUFFER);
-	env_change_val(env, idx, cwd);
+	if (idx != -1)
+	{
+		ft_strlcpy(cwd, env_get_value_index(env, idx), CWD_BUFFER);
+		n = ft_atoi(cwd);
+		n++;
+		ft_bzero(cwd, 12);
+		ft_itoa_buf(n, cwd, CWD_BUFFER);
+		env_change_val(env, idx, cwd);
+	}
+	else
+	{
+		ft_strlcpy(cwd, "SHLVL=1", 9);
+		env_add(env, cwd);
+	}
 }
 
 void	start_env_vars(t_env *env)
@@ -57,15 +65,16 @@ t_env	*init_env(char **old)
 	env->keys = malloc(ENV_INIT_SIZE * sizeof(char *));
 	env->values = malloc(ENV_INIT_SIZE * sizeof(char *));
 	i = 0;
-	while (*old)
-	{
-		env->keys[i] = __extract_to_from(*old, '=', -1);
-		env->values[i] = __extract_to_from(*old, '\0', '=');
-		old++;
-		i++;
-		if (i > env->size)
-			env_grow(env);
-	}
+	(void)old;
+	// while (*old)
+	// {
+	// 	env->keys[i] = __extract_to_from(*old, '=', -1);
+	// 	env->values[i] = __extract_to_from(*old, '\0', '=');
+	// 	old++;
+	// 	i++;
+	// 	if (i > env->size)
+	// 		env_grow(env);
+	// }
 	env->used = i;
 	start_env_vars(env);
 	return (env);

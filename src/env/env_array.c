@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 15:27:30 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:36:26 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ char	**env_to_array(t_env *env)
 	(i = 0, j = 0);
 	while (j < env->used)
 	{
-		if (env->values[i])
+		if (env->values[j])
 		{
-			arr[j] = __strjoin_mod(env->keys[i], env->values[i]);
+			arr[i] = __strjoin_mod(env->keys[j], env->values[j]);
 			i++;
 		}
 		j++;
 	}
-	arr[j] = NULL;
+	arr[i] = NULL;
 	env->dirty = clean_env(env, ENV_ARRAYING);
 	env->array = arr;
 	return (arr);

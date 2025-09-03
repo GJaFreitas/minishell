@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/02 18:55:15 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:41:32 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static char	**__get_folders(char *path)
 	while (path && path[i])
 		if (path[i++] == ':')
 			total++;
+	path = (ft_strchr(path, '=') + 1);
 	folders = ft_calloc(total + 1, sizeof(char *));
 	temp = path + i - 1;
 	while (temp && (temp != path))
