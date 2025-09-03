@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 19:41:32 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:46:24 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static char	*__search_folders(char **folders, char *token)
 	DIR				*dir_stream;
 	int		i;
 
-	path = NULL;
-	i = count_args(folders);
+	(path = NULL, i = count_args(folders));
 	while (--i >= 0)
 	{
 		dir_stream = opendir(folders[i]);
@@ -89,7 +88,7 @@ static char	*__env_path_srch(char *token, char **env, int *flag)
 	char	*path_env_var;
 
 	path_env_var = __path_extract(env);
-	(!path_env_var) && (*flag = NO_PATH_VAR);
+	(!path_env_var) && (*flag = UNKNOW_CMD);
 	if (!path_env_var)
 		return (NULL);
 	folders = __get_folders(path_env_var);
@@ -129,7 +128,7 @@ static char	*__rel_path_srch(char *token, int *flag)
 	path = __search_folders(folders, token);
 	if (path == NULL)
 	{
-		*flag = NO_PATH_VAR;
+		*flag = UNKNOW_CMD;
 		return (NULL);
 	}
 	return (path);
