@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 19:54:59 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 20:05:05 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,13 @@ int	heredoc(char *delimiter, char **env)
 	{
 		signal(SIGINT, SIG_DFL);
 		fd = open("/tmp/hdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		get_lines(fd, delimiter, env);
+		pid = get_lines(fd, delimiter, env);
+		if ((pid >> 31) & 1)
+		{
+			ft_fprintf(2, HDOC_ERROR1 HDOC_ERROR2, pid << 1 >> 1, delimiter);
+			close(fd);
+			fd = open("/tmp/hdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		}
 		close(fd);
 		exit(g_sig);
 	}
