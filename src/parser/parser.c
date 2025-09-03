@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 17:55:33 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 17:19:49 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	__remove_quotes(t_cmd *cmds)
 	while (cmds)
 	{
 		i = 0;
-		while (cmds->args[i])
+		while (cmds->args && cmds->args[i])
 			__rm_quote_arg(cmds->args[i++]);
 		cmds = cmds->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:37 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 17:27:02 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,14 @@ ls dir|grep a
 
 char	**lexer(char *line)
 {
+	int	i;
 	char	**toks;
 	char	*tokenizable;
 
-	if (!*line)
+	i = 0;
+	while (line[i] && line[i] == ' ')
+		i++;
+	if (!line[i])
 		return (free(line), NULL);
 	tokenizable = __prepare_tokenize(line);
 	toks = __tokenize(tokenizable);
