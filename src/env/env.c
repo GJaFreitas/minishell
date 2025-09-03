@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 17:51:41 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/03 19:48:44 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,15 @@ t_env	*init_env(char **old)
 	env->keys = malloc(ENV_INIT_SIZE * sizeof(char *));
 	env->values = malloc(ENV_INIT_SIZE * sizeof(char *));
 	i = 0;
-	(void)old;
-	// while (*old)
-	// {
-	// 	env->keys[i] = __extract_to_from(*old, '=', -1);
-	// 	env->values[i] = __extract_to_from(*old, '\0', '=');
-	// 	old++;
-	// 	i++;
-	// 	if (i > env->size)
-	// 		env_grow(env);
-	// }
+	while (*old)
+	{
+		env->keys[i] = __extract_to_from(*old, '=', -1);
+		env->values[i] = __extract_to_from(*old, '\0', '=');
+		old++;
+		i++;
+		if (i > env->size)
+			env_grow(env);
+	}
 	env->used = i;
 	start_env_vars(env);
 	return (env);
