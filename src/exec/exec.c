@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 19:14:37 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:16:19 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <dirent.h>
 #include <limits.h>
 #include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -107,6 +108,9 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 
 void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
+	int	i;
+
+	i = 3;
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		return (perror("fork"));
@@ -117,6 +121,8 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 		perror("dup2 stdin");
 	if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
 		perror("dup2 stdout");
+	while (i < FOPEN_MAX)
+		close(i++);
 	execve(cmd->args[0], cmd->args, env_to_array(env));
 	exit(0);
 }
