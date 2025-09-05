@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_assignement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:03:50 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_redirect	*__redirect(t_redirect *redir, char **tokens, int *i)
 static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 {
 	static char	*builtins[8] = {"echo", "cd", "pwd", "export", "unset", "env",
-			"exit", NULL};
+		"exit", NULL};
 	int			i;
 
 	i = 0;
@@ -65,7 +65,8 @@ static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 	int	i;
 	int	tok_index;
 
-	(i = 0, tok_index = -1);
+	i = 0;
+	tok_index = -1;
 	while (tokens[++tok_index])
 	{
 		if (is_pipe(tokens[tok_index]))

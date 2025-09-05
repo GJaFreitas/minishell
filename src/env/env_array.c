@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_array.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:30 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:12:08 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	**env_to_array(t_env *env)
 	else if (env->array)
 		free_env_array(env->array);
 	arr = malloc(sizeof(char *) * (env->used + 1));
-	(i = 0, j = 0);
+	i = 0;
+	j = 0;
 	while (j < env->used)
 	{
 		if (env->values[j])

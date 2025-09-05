@@ -1,22 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/05 18:50:50 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/09/05 18:53:49 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 
-#include "stdbool.h"
-#include <sys/types.h>
+# include "stdbool.h"
+# include <sys/types.h>
 
-# define REDIRECT	"<>"
-
-# define HDOC_EOF	(1 << 31)
+# define REDIRECT	"<>"	
 
 # define NO_PATH_VAR	-1
-# define UNKNOW_CMD	-2
+# define UNKNOW_CMD		-2
 
 # include "minishell.h"
 
 typedef struct s_expansion_list
 {
-	char	*expansion;
-	bool	allocd;
+	char					*expansion;
+	bool					allocd;
 	struct s_expansion_list	*next;
 }	t_string_list;
 
@@ -27,7 +37,6 @@ char	*path_search(char *token, char **env, enum e_builtin *cmd);
 int		is_pipe(char *token);
 void	expansions(char **tokens, char **env, int exit);
 void	heredocs(char **tokens, t_env *env);
-
 
 // Utils ------------------
 void	free_tokens(char **tokens);
