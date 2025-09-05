@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/05 18:50:46 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/09/05 18:58:43 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -8,7 +20,7 @@
 # include <stdint.h>
 # include <stdarg.h>
 # include <stddef.h>
-#include <sys/types.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -44,7 +56,7 @@ typedef struct s_cmd
 	int				pid;
 	int				status;
 	char			**args;
-	enum e_builtin		builtin;
+	enum e_builtin	builtin;
 	int				redirect_in;
 	int				redirect_out;
 	t_redirect		*redirect;
@@ -69,87 +81,86 @@ enum e_env_dirt
 
 typedef struct s_env
 {
-	char		**keys;
-	char		**values;
-	int		*sorted;
-	char		**array;
-	uint32_t	size;
-	uint32_t	used;
-	int		exit;
+	char			**keys;
+	char			**values;
+	int				*sorted;
+	char			**array;
+	uint32_t		size;
+	uint32_t		used;
+	int				exit;
 	enum e_env_dirt	dirty;
 }	t_env;
 
-int	is_env_clean(t_env *env, int flag);
-t_env	*init_env(char **old);
-void	env_free(t_env *env);
-int	env_add(t_env *env, char *args);
-void	env_remove(t_env *env, char *key);
-void	env_print_sorted(t_env *env);
-char	*env_get_value(t_env *env, char *key);
-void	env_print(t_env *env);
-char	**env_to_array(t_env *env);
-void	free_env_array(char **arr);
-int	env_var_exists(t_env *env, char *key);
-char	*env_get_value_index(t_env *env, int index);
-void	env_add_key_value_pair(t_env *env, char *key, char *value);
+int				is_env_clean(t_env *env, int flag);
+t_env			*init_env(char **old);
+void			env_free(t_env *env);
+int				env_add(t_env *env, char *args);
+void			env_remove(t_env *env, char *key);
+void			env_print_sorted(t_env *env);
+char			*env_get_value(t_env *env, char *key);
+void			env_print(t_env *env);
+char			**env_to_array(t_env *env);
+void			free_env_array(char **arr);
+int				env_var_exists(t_env *env, char *key);
+char			*env_get_value_index(t_env *env, int index);
+void			env_add_key_value_pair(t_env *env, char *key, char *value);
 
 /* UTILITIES FOR ENV */
-void	env_grow(t_env *env);
-void	env_change_val(t_env *env, int index, char *val);
-void	free_env(t_env *env);
-int	is_env_char(int c);
-t_cmd	*norm(t_cmd *cmd);
+void			env_grow(t_env *env);
+void			env_change_val(t_env *env, int index, char *val);
+void			free_env(t_env *env);
+int				is_env_char(int c);
+t_cmd			*norm(t_cmd *cmd);
 enum e_env_dirt	clean_env(t_env *env, int flag);
 
 /***************************
 FUNCTIONS ---------
 ****************************/
 
-int	ft_echo(char *const argv[], t_env *env);
-int	ft_export(char *const argv[], t_env *env);
-int	ft_pwd(char *const argv[], t_env *env);
+int				ft_echo(char *const argv[], t_env *env);
+int				ft_export(char *const argv[], t_env *env);
+int				ft_pwd(char *const argv[], t_env *env);
 // CD
-int	ft_cd(char *const argv[], t_env *env);
-int	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER]);
-int	path_exists(char *path);
+int				ft_cd(char *const argv[], t_env *env);
+int				get_full_dir_path(char *input, t_env *env,
+					char full_path[][CWD_BUFFER]);
+int				path_exists(char *path);
 // ---
-int	ft_unset(char *const argv[], t_env *env);
-int	ft_env(char *const argv[], t_env *env);
-int	ft_exit(char *const argv[], t_env *env);
+int				ft_unset(char *const argv[], t_env *env);
+int				ft_env(char *const argv[], t_env *env);
+int				ft_exit(char *const argv[], t_env *env);
 
-
-int	count_args(char *const argv[]);
+int				count_args(char *const argv[]);
 /***************************
 GENERAL MINISH ---------
 ****************************/
 
-int	free_minishell(t_env *env, int exitcode);
+int				free_minishell(t_env *env, int exitcode);
 
 /***************************
 SIGNALS ---------
 ****************************/
 
-void	signals(void);
+void			signals(void);
 
 /***************************
 DEBUG ---------
 ****************************/
 
-void	print_tokens(char *const *tokens);
-void	print_cmd(t_cmd *cmd);
-void	print_one_cmd(t_cmd *cmd);
+void			print_tokens(char *const *tokens);
+void			print_cmd(t_cmd *cmd);
+void			print_one_cmd(t_cmd *cmd);
 
 /***************************
 EXEC ----------------
 ****************************/
 
-int	ft_exec_all(t_cmd *cmd, t_env *env);
-
+int				ft_exec_all(t_cmd *cmd, t_env *env);
 
 /***************************
 UTILS ----------------
 ****************************/
-int		ft_strcmp(const char *s1, const char *s2);
-void	ft_itoa_buf(long int n, char *buf, int size);
+int				ft_strcmp(const char *s1, const char *s2);
+void			ft_itoa_buf(long int n, char *buf, int size);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:06:38 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,10 @@ void	free_cmds(t_cmd *cmds)
 		next = cmds->next;
 		free(cmds);
 	}
+}
+
+t_string_list	*next_expansion(t_string_list *list)
+{
+	list->next = ft_calloc(1, sizeof(t_string_list));
+	return (list->next);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:07:46 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,31 @@ t_cmd	*parser(char **tokens, t_env *env, char **env_array)
 	free(tokens);
 	norm(cmds);
 	return (cmds);
+}
+
+// Requires 2 branches:
+// 	- Relative file path -> "./file" "/bin/file"
+// 	- file in $PATH var  -> "cat" "ls"
+char	*path_search(char *token, char **env, enum e_builtin *cmd)
+{
+	int		flag;
+	char	*res;
+	char	*temp;
+
+	flag = 0;
+	if (ft_strchr("/.", token[0]))
+		res = __rel_path_srch(token, &flag);
+	else
+		res = __env_path_srch(token, env, &flag);
+	if (flag == -1)
+		*cmd = NO_BUILTIN;
+	else if (flag == UNKNOW_CMD)
+		*cmd = UNKNOWN_COMMAND;
+	if (res == NULL)
+		return (ft_strdup(token));
+	temp = ft_strjoin(res, "/");
+	free(res);
+	res = ft_strjoin(temp, token);
+	free(temp);
+	return (res);
 }

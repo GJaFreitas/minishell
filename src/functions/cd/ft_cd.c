@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:30 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:01:43 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	ft_cd(char *const argv[], t_env *env)
 	char	current_dir[CWD_BUFFER];
 	int		flag;
 
-	(flag = 0, getcwd(current_dir, CWD_BUFFER));
+	flag = 0;
+	getcwd(current_dir, CWD_BUFFER);
 	ft_bzero(full_dir_path, CWD_BUFFER);
 	if (count_args(argv) > 2)
 	{

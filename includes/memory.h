@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memory.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/05 18:50:34 by gvon-ah-          #+#    #+#             */
+/*   Updated: 2025/09/05 18:51:14 by gvon-ah-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MEMORY_H
 # define MEMORY_H
 
@@ -6,7 +18,7 @@
 
 typedef struct s_node
 {
-	void		*content;
+	void			*content;
 	struct s_node	*next;
 	struct s_node	*prev;
 }	t_node;

@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 18:53:18 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	get_lines(int fd, const char *delimiter, char **env)
 		free(line[0]);
 	}
 	if (!line[0])
-		return (free(line[0]), line_n | HDOC_EOF);
+		return (free(line[0]), line_n | (1 << 31));
 	free(line[0]);
 	if (g_sig)
 		return (-2);

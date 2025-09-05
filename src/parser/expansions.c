@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:06:32 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,98 +93,4 @@ int	get_expansion_size(char *tok)
 	while (tok[i] && is_env_char(tok[i]))
 		i++;
 	return (i);
-}
-
-t_string_list	*next_expansion(t_string_list *list)
-{
-	list->next = ft_calloc(1, sizeof(t_string_list));
-	return (list->next);
-}
-
-char	*copy_until_expansion(char *tok)
-{
-	char	*temp;
-
-	temp = ft_strchr(tok, '$');
-	if (temp)
-		return (ft_strndup(tok, (uintptr_t)temp - (uintptr_t)tok));
-	return (ft_strdup(tok));
-}
-
-// Genuinely evil ass function
-t_string_list	*get_all_expansions(char *tok, char **env, int exit)
-{
-	t_string_list	*list;
-	t_string_list	*cur;
-
-	list = ft_calloc(1, sizeof(t_string_list));
-	cur = list;
-	while (*tok)
-	{
-		if (tok[0] != '$')
-		{
-			cur->expansion = copy_until_expansion(tok);
-			cur->allocd = 1;
-			cur = next_expansion(cur);
-			while (*tok && *tok != '$')
-				tok++;
-		}
-		if (tok[1] == '?')
-			(void)((cur->allocd = 1) && (cur->expansion = ft_itoa(exit)));
-		else
-			cur->expansion = __get_expansion(tok + 1, env);
-		cur = next_expansion(cur);
-		tok += get_expansion_size(tok);
-	}
-	return (list);
-}
-
-void	free_list(t_string_list *l)
-{
-	t_string_list	*cur;
-	t_string_list	*prev;
-
-	cur = l;
-	while (cur)
-	{
-		prev = cur;
-		if (cur->allocd)
-			free(cur->expansion);
-		cur = cur->next;
-		free(prev);
-	}
-}
-
-char	*__expand_token(char *tok, char **env, int exit)
-{
-	char			*new_tok;
-	t_string_list	*expansions;
-	int				i;
-
-	i = 0;
-	while (tok[i] && tok[i] != '$')
-		i++;
-	if (tok[i] != '$')
-		return (tok);
-	expansions = get_all_expansions(tok, env, exit);
-	new_tok = __assemble(expansions, expansion_list_size(expansions));
-	free_list(expansions);
-	free(tok);
-	return (new_tok);
-}
-
-void	expansions(char **tokens, char **env, int exit)
-{
-	int	i;
-
-	i = 0;
-	while (tokens[i])
-	{
-		if (tokens[i][0] == '\'')
-			i++;
-		if (!tokens[i])
-			break ;
-		tokens[i] = __expand_token(tokens[i], env, exit);
-		i++;
-	}
 }
