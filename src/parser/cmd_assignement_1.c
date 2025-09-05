@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 19:45:52 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 19:45:59 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 20:06:11 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_cmd	*assign_cmds(char **tokens, char **env)
 	while (*tokens)
 	{
 		current->args = ft_calloc(__arg_count(tokens) + 1, sizeof(char *));
-		tokens += __assign_command(current, tokens, env);
+		tokens += assign_command(current, tokens, env);
 		if (*tokens)
 		{
 			current->next = __init_cmd();

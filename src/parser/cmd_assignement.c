@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 19:55:26 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 20:15:41 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	__norm_help(t_cmd *cmd, char **tokens, char **env, int tok_index)
 		cmd->args[0] = ft_strdup(tokens[tok_index]);
 }
 
-int	__assign_command(t_cmd *cmd, char **tokens, char **env)
+int	assign_command(t_cmd *cmd, char **tokens, char **env)
 {
 	int	i;
 	int	tok_index;
@@ -85,7 +85,7 @@ int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index], &i);
 			(void)((cmd->redirect->args[1][0]) && tok_index++);
 		}
-		else if (tokens[tok_index][0] && i == 0 && i++)
+		else if (tokens[tok_index][0] && i == 0 && ++i)
 			__norm_help(cmd, tokens, env, tok_index);
 		else
 			cmd->args[i++] = ft_strdup(tokens[tok_index]);
