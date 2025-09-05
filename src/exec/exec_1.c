@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 19:14:47 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 20:16:04 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 20:18:11 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	sig_response(sig, status)
 	else if (sig == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 20);
 }
-void dups(int stdin_fd, int stdout_fd, int in, int out)
+
+void	dups(int stdin_fd, int stdout_fd, int in, int out)
 {
 	stdin_fd = dup(STDIN_FILENO);
 	stdout_fd = dup(STDOUT_FILENO);
@@ -75,7 +76,7 @@ void dups(int stdin_fd, int stdout_fd, int in, int out)
 	dup2(out, STDOUT_FILENO);
 }
 
-void unknow_cmd(t_cmd *cmd, DIR *test, t_env *env)
+void	unknow_cmd(t_cmd *cmd, DIR *test, t_env *env)
 {
 	test = opendir(cmd->args[0]);
 	if (test)
