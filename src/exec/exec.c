@@ -24,40 +24,62 @@ int		__case_out_append(t_cmd *cmd, t_redirect *redir);
 int		__case_in(t_cmd *cmd, t_redirect *redir);
 int		__switch(t_cmd *cmd, t_redirect *redir);
 
+static void	exec_builtin_error(t_cmd *cmd, t_env *env)
+{
+	DIR	*test;
+
+	test = opendir(cmd->args[0]);
+	if (test)
+		ft_fprintf(2, "minishell: %s: Is a directory\n", *cmd->args);
+	else
+		ft_fprintf(2, "minishell: %s: command not found\n", *cmd->args);
+	env->exit = 127 - ((closedir(test) == 0));
+}
+
+static int	is_skip_builtin(t_cmd *cmd)
+{
+	if (cmd->next)
+	{
+		if (cmd->builtin == 4 && cmd->args[1])
+			return (1);
+		if (cmd->builtin == 7)
+			return (1);
+	}
+	return (0);
+}
+
+static void	restore_stdio(int stdin_fd, int stdout_fd)
+{
+	dup2(stdin_fd, STDIN_FILENO);
+	dup2(stdout_fd, STDOUT_FILENO);
+	close(stdin_fd);
+	close(stdout_fd);
+}
+
 void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 {
 	int	stdin_fd;
 	int	stdout_fd;
-	DIR	*test;
+	static int (*jump_table[7])(char *const argv[], t_env *) = {
+		ft_echo, ft_cd, ft_pwd, ft_export, ft_unset, ft_env, ft_exit
+	};
 
-	static int (*jump_table[7])(char *const argv[], t_env *) = {ft_echo, ft_cd,
-		ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
 	if (cmd->builtin == UNKNOWN_COMMAND)
 	{
-		test = opendir(cmd->args[0]);
-		if (test)
-			ft_fprintf(2, "minishell: %s: Is a directory\n", *cmd->args);
-		else
-			ft_fprintf(2, "minishell: %s: command not found\n", *cmd->args);
-		env->exit = 127 - ((closedir(test) == 0));
+		exec_builtin_error(cmd, env);
 		return ;
 	}
-	if (cmd->next)
+	if (is_skip_builtin(cmd))
 	{
 		env->exit = 0;
-		if (cmd->builtin == 4 && cmd->args[1])
-			return ;
-		else if (cmd->builtin == 7)
-			return ;
+		return ;
 	}
 	stdin_fd = dup(STDIN_FILENO);
 	stdout_fd = dup(STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 	env->exit = jump_table[cmd->builtin - 1](cmd->args, env);
-	dup2(stdin_fd, STDIN_FILENO);
-	dup2(stdout_fd, STDOUT_FILENO);
-	(close(stdin_fd), close(stdout_fd));
+	restore_stdio(stdin_fd, stdout_fd);
 }
 
 int	setup_redirections(t_cmd *cmd)
@@ -95,7 +117,10 @@ void	setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2])
 	if (cur->next)
 	{
 		if (pipe(pipefd) == -1)
-			return (perror("pipe error"));
+		{
+			perror("pipe error");
+			return ;
+		}
 		if (cur->redirect_out == 1)
 			*out = pipefd[1];
 		else
@@ -109,10 +134,14 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 {
 	cmd->pid = fork();
 	if (cmd->pid == -1)
-		return (perror("fork"));
+	{
+		perror("fork");
+		return ;
+	}
 	if (cmd->pid != 0)
 		return ;
-	(signal(SIGINT, SIG_DFL), signal(SIGQUIT, SIG_DFL));
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (in != 0 && dup2(in, STDIN_FILENO) == -1)
 		perror("dup2 stdin");
 	if (out != 1 && dup2(out, STDOUT_FILENO) == -1)
@@ -121,9 +150,22 @@ void	ft_exec(t_cmd *cmd, t_env *env, int in, int out)
 	exit(0);
 }
 
-int	wait_pids(t_cmd *cmds, t_env *env)
+static void	handle_wait_signals(int status)
 {
 	int	sig;
+
+	if (WIFSIGNALED(status))
+	{
+		sig = WTERMSIG(status);
+		if (sig == SIGINT)
+			write(1, "\n", 1);
+		else if (sig == SIGQUIT)
+			write(2, "Quit (core dumped)\n", 20);
+	}
+}
+
+int	wait_pids(t_cmd *cmds, t_env *env)
+{
 	int	status;
 
 	status = INT_MIN;
@@ -133,23 +175,27 @@ int	wait_pids(t_cmd *cmds, t_env *env)
 		if (cmds->pid)
 			waitpid(cmds->pid, &status, 0);
 		signal(SIGINT, __sigint_h);
-		if (WIFSIGNALED(status))
-		{
-			sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				write(1, "\n", 1);
-			else if (sig == SIGQUIT)
-				write(2, "Quit (core dumped)\n", 20);
-		}
+		handle_wait_signals(status);
 		cmds = cmds->next;
 	}
 	if (status == INT_MIN)
 		return (env->exit);
 	if (WIFSIGNALED(status))
-		return (sig + 128);
+		return (WTERMSIG(status) + 128);
 	if (status != env->exit)
 		return (WEXITSTATUS(status));
 	return (env->exit);
+}
+
+static void	close_pipe_out(t_cmd *cur, int pipefd[2], int out)
+{
+	if (cur->next && cur->redirect_out != 1
+		&& cur->redirect_out != pipefd[1])
+		close(pipefd[1]);
+	else if (cur->next && cur->builtin < 1)
+		close(pipefd[1]);
+	if (out != 1 && out != pipefd[1])
+		close(out);
 }
 
 int	ft_exec_all(t_cmd *cmd, t_env *env)
@@ -166,20 +212,13 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 	while (cur)
 	{
 		setup_pipes(cur, &in, &out, pipefd);
-		// print_one_cmd(cur);
 		if (cur->builtin != 0)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		if (cur->next && cur->redirect_out != 1
-			&& cur->redirect_out != pipefd[1])
-			close(pipefd[1]);
-		else if (cur->next && cur->builtin < 1)
-			close(pipefd[1]);
+		close_pipe_out(cur, pipefd, out);
 		if (in != 0)
 			close(in);
-		if (out != 1 && out != pipefd[1])
-			close(out);
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}
