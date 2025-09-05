@@ -4,7 +4,7 @@ CC = cc
 
 # --- Compiler Flags -------------- #
 
-CFLAGS = -g #-Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 # --- NAME ---------------------- #
 
@@ -77,7 +77,9 @@ VPATH += src/parser:src/parser/heredoc
 SRCS += \
 	parser.c \
 	path_explore.c \
+	path_explore_1.c \
 	cmd_assignement.c \
+	cmd_assignement_1.c \
 	parser_utils.c \
 	expansions.c \
 	expansions_1.c \

@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 19:03:50 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:55:26 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,15 @@ static enum e_builtin	is_builtin(enum e_builtin *cmd, char *token)
 	return (0);
 }
 
-static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
+static void	__norm_help(t_cmd *cmd, char **tokens, char **env, int tok_index)
+{
+	if (!is_builtin(&cmd->builtin, tokens[tok_index]))
+		cmd->args[0] = path_search(tokens[tok_index], env, &cmd->builtin);
+	else
+		cmd->args[0] = ft_strdup(tokens[tok_index]);
+}
+
+int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 {
 	int	i;
 	int	tok_index;
@@ -77,52 +85,10 @@ static int	__assign_command(t_cmd *cmd, char **tokens, char **env)
 			cmd->redirect = __redirect(cmd->redirect, &tokens[tok_index], &i);
 			(void)((cmd->redirect->args[1][0]) && tok_index++);
 		}
-		else if (tokens[tok_index][0] && i == 0)
-		{
-			if (!is_builtin(&cmd->builtin, tokens[tok_index]))
-				cmd->args[i++] = path_search(tokens[tok_index], env,
-						&cmd->builtin);
-			else
-				cmd->args[i++] = ft_strdup(tokens[tok_index]);
-		}
+		else if (tokens[tok_index][0] && i == 0 && i++)
+			__norm_help(cmd, tokens, env, tok_index);
 		else
 			cmd->args[i++] = ft_strdup(tokens[tok_index]);
 	}
 	return (i);
-}
-
-int	__arg_count(char **tokens)
-{
-	int	i;
-
-	i = 1;
-	while (*tokens)
-	{
-		if (is_pipe(*tokens))
-			return (i);
-		if (!ft_strchr(REDIRECT, **tokens))
-			i++;
-		tokens++;
-	}
-	return (i);
-}
-
-t_cmd	*assign_cmds(char **tokens, char **env)
-{
-	t_cmd	*cmds;
-	t_cmd	*current;
-
-	cmds = __init_cmd();
-	current = cmds;
-	while (*tokens)
-	{
-		current->args = ft_calloc(__arg_count(tokens) + 1, sizeof(char *));
-		tokens += __assign_command(current, tokens, env);
-		if (*tokens)
-		{
-			current->next = __init_cmd();
-			current = current->next;
-		}
-	}
-	return (cmds);
 }
