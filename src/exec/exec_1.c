@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 19:14:47 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 19:42:26 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 20:18:11 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+static void	ft_exec_closes(t_cmd *cur, int pipefd[2], int in, int out);
 
 int	ft_exec_all(t_cmd *cmd, t_env *env)
 {
@@ -37,21 +39,49 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 			exec_builtin(cur, env, in, out);
 		else
 			ft_exec(cur, env, in, out);
-		if (cur->next && cur->redirect_out != 1
-			&& cur->redirect_out != pipefd[1])
-			close(pipefd[1]);
-		else if (cur->next && cur->builtin < 1)
-			close(pipefd[1]);
-		if (in != 0)
-			close(in);
-		if (out != 1 && out != pipefd[1])
-			close(out);
+		ft_exec_closes(cur, pipefd, in, out);
 		in = ((cur->next != NULL) * pipefd[0]);
 		cur = cur->next;
 	}
 	return (wait_pids(cmd, env));
 }
-// static ft_exec_closes()
-// {
-	
-// }
+
+static void	ft_exec_closes(t_cmd *cur, int pipefd[2], int in, int out)
+{
+	if (cur->next && cur->redirect_out != 1
+		&& cur->redirect_out != pipefd[1])
+		close(pipefd[1]);
+	else if (cur->next && cur->builtin < 1)
+		close(pipefd[1]);
+	if (in != 0)
+		close(in);
+	if (out != 1 && out != pipefd[1])
+		close(out);
+}
+
+int	sig_response(sig, status)
+{
+	sig = WTERMSIG(status);
+	if (sig == SIGINT)
+		write(1, "\n", 1);
+	else if (sig == SIGQUIT)
+		write(2, "Quit (core dumped)\n", 20);
+}
+
+void	dups(int stdin_fd, int stdout_fd, int in, int out)
+{
+	stdin_fd = dup(STDIN_FILENO);
+	stdout_fd = dup(STDOUT_FILENO);
+	dup2(in, STDIN_FILENO);
+	dup2(out, STDOUT_FILENO);
+}
+
+void	unknow_cmd(t_cmd *cmd, DIR *test, t_env *env)
+{
+	test = opendir(cmd->args[0]);
+	if (test)
+		ft_fprintf(2, "minishell: %s: Is a directory\n", *cmd->args);
+	else
+		ft_fprintf(2, "minishell: %s: command not found\n", *cmd->args);
+	env->exit = 127 - ((closedir(test) == 0));
+}

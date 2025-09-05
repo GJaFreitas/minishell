@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 19:16:19 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 20:16:16 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,7 @@ void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 
 	if (cmd->builtin == UNKNOWN_COMMAND)
 	{
-		test = opendir(cmd->args[0]);
-		if (test)
-			ft_fprintf(2, "minishell: %s: Is a directory\n", *cmd->args);
-		else
-			ft_fprintf(2, "minishell: %s: command not found\n", *cmd->args);
-		env->exit = 127 - ((closedir(test) == 0));
+		unknow_cmd(cmd, test, env);
 		return ;
 	}
 	if (cmd->next)
@@ -51,10 +46,7 @@ void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 		else if (cmd->builtin == 7)
 			return ;
 	}
-	stdin_fd = dup(STDIN_FILENO);
-	stdout_fd = dup(STDOUT_FILENO);
-	dup2(in, STDIN_FILENO);
-	dup2(out, STDOUT_FILENO);
+	dups(stdin_fd, stdout_fd, in, out);
 	env->exit = jump_table[cmd->builtin - 1](cmd->args, env);
 	dup2(stdin_fd, STDIN_FILENO);
 	dup2(stdout_fd, STDOUT_FILENO);
@@ -140,13 +132,7 @@ int	wait_pids(t_cmd *cmds, t_env *env)
 			waitpid(cmds->pid, &status, 0);
 		signal(SIGINT, __sigint_h);
 		if (WIFSIGNALED(status))
-		{
-			sig = WTERMSIG(status);
-			if (sig == SIGINT)
-				write(1, "\n", 1);
-			else if (sig == SIGQUIT)
-				write(2, "Quit (core dumped)\n", 20);
-		}
+			sig = sig_response(sig, status);
 		cmds = cmds->next;
 	}
 	if (status == INT_MIN)
