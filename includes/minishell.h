@@ -98,6 +98,7 @@ void	env_grow(t_env *env);
 void	env_change_val(t_env *env, int index, char *val);
 void	free_env(t_env *env);
 int	is_env_char(int c);
+t_cmd	*norm(t_cmd *cmd);
 enum e_env_dirt	clean_env(t_env *env, int flag);
 
 /***************************

@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 20:05:03 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/04 18:14:40 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ static char	**__get_folders(char *path)
 			total++;
 	path = (ft_strchr(path, '=') + 1);
 	folders = ft_calloc(total + 1, sizeof(char *));
-	temp = path + i - 1;
+	temp = &path[ft_strlen(path)];
 	while (temp && (temp != path))
 	{
-		if (*temp == ':') // Invalid read aqui
+		if (*temp == ':')
 		{
 			*folders++ = ft_substr(temp + 1, 0, (path + i) - temp);
 			i = temp - path - 1;

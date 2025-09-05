@@ -4,7 +4,7 @@ CC = cc
 
 # --- Compiler Flags -------------- #
 
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 
 # --- NAME ---------------------- #
 
@@ -90,6 +90,7 @@ SRCS += \
 VPATH += src/utils
 SRCS += \
 	debug.c \
+	norm.c \
 	ft_strndup.c \
 	ft_strcmp.c \
 	ft_itoa_buf.c \
@@ -165,7 +166,9 @@ r:
 	make re && clear && ./$(NAME)
 
 leaks:
-	make re && clear && valgrind --track-fds=yes --show-leak-kinds=all --leak-check=full --suppressions=readline.supp ./$(NAME)
+	make re && clear && valgrind --track-fds=yes --track-origins=yes --show-leak-kinds=all --leak-check=full --suppressions=readline.supp ./$(NAME)
 
+jump:
+	make re && clear && valgrind  --track-origins=yes --suppressions=readline.supp ./$(NAME)
 
 .PHONY: all clean fclean re r test-% test_redirections

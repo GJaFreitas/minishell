@@ -6,12 +6,13 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 17:44:09 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 15:48:06 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include "parser.h"
 
 static int	__check_num(char *arg)
 {
@@ -47,5 +48,6 @@ int	ft_exit(char *const argv[], t_env *env)
 		exitcode = ft_atoi(argv[1]);
 	else
 		exitcode = 0;
+	free_cmds(norm(NULL));
 	exit (free_minishell(env, exitcode));
 }

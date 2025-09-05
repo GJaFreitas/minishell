@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 18:23:30 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 15:47:23 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ t_cmd	*parser(char **tokens, t_env *env, char **env_array)
 	__remove_quotes(cmds, 1);
 	free_tokens(tokens);
 	free(tokens);
+	norm(cmds);
 	return (cmds);
 }

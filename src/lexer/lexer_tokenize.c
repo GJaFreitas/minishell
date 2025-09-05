@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:37 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 15:42:13 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,11 @@ static int	__create_tokens(char *s, char **tok)
 	temp = s;
 	while (*temp)
 	{
-		while (ft_isspace(*s))
+		while (*s && ft_isspace(*s))
 			s++;
 		temp = s;
 		while (*temp && !ft_isspace(*temp))
-		{
-			temp += __next_quote(temp);
-			temp++;
-		}
+			temp += __next_quote(temp) + 1;
 		if (ft_isspace(*temp) || temp > s)
 		{
 			*tok = ft_substr(s, 0, temp - s);

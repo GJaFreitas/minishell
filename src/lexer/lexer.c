@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 19:27:33 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 15:44:10 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static char	*__prepare_tokenize(char *s)
 
 	i = 0;
 	j = 0;
-	str = malloc((ft_strlen(s) * 2) + 1);
+	str = ft_calloc(1, (ft_strlen(s) * 2) + 1);
 	while (s[i] && s[i + 1])
 	{
 		if (special_char(s[i]))

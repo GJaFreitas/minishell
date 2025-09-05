@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:53:48 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/03 18:38:47 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/04 18:50:13 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,20 @@ static int	__check_valid_env(char *const args)
 
 static void	__remove_quotes(char *arg)
 {
+	char	temp;
+
+	temp = 0;
 	while (*arg)
 	{
 		if (ft_strchr(QUOTES, *arg))
+		{
+			temp = *(ft_strchr(QUOTES, *arg));
 			ft_memcpy(arg, arg + 1, ft_strlen(arg + 1) + 1);
-		arg++;
+			while (*arg && *arg != temp)
+				arg++;
+		}
+		else
+			arg++;
 	}
 }
 
