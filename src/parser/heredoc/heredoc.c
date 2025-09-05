@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 16:39:21 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	heredoc(char **delimiter, t_env *env)
 		exit(g_sig);
 	}
 	else
-		(waitpid(pid, &g_sig, 0), write(1, "\n", 1), signal(SIGINT, __sigint_h));
+		(waitpid(pid, &g_sig, 0), write(1, "\n", 1), signal(SIGINT,
+				__sigint_h));
 	if (g_sig == 0)
 		return (open("/tmp/hdoc", O_RDONLY));
 	return (-1);
