@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 19:14:47 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 19:14:59 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:42:26 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,7 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 	}
 	return (wait_pids(cmd, env));
 }
+// static ft_exec_closes()
+// {
+	
+// }
