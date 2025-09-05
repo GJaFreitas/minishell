@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 19:14:11 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:41:22 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
-static char	*__search_folders(char **folders, char *token)
+char	*__search_folders(char **folders, char *token)
 {
 	struct dirent	*entry;
 	char			*path;
@@ -34,8 +34,8 @@ static char	*__search_folders(char **folders, char *token)
 		while (entry)
 		{
 			if (!ft_strcmp(entry->d_name, token))
-				return (path = ft_strdup(folders[i]),
-					closedir(dir_stream), path);
+				return (path = ft_strdup(folders[i]), closedir(dir_stream),
+					path);
 			entry = readdir(dir_stream);
 		}
 		closedir(dir_stream);
@@ -73,14 +73,14 @@ static char	**__get_folders(char *path)
 }
 
 // Returns a ptr to the line with 'PATH'
-static char	*__path_extract(char **env)
+char	*__path_extract(char **env)
 {
 	while (*env && ft_strncmp(*env, "PATH", 4))
 		env++;
 	return (*env);
 }
 
-static char	*__env_path_srch(char *token, char **env, int *flag)
+char	*__env_path_srch(char *token, char **env, int *flag)
 {
 	char	**folders;
 	char	*path;
@@ -100,35 +100,5 @@ static char	*__env_path_srch(char *token, char **env, int *flag)
 		return (NULL);
 	}
 	(free_tokens(folders), free(folders));
-	return (path);
-}
-
-static char	*__rel_path_srch(char *token, int *flag)
-{
-	char	*folders[2];
-	char	cwd[CWD_BUFFER];
-	char	*path;
-
-	folders[1] = NULL;
-	ft_bzero(cwd, CWD_BUFFER);
-	if (token[0] == '/')
-		return (NULL);
-	else if (token[0] == '.')
-	{
-		if (token[1] != '/')
-		{
-			*flag = UNKNOW_CMD;
-			return (NULL);
-		}
-		getcwd(cwd, CWD_BUFFER);
-	}
-	token = ft_strrchr(token, '/') + 1;
-	folders[0] = cwd;
-	path = __search_folders(folders, token);
-	if (path == NULL)
-	{
-		*flag = UNKNOW_CMD;
-		return (NULL);
-	}
 	return (path);
 }

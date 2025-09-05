@@ -49,6 +49,7 @@ SRCS += \
 VPATH += src/exec
 SRCS += \
 	exec.c \
+	exec_1.c \
 	redir_utils.c \
 
 # Builtin functions sources
@@ -79,6 +80,7 @@ SRCS += \
 	cmd_assignement.c \
 	parser_utils.c \
 	expansions.c \
+	expansions_1.c \
 	heredoc.c \
 
 # Signal sources

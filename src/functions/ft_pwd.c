@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:28:28 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_pwd(char *const argv[], t_env *env)
 	(void)argv;
 	(void)env;
 	if (!getcwd(cwd, CWD_BUFFER))
-		exit(1);
+		return (1);
 	write(1, cwd, ft_strlen(cwd));
 	write(1, "\n", 1);
 	return (0);

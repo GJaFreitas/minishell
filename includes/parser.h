@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:50:50 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 18:53:49 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:41:29 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ void	heredocs(char **tokens, t_env *env);
 // Utils ------------------
 void	free_tokens(char **tokens);
 char	*ft_strndup(const char *s, int n);
+char	*__rel_path_srch(char *token, int *flag);
+char	*__path_extract(char **env);
+char	*__env_path_srch(char *token, char **env, int *flag);
+t_string_list	*next_expansion(t_string_list *list);
+char	*__get_expansion(char *tok, char **env);
+int	get_expansion_size(char *tok);
+char	*__assemble(t_string_list *list, int size);
+int	expansion_list_size(t_string_list *expansions);
+char	*__search_folders(char **folders, char *token);
 
 // Para chamar no exec ou na main depois
 void	free_cmds(t_cmd *cmds);
