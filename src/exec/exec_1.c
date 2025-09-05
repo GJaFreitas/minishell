@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 19:14:47 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 20:18:11 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 20:27:42 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,28 @@ static void	ft_exec_closes(t_cmd *cur, int pipefd[2], int in, int out)
 		close(out);
 }
 
-int	sig_response(sig, status)
+int	sig_response(int sig, int status)
 {
 	sig = WTERMSIG(status);
 	if (sig == SIGINT)
 		write(1, "\n", 1);
 	else if (sig == SIGQUIT)
 		write(2, "Quit (core dumped)\n", 20);
+	return (sig);
 }
 
-void	dups(int stdin_fd, int stdout_fd, int in, int out)
+void	dups(int *stdin_fd, int *stdout_fd, int in, int out)
 {
-	stdin_fd = dup(STDIN_FILENO);
-	stdout_fd = dup(STDOUT_FILENO);
+	*stdin_fd = dup(STDIN_FILENO);
+	*stdout_fd = dup(STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 }
 
-void	unknow_cmd(t_cmd *cmd, DIR *test, t_env *env)
+void	unknow_cmd(t_cmd *cmd, t_env *env)
 {
+	DIR			*test;
+
 	test = opendir(cmd->args[0]);
 	if (test)
 		ft_fprintf(2, "minishell: %s: Is a directory\n", *cmd->args);
