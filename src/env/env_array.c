@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 19:36:26 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:07 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*__strjoin_mod(char *s1, char *s2);
 
 char	**env_to_array(t_env *env)
 {
-	char	**arr;
+	char			**arr;
 	unsigned int	i;
 	unsigned int	j;
 
@@ -55,8 +55,8 @@ void	free_env_array(char **arr)
 static char	*__strjoin_mod(char *s1, char *s2)
 {
 	char	*new;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	new = ft_calloc(1, ft_strlen(s1) + ft_strlen(s2) + 1 + 1);
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 20:30:08 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/03 19:47:42 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:08 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	exec_builtin(t_cmd *cmd, t_env *env, int in, int out)
 	int	stdin_fd;
 	int	stdout_fd;
 	DIR	*test;
+
 	static int (*jump_table[7])(char *const argv[], t_env *) = {ft_echo, ft_cd,
 		ft_pwd, ft_export, ft_unset, ft_env, ft_exit};
-
 	if (cmd->builtin == UNKNOWN_COMMAND)
 	{
 		test = opendir(cmd->args[0]);

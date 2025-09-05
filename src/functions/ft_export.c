@@ -6,16 +6,16 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 17:53:48 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/04 18:50:13 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:11 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
-void	__rm_quote_arg(char *arg);
+
+void				__rm_quote_arg(char *arg);
 
 inline static int	__error_msg(char *const args)
 {
@@ -62,7 +62,7 @@ static void	__remove_quotes(char *arg)
 static char	**__check_args(int argc, char *const args[])
 {
 	char	**tokens;
-	int	i;
+	int		i;
 
 	i = 0;
 	tokens = ft_calloc((argc + 1), sizeof(char *));
@@ -75,7 +75,7 @@ static char	**__check_args(int argc, char *const args[])
 	i = 0;
 	while (tokens[i])
 	{
-	       __remove_quotes(tokens[i]);
+		__remove_quotes(tokens[i]);
 		i++;
 	}
 	return (tokens);
@@ -84,9 +84,9 @@ static char	**__check_args(int argc, char *const args[])
 int	ft_export(char *const argv[], t_env *env)
 {
 	char	**tokens;
-	int	i;
-	int	retval;
-	int	arg_count;
+	int		i;
+	int		retval;
+	int		arg_count;
 
 	i = 0;
 	retval = 0;

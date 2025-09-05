@@ -6,14 +6,13 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 15:42:13 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:12 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "lexer.h"
+#include "libft.h"
 #include "parser.h"
-
 
 static int	__count_tokens(char *s);
 static int	__create_tokens(char *s, char **tok);

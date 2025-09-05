@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 13:15:39 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:18 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,36 @@ void	print_tokens(char *const *tokens)
 
 void	print_one_cmd(t_cmd *cmd)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	printf("Builtin: %d\n", cmd->builtin);
 	printf("Next exists: %d\n", (cmd->next != NULL));
-	while(cmd->args[i])
+	while (cmd->args[i])
 	{
 		printf("%i - %s\n", i, cmd->args[i]);
 		i++;
 	}
-	printf("redirections: in: %d, out: %d \n", cmd->redirect_in, cmd->redirect_out);
+	printf("redirections: in: %d, out: %d \n", cmd->redirect_in,
+		cmd->redirect_out);
 	printf("\n\n");
 }
 
 void	print_cmd(t_cmd *cmd)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (cmd)
 	{
 		i = 0;
-		while(cmd->args[i])
+		while (cmd->args[i])
 		{
 			printf("%i - %s\n", i, cmd->args[i]);
 			i++;
 		}
-		printf("redirections: in: %d, out: %d \n", cmd->redirect_in, cmd->redirect_out);
+		printf("redirections: in: %d, out: %d \n", cmd->redirect_in,
+			cmd->redirect_out);
 		printf("Builtin: %d\n", cmd->builtin);
 		cmd = cmd->next;
 	}
@@ -66,4 +71,3 @@ void	parser_debug(char **tokens)
 	printf("-----------------------\n");
 	printf("\n");
 }
-

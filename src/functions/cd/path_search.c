@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 15:23:58 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:11 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,24 @@
 #include "minishell.h"
 
 /*
-* input -> "~/Documents/..."
-* transformed into -> "$HOME/Documents/..."
-* buf2 + 2 refers to everything after "~/"
-* if a wrong path is given like "~Documents"
-* the expansion will be "/home/userDocuments"
-* making it wrong anyway and an error can be thrown after
-*
-* If the absolute path given starts with "/" then theres nothing
-* that needs to be done and we can skip straight to the check if
-* said path exists
-*
-* if a relative path is given the same logic that was applied to
-* the expansion will be used, "." -> $CWD, "-" -> $OLD_PWD
-*/
+ * input -> "~/Documents/..."
+ * transformed into -> "$HOME/Documents/..."
+ * buf2 + 2 refers to everything after "~/"
+ * if a wrong path is given like "~Documents"
+ * the expansion will be "/home/userDocuments"
+ * making it wrong anyway and an error can be thrown after
+ *
+ * If the absolute path given starts with "/" then theres nothing
+ * that needs to be done and we can skip straight to the check if
+ * said path exists
+ *
+ * if a relative path is given the same logic that was applied to
+ * the expansion will be used, "." -> $CWD, "-" -> $OLD_PWD
+ */
 
 // buf2 starts at '~' or '.' meaning we want to skip that first char
-static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1, char *buf2)
+static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1,
+		char *buf2)
 {
 	int	i;
 
@@ -51,7 +52,8 @@ static int	__norm_helper(char full_path[][CWD_BUFFER], char *error)
 	return (1);
 }
 
-static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
+static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input,
+		t_env *env)
 {
 	char	*temp;
 
@@ -66,7 +68,8 @@ static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *
 	{
 		temp = env_get_value(env, "OLD_PWD");
 		if (!temp)
-			return (__norm_helper(full_path, "minishell: cd: OLD_PWD not set\n"));
+			return (__norm_helper(full_path,
+					"minishell: cd: OLD_PWD not set\n"));
 		ft_memcpy(*full_path, temp, ft_strlen(temp));
 	}
 	else
@@ -74,7 +77,8 @@ static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input, t_env *
 	return (0);
 }
 
-static void	__relative_handler(char full_path[][CWD_BUFFER], char *input, t_env *env)
+static void	__relative_handler(char full_path[][CWD_BUFFER], char *input,
+		t_env *env)
 {
 	(void)env;
 	ft_memcpy(full_path, input, ft_strlen(input));

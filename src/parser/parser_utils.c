@@ -6,15 +6,15 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 17:06:25 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:16 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parser.h"
 #include <dirent.h>
-#include <unistd.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 t_cmd	*__init_cmd(void)
 {

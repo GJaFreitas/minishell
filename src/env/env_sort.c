@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 15:56:05 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:08 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	*env_create_sorted(t_env *env);
 
 void	env_print_sorted(t_env *env)
 {
-	static char	declare[12] = "declare -x ";
+	static char		declare[12] = "declare -x ";
 	unsigned int	i;
 
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 15:00:27 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:07 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	env_grow(t_env *env)
 {
-	env->values = ft_realloc(env->values, env->size * sizeof(char *), env->size * 2* sizeof(char *));
-	env->keys = ft_realloc(env->keys, env->size* sizeof(char *), env->size * 2* sizeof(char *));
+	env->values = ft_realloc(env->values, env->size * sizeof(char *), env->size
+			* 2 * sizeof(char *));
+	env->keys = ft_realloc(env->keys, env->size * sizeof(char *), env->size * 2
+			* sizeof(char *));
 	env->size *= 2;
 }
 

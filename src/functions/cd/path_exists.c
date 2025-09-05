@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/08/30 19:47:36 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:11 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 // Assume path is a nul terminated string and not NULL
 int	path_exists(char *path)
 {
-	DIR		*dir_stream;
-	int		ret;
+	DIR	*dir_stream;
+	int	ret;
 
 	dir_stream = opendir(path);
 	ret = (dir_stream != 0);

@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/01 13:38:04 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:13 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	is_env_char(int c)
 char	*__assemble(t_string_list *list, int size)
 {
 	t_string_list	*cur;
-	char	*new;
-	int	i;
-	int	j;
+	char			*new;
+	int				i;
+	int				j;
 
 	i = 0;
 	cur = list;
@@ -47,7 +47,7 @@ char	*__assemble(t_string_list *list, int size)
 int	expansion_list_size(t_string_list *expansions)
 {
 	t_string_list	*cur;
-	int	size;
+	int				size;
 
 	cur = expansions;
 	size = 0;
@@ -157,9 +157,9 @@ void	free_list(t_string_list *l)
 
 char	*__expand_token(char *tok, char **env, int exit)
 {
-	char	*new_tok;
+	char			*new_tok;
 	t_string_list	*expansions;
-	int	i;
+	int				i;
 
 	i = 0;
 	while (tok[i] && tok[i] != '$')

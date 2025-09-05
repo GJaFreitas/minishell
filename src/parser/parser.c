@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 15:47:23 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:15 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static void	__remove_quotes(t_cmd *cmds, int flag)
 
 t_cmd	*parser(char **tokens, t_env *env, char **env_array)
 {
-	t_cmd		*cmds;
+	t_cmd	*cmds;
 
 	if (tokens == NULL)
 		return (NULL);
-	heredocs(tokens, env_array);
+	heredocs(tokens, env);
 	expansions(tokens, env_array, env->exit);
 	cmds = assign_cmds(tokens, env_array);
 	__remove_quotes(cmds, 1);

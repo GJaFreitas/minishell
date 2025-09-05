@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/04 18:14:40 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:16 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*__search_folders(char **folders, char *token)
 	struct dirent	*entry;
 	char			*path;
 	DIR				*dir_stream;
-	int		i;
+	int				i;
 
 	(path = NULL, i = count_args(folders));
 	while (--i >= 0)

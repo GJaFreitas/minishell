@@ -6,24 +6,33 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:07:36 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/01 13:48:54 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:12 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "lexer.h"
 #include "libft.h"
 #include "minishell.h"
 #include "parser.h"
-#include "lexer.h"
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
 #include <signal.h>
+#include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
 
-pid_t	g_sig;
+pid_t		g_sig;
 
 int	free_minishell(t_env *env, int exitcode)
 {
+	int	i;
+
+	i = 3;
+	while (i < FOPEN_MAX)
+	{
+		close(i);
+		i++;
+	}
 	free_env(env);
 	printf("exit\n");
 	return (exitcode);
@@ -45,7 +54,7 @@ t_cmd	*prompt(t_env *env)
 	ft_memcpy(cwd + ft_strlen(cwd), " »  ", 4);
 	line = readline(cwd);
 	if (!line)
-		exit (free_minishell(env, 0));
+		exit(free_minishell(env, 0));
 	add_history(line);
 	return (parser(lexer(line), env, env_to_array(env)));
 }
@@ -68,7 +77,7 @@ static void	shell_loop(t_env *env)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_env *env_t;
+	t_env	*env_t;
 
 	(void)argc;
 	(void)argv;

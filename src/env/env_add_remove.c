@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 19:28:52 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:07 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
  * Functionality:
  * 	Add
  * 	Remove
-*/
+ */
 
 static void	__get_key_value(char *args, char **key, char **value);
 
 int	env_add(t_env *env, char *args)
 {
-	char	*key;
-	char	*value;
+	char			*key;
+	char			*value;
 	unsigned int	used;
-	int	exists;
+	int				exists;
 
 	__get_key_value(args, &key, &value);
 	exists = env_var_exists(env, key);
@@ -63,7 +63,8 @@ static void	__get_key_value(char *args, char **key, char **value)
 		return ;
 	}
 	j = i + (args[i] == '=');
-	while (args[i++]);
+	while (args[i++])
+		;
 	*value = ft_substr(args, j, i - j);
 }
 
@@ -103,9 +104,9 @@ static void	__move_back(char **keys, char **values, int size)
 }
 
 void	env_add_key_value_pair(t_env *env, char *key, char *value)
-{	
+{
 	unsigned int	used;
-	int	exists;
+	int				exists;
 
 	exists = env_var_exists(env, key);
 	if (exists != -1)

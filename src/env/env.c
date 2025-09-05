@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/04 18:18:43 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:06 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  * Functionality:
  * 	Initialize
  * 	Free
-*/
+ */
 
-static char	*__extract_to_from(char *str, char end, char start);
+static char			*__extract_to_from(char *str, char end, char start);
 
 static inline void	__increment_shlvl(t_env *env, char cwd[CWD_BUFFER])
 {
@@ -57,7 +57,7 @@ void	start_env_vars(t_env *env)
 
 t_env	*init_env(char **old)
 {
-	t_env	*env;
+	t_env			*env;
 	unsigned int	i;
 
 	env = ft_calloc(1, sizeof(t_env));
@@ -81,13 +81,14 @@ t_env	*init_env(char **old)
 
 /*
  * start == -1 -> Desde o inicio
-*/
+ */
 static char	*__extract_to_from(char *str, char end, char start)
 {
 	int	i;
 
 	i = 0;
-	while (start != -1 && str[i++] != start);
+	while (start != -1 && str[i++] != start)
+		;
 	str += i;
 	while (str[i] && str[i] != end)
 		i++;

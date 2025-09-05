@@ -6,7 +6,7 @@
 /*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 15:48:06 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:11 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	ft_exit(char *const argv[], t_env *env)
 	}
 	if (!__check_num(argv[1]))
 	{
-		ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", argv[1]);
+		ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
+			argv[1]);
 		return (1);
 	}
 	if (argv[1])
@@ -49,5 +50,5 @@ int	ft_exit(char *const argv[], t_env *env)
 	else
 		exitcode = 0;
 	free_cmds(norm(NULL));
-	exit (free_minishell(env, exitcode));
+	exit(free_minishell(env, exitcode));
 }

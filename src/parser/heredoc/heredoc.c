@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/03 20:05:05 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 16:34:14 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	get_lines(int fd, const char *delimiter, char **env)
 	return (0);
 }
 
-int	heredoc(char *delimiter, char **env)
+int	heredoc(char **delimiter, t_env *env)
 {
 	pid_t	pid;
 	int		fd;
@@ -60,13 +60,17 @@ int	heredoc(char *delimiter, char **env)
 	{
 		signal(SIGINT, SIG_DFL);
 		fd = open("/tmp/hdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		pid = get_lines(fd, delimiter, env);
+		printf("delimiter: %s\n", delimiter[2]);
+		pid = get_lines(fd, delimiter[2], env_to_array(env));
 		if ((pid >> 31) & 1)
 		{
-			ft_fprintf(2, HDOC_ERROR1 HDOC_ERROR2, pid << 1 >> 1, delimiter);
+			ft_fprintf(2, HDOC_ERROR1 HDOC_ERROR2, pid << 1 >> 1, delimiter[2]);
 			close(fd);
 			fd = open("/tmp/hdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		}
+		free_env(env);
+		free_tokens(delimiter);
+		free(delimiter);
 		close(fd);
 		exit(g_sig);
 	}
@@ -82,18 +86,18 @@ int	heredoc(char *delimiter, char **env)
 }
 
 // Substitutes delimiter token for fd of HEREDOC pipe
-void	handle_heredoc(char **tokens, char **env)
+void	handle_heredoc(char **tokens, t_env *env)
 {
 	int	fd;
 
-	if (!tokens[1])
+	if (!tokens[2])
 		return (ft_fprintf(2, "Please give a delimiter\n"), (void)0);
-	fd = heredoc(tokens[1], env);
-	free(tokens[1]);
-	tokens[1] = ft_itoa(fd);
+	fd = heredoc(tokens, env);
+	free(tokens[2]);
+	tokens[2] = ft_itoa(fd);
 }
 
-void	heredocs(char **tokens, char **env)
+void	heredocs(char **tokens, t_env *env)
 {
 	int	i;
 
@@ -102,7 +106,7 @@ void	heredocs(char **tokens, char **env)
 	while (tokens[i])
 	{
 		if (tokens[i] && !ft_strcmp(tokens[i], "<<"))
-			handle_heredoc(&tokens[i++], env);
+			handle_heredoc(tokens, env);
 		if (!tokens[i])
 			break ;
 		i++;
