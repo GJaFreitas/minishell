@@ -14,10 +14,10 @@
 
 void	env_grow(t_env *env)
 {
-	env->values = ft_realloc(env->values, env->size * sizeof(char *), env->size
-			* 2 * sizeof(char *));
-	env->keys = ft_realloc(env->keys, env->size * sizeof(char *), env->size * 2
-			* sizeof(char *));
+	env->values = ft_realloc(env->values, env->size * sizeof(char *),
+		env->size * 2 * sizeof(char *));
+	env->keys = ft_realloc(env->keys, env->size * sizeof(char *),
+		env->size * 2 * sizeof(char *));
 	env->size *= 2;
 }
 
@@ -41,7 +41,7 @@ void	free_env(t_env *env)
 	free(env);
 }
 
-inline int	is_env_clean(t_env *env, int flag)
+int	is_env_clean(t_env *env, int flag)
 {
 	if (flag == ENV_ARRAYING)
 	{
@@ -56,21 +56,19 @@ inline int	is_env_clean(t_env *env, int flag)
 	return (0);
 }
 
-inline enum e_env_dirt	clean_env(t_env *env, int flag)
+enum e_env_dirt	clean_env(t_env *env, int flag)
 {
 	if (flag == ENV_ARRAYING)
 	{
 		if (env->dirty == ENV_S)
 			return (ENV_CLEAN);
-		else
-			return (ENV_A);
+		return (ENV_A);
 	}
 	else if (flag == ENV_SORTING)
 	{
 		if (env->dirty == ENV_A)
 			return (ENV_CLEAN);
-		else
-			return (ENV_S);
+		return (ENV_S);
 	}
 	return (0);
 }

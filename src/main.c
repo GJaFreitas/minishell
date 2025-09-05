@@ -21,7 +21,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-pid_t		g_sig;
+pid_t	g_sig;
 
 int	free_minishell(t_env *env, int exitcode)
 {

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
@@ -16,8 +16,7 @@ static size_t	smallest(size_t n1, size_t n2)
 {
 	if (n1 < n2)
 		return (n1);
-	else
-		return (n2);
+	return (n2);
 }
 
 // Copies from the old ptr and then fills the rest of the memory with 0's

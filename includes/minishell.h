@@ -8,7 +8,7 @@
 # include <stdint.h>
 # include <stdarg.h>
 # include <stddef.h>
-#include <sys/types.h>
+# include <sys/types.h>
 # include <sys/wait.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -44,7 +44,7 @@ typedef struct s_cmd
 	int				pid;
 	int				status;
 	char			**args;
-	enum e_builtin		builtin;
+	enum e_builtin	builtin;
 	int				redirect_in;
 	int				redirect_out;
 	t_redirect		*redirect;
@@ -71,11 +71,11 @@ typedef struct s_env
 {
 	char		**keys;
 	char		**values;
-	int		*sorted;
+	int			*sorted;
 	char		**array;
 	uint32_t	size;
 	uint32_t	used;
-	int		exit;
+	int			exit;
 	enum e_env_dirt	dirty;
 }	t_env;
 
@@ -117,7 +117,6 @@ int	ft_unset(char *const argv[], t_env *env);
 int	ft_env(char *const argv[], t_env *env);
 int	ft_exit(char *const argv[], t_env *env);
 
-
 int	count_args(char *const argv[]);
 /***************************
 GENERAL MINISH ---------
@@ -144,7 +143,6 @@ EXEC ----------------
 ****************************/
 
 int	ft_exec_all(t_cmd *cmd, t_env *env);
-
 
 /***************************
 UTILS ----------------

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   path_search.c                                      :+:      :+:    :+:   */
@@ -37,12 +37,24 @@ static void	__assemble_path(char full_path[][CWD_BUFFER], char *buf1,
 
 	i = 0;
 	while (*buf1)
-		(*full_path)[i++] = *buf1++;
+	{
+		(*full_path)[i] = *buf1;
+		i++;
+		buf1++;
+	}
 	if ((*full_path)[i] != '/')
-		(*full_path)[i++] = '/';
-	(void)((*buf2 != '.') && buf2++);
+	{
+		(*full_path)[i] = '/';
+		i++;
+	}
+	if (*buf2 != '.')
+		buf2++;
 	while (*buf2)
-		(*full_path)[i++] = *buf2++;
+	{
+		(*full_path)[i] = *buf2;
+		i++;
+		buf2++;
+	}
 }
 
 static int	__norm_helper(char full_path[][CWD_BUFFER], char *error)
@@ -61,7 +73,8 @@ static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input,
 	{
 		temp = env_get_value(env, "HOME");
 		if (!temp)
-			return (__norm_helper(full_path, "minishell: cd: HOME not set\n"));
+			return (__norm_helper(full_path,
+				"minishell: cd: HOME not set\n"));
 		__assemble_path(full_path, temp, input);
 	}
 	else if (input[0] == '-')
@@ -69,7 +82,7 @@ static int	__absolute_handler(char full_path[][CWD_BUFFER], char *input,
 		temp = env_get_value(env, "OLD_PWD");
 		if (!temp)
 			return (__norm_helper(full_path,
-					"minishell: cd: OLD_PWD not set\n"));
+				"minishell: cd: OLD_PWD not set\n"));
 		ft_memcpy(*full_path, temp, ft_strlen(temp));
 	}
 	else
@@ -84,12 +97,10 @@ static void	__relative_handler(char full_path[][CWD_BUFFER], char *input,
 	ft_memcpy(full_path, input, ft_strlen(input));
 }
 
-// Assume input is valid and not NULL
 int	get_full_dir_path(char *input, t_env *env, char full_path[][CWD_BUFFER])
 {
 	if (ft_strchr("/~-", input[0]))
 		return (__absolute_handler(full_path, input, env));
-	else
-		__relative_handler(full_path, input, env);
+	__relative_handler(full_path, input, env);
 	return (0);
 }
