@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:23 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 19:07:42 by gvon-ah-         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:14:11 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static char	*__search_folders(char **folders, char *token)
 	DIR				*dir_stream;
 	int				i;
 
-	(path = NULL, i = count_args(folders));
+	path = NULL;
+	i = count_args(folders);
 	while (--i >= 0)
 	{
 		dir_stream = opendir(folders[i]);
@@ -33,10 +34,8 @@ static char	*__search_folders(char **folders, char *token)
 		while (entry)
 		{
 			if (!ft_strcmp(entry->d_name, token))
-			{
-				(path = ft_strdup(folders[i]), closedir(dir_stream));
-				return (path);
-			}
+				return (path = ft_strdup(folders[i]),
+					closedir(dir_stream), path);
 			entry = readdir(dir_stream);
 		}
 		closedir(dir_stream);
