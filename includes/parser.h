@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:50:50 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 19:41:29 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/05 19:44:48 by bag              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	get_expansion_size(char *tok);
 char	*__assemble(t_string_list *list, int size);
 int	expansion_list_size(t_string_list *expansions);
 char	*__search_folders(char **folders, char *token);
+int	__assign_command(t_cmd *cmd, char **tokens, char **env);
 
 // Para chamar no exec ou na main depois
 void	free_cmds(t_cmd *cmds);
