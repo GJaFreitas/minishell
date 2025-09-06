@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_tokenize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bag <gjacome-@student.42lisboa.com>        +#+  +:+       +#+        */
+/*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 19:47:22 by bag               #+#    #+#             */
-/*   Updated: 2025/09/05 18:43:31 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/06 18:24:48 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ char	**__tokenize(char *str)
 // If temp is a quote temp will be incremented until the next quote
 static int	__next_quote(char *temp)
 {
-	int	i;
+	int		i;
 	char	cur;
 
 	i = 1;
 	if (!ft_strchr(QUOTES, *temp))
 		return (0);
-	cur = *ft_strchr(QUOTES, *temp);	
+	cur = *ft_strchr(QUOTES, *temp);
 	while (temp[i] && temp[i] != cur)
 		i++;
 	return (i);
