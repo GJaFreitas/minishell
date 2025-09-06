@@ -15,12 +15,19 @@
 int	ft_pwd(char *const argv[], t_env *env)
 {
 	char	cwd[CWD_BUFFER];
+	char	*pwd;
 
 	(void)argv;
 	(void)env;
-	if (!getcwd(cwd, CWD_BUFFER))
-		return (1);
-	write(1, cwd, ft_strlen(cwd));
-	write(1, "\n", 1);
+	pwd = env_get_value(env, "PWD");
+	if (!pwd)
+	{
+		if (!getcwd(cwd, CWD_BUFFER))
+			return (1);
+		write(1, cwd, ft_strlen(cwd));
+		write(1, "\n", 1);
+	}
+	else
+		printf("%s\n", pwd);
 	return (0);
 }

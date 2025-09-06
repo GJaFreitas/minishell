@@ -21,7 +21,7 @@ char	**__tokenize(char *str)
 {
 	char	**tok;
 
-	tok = malloc(sizeof(char *) * (__count_tokens(str) + 1));
+	tok = ft_calloc((__count_tokens(str) + 1), sizeof(char *));
 	if (!__create_tokens(str, tok))
 		free_tokens(tok);
 	return (tok);
@@ -31,11 +31,13 @@ char	**__tokenize(char *str)
 static int	__next_quote(char *temp)
 {
 	int	i;
+	char	cur;
 
 	i = 1;
 	if (!ft_strchr(QUOTES, *temp))
 		return (0);
-	while (temp[i] && !ft_strchr(QUOTES, temp[i]))
+	cur = *ft_strchr(QUOTES, *temp);	
+	while (temp[i] && temp[i] != cur)
 		i++;
 	return (i);
 }

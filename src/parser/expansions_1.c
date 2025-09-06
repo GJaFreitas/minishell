@@ -46,9 +46,9 @@ t_string_list	*get_all_expansions(char *tok, char **env, int exit)
 			while (*tok && *tok != '$')
 				tok++;
 		}
-		if (tok[1] == '?')
+		if (*tok && tok[1] == '?')
 			(void)((cur->allocd = 1) && (cur->expansion = ft_itoa(exit)));
-		else
+		else if (*tok)
 			cur->expansion = __get_expansion(tok + 1, env);
 		cur = next_expansion(cur);
 		tok += get_expansion_size(tok);
