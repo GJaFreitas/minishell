@@ -19,6 +19,8 @@ static int	__check_num(char *arg)
 	int	i;
 
 	i = 0;
+	if (ft_strlen(arg) > 12)
+		return (1);
 	while (arg && arg[i])
 	{
 		if (!ft_isdigit(arg[i]))
@@ -34,6 +36,7 @@ int	ft_exit(char *const argv[], t_env *env)
 
 	(void)env;
 	(void)argv;
+	exitcode = 0;
 	if (count_args(argv) > 2)
 	{
 		ft_fprintf(2, "minishell: exit: too many arguments\n", argv[1]);
@@ -43,9 +46,9 @@ int	ft_exit(char *const argv[], t_env *env)
 	{
 		ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
 			argv[1]);
-		return (1);
+		exitcode = 2;
 	}
-	if (argv[1])
+	if (argv[1] && !exitcode)
 		exitcode = ft_atoi(argv[1]);
 	else
 		exitcode = 0;

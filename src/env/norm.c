@@ -16,7 +16,7 @@ t_cmd	*norm(t_cmd *cmd)
 {
 	static t_cmd	*this;
 
-	if (!this)
+	if (cmd)
 		this = cmd;
 	if (cmd == NULL)
 		return (this);
