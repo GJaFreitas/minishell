@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 19:14:47 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 20:27:42 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/06 17:15:03 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	ft_exec_all(t_cmd *cmd, t_env *env)
 	int		out;
 	int		pipefd[2];
 
-	(pipefd[0] = -1, pipefd[1] = -1);
+	pipefd[0] = -1;
+	pipefd[1] = -1;
 	if (setup_redirections(cmd) < 0)
 		return (1);
 	in = 0;

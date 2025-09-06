@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:50:50 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 20:24:15 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/06 17:12:23 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # include "minishell.h"
 
-typedef struct	s_hdoc
+typedef struct s_hdoc
 {
 	t_env	*env;
 	char	**delimiter;
@@ -52,19 +52,18 @@ char			*__rel_path_srch(char *token, int *flag);
 char			*__path_extract(char **env);
 char			*__env_path_srch(char *token, char **env, int *flag);
 t_string_list	*next_expansion(t_string_list *list);
-char	*__get_expansion(char *tok, char **env);
-int	get_expansion_size(char *tok);
-char	*__assemble(t_string_list *list, int size);
-int	expansion_list_size(t_string_list *expansions);
-char	*__search_folders(char **folders, char *token);
-int	assign_command(t_cmd *cmd, char **tokens, char **env);
 char			*__get_expansion(char *tok, char **env);
 int				get_expansion_size(char *tok);
 char			*__assemble(t_string_list *list, int size);
 int				expansion_list_size(t_string_list *expansions);
 char			*__search_folders(char **folders, char *token);
-t_hdoc  		*hdoc_norm(t_hdoc *ptr);
-
+int				assign_command(t_cmd *cmd, char **tokens, char **env);
+char			*__get_expansion(char *tok, char **env);
+int				get_expansion_size(char *tok);
+char			*__assemble(t_string_list *list, int size);
+int				expansion_list_size(t_string_list *expansions);
+char			*__search_folders(char **folders, char *token);
+t_hdoc			*hdoc_norm(t_hdoc *ptr);
 
 // Para chamar no exec ou na main depois
 void			free_cmds(t_cmd *cmds);

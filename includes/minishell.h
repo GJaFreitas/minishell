@@ -6,7 +6,7 @@
 /*   By: gvon-ah- <gvon-ah-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 18:50:46 by gvon-ah-          #+#    #+#             */
-/*   Updated: 2025/09/05 20:27:21 by bag              ###   ########.fr       */
+/*   Updated: 2025/09/06 17:10:02 by gvon-ah-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include "memory.h"
 # include "signals.h"
-#include <dirent.h>
+# include <dirent.h>
 # include <stdio.h>
 # include <stdint.h>
 # include <stdarg.h>
@@ -162,8 +162,8 @@ int				setup_redirections(t_cmd *cmd);
 void			setup_pipes(t_cmd *cur, int *in, int *out, int pipefd[2]);
 void			ft_exec(t_cmd *cmd, t_env *env, int in, int out);
 int				wait_pids(t_cmd *cmds, t_env *env);
-void	dups(int *stdin_fd, int *stdout_fd, int in, int out);
-void	unknow_cmd(t_cmd *cmd, t_env *env);
+void			dups(int *stdin_fd, int *stdout_fd, int in, int out);
+void			unknow_cmd(t_cmd *cmd, t_env *env);
 
 /***************************
 UTILS ----------------
