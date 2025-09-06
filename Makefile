@@ -84,6 +84,7 @@ SRCS += \
 	expansions.c \
 	expansions_1.c \
 	heredoc.c \
+	norm_hdoc.c \
 
 # Signal sources
 VPATH += src/signals

@@ -23,6 +23,13 @@
 
 # include "minishell.h"
 
+typedef struct	s_hdoc
+{
+	t_env	*env;
+	char	**delimiter;
+	int		fd;
+}	t_hdoc;
+
 typedef struct s_expansion_list
 {
 	char					*expansion;
@@ -56,6 +63,8 @@ int				get_expansion_size(char *tok);
 char			*__assemble(t_string_list *list, int size);
 int				expansion_list_size(t_string_list *expansions);
 char			*__search_folders(char **folders, char *token);
+t_hdoc  		*hdoc_norm(t_hdoc *ptr);
+
 
 // Para chamar no exec ou na main depois
 void			free_cmds(t_cmd *cmds);

@@ -1,0 +1,5 @@
+LD_LIBRARY_PATH=/usr/lib/debug
+XDG_SEAT_PATH=/org/freedesktop/DisplayManager/Seat0
+FT_HOOK_PATHNAME=login-user.d
+PATH=/home/gjacome-/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+XDG_SESSION_PATH=/org/freedesktop/DisplayManager/Session1
