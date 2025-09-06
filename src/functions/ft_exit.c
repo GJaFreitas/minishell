@@ -20,7 +20,7 @@ static int	__check_num(char *arg)
 
 	i = 0;
 	if (ft_strlen(arg) > 12)
-		return (1);
+		return (0);
 	while (arg && arg[i])
 	{
 		if (!ft_isdigit(arg[i]))
@@ -50,8 +50,6 @@ int	ft_exit(char *const argv[], t_env *env)
 	}
 	if (argv[1] && !exitcode)
 		exitcode = ft_atoi(argv[1]);
-	else
-		exitcode = 0;
 	free_cmds(norm(NULL));
 	exit(free_minishell(env, exitcode));
 }

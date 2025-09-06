@@ -89,6 +89,8 @@ int	get_expansion_size(char *tok)
 	int	i;
 
 	i = 0;
+	if (!tok[i])
+		return (i);
 	i++;
 	while (tok[i] && is_env_char(tok[i]))
 		i++;

@@ -25,9 +25,15 @@
 
 void	update_env(char *old, char *new, t_env *env)
 {
+	char	cwd[CWD_BUFFER];
+
 	if (new[ft_strlen(new) - 1] == '/')
 		new[ft_strlen(new) - 1] = 0;
-	env_add_key_value_pair(env, "PWD", new);
+	ft_bzero(cwd, CWD_BUFFER);
+	if (!getcwd(cwd, CWD_BUFFER))
+		env_add_key_value_pair(env, "PWD", new);
+	else
+		env_add_key_value_pair(env, "PWD", cwd);
 	env_add_key_value_pair(env, "OLD_PWD", old);
 }
 
@@ -55,7 +61,7 @@ int	ft_cd(char *const argv[], t_env *env)
 	int		flag;
 
 	flag = 0;
-	getcwd(current_dir, CWD_BUFFER);
+	(ft_bzero(current_dir, CWD_BUFFER), getcwd(current_dir, CWD_BUFFER));
 	ft_bzero(full_dir_path, CWD_BUFFER);
 	if (count_args(argv) > 2)
 	{
@@ -68,7 +74,7 @@ int	ft_cd(char *const argv[], t_env *env)
 		flag = get_full_dir_path("~", env, &full_dir_path);
 	if (path_exists(full_dir_path))
 	{
-		(update_env(current_dir, full_dir_path, env), chdir(full_dir_path));
+		(chdir(full_dir_path), update_env(current_dir, full_dir_path, env));
 		return (0);
 	}
 	else if (!flag)
